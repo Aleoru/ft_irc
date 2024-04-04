@@ -1,5 +1,5 @@
 NAME	= irc_server
-SRC		= main.cpp Server.cpp User.cpp utils.c
+SRC		= main.cpp Server.cpp User.cpp
 OBJS	= $(SRC:.cpp=.o)
 INC		= -I Server.hpp -I User.hpp -I sockets.h
 CC		= c++
