@@ -1,30 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   User.cpp                                           :+:      :+:    :+:   */
+/*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/23 15:57:44 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/05 18:56:29 by fgalan-r         ###   ########.fr       */
+/*   Created: 2024/04/05 20:11:57 by fgalan-r          #+#    #+#             */
+/*   Updated: 2024/04/05 20:26:10 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "User.hpp"
+#ifndef CHANNEL_HPP
+# define CHANNEL_HPP
 
-User::User() 
+# include <vector>
+# include <iostream>
+
+class Channel
 {
-    std::cout << "User constructor called" << std::endl;
-}
+private:
+    std::string         _name;
+    std::string         _pass;
+    std::vector<int>    _users;
+    std::vector<int>    _admins;
 
-User::~User()
-{
-    std::cout << "User destructor called" << std::endl;
-}
+public:
+    Channel();
+    ~Channel();
 
-//get
-int     User::getFd() {return _fd;}
+    std::vector<int>    channelListUsers();
+};
 
-//set
-void    User::setFd(int fd) {_fd = fd;}
-void    User::setIpAdd(std::string ipadd) {_iPadd = ipadd;}
+
+#endif

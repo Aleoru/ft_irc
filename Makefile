@@ -1,7 +1,7 @@
 NAME	= irc_server
-SRC		= main.cpp Server.cpp User.cpp
+SRC		= main.cpp Server.cpp User.cpp Channel.cpp
 OBJS	= $(SRC:.cpp=.o)
-INC		= -I Server.hpp -I User.hpp -I sockets.h
+INC		= -I Server.hpp -I User.hpp -I Channel.hpp -I sockets.h
 CC		= c++
 CFLAGS	= -Wall -Werror -Wextra -std=c++98
 RM		= rm -rf

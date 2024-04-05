@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   User.cpp                                           :+:      :+:    :+:   */
+/*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/23 15:57:44 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/05 18:56:29 by fgalan-r         ###   ########.fr       */
+/*   Created: 2024/04/05 20:19:31 by fgalan-r          #+#    #+#             */
+/*   Updated: 2024/04/05 20:30:34 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "User.hpp"
+# include "Channel.hpp"
 
-User::User() 
+Channel::Channel()
 {
-    std::cout << "User constructor called" << std::endl;
+
 }
 
-User::~User()
+Channel::~Channel()
 {
-    std::cout << "User destructor called" << std::endl;
+    
 }
 
-//get
-int     User::getFd() {return _fd;}
-
-//set
-void    User::setFd(int fd) {_fd = fd;}
-void    User::setIpAdd(std::string ipadd) {_iPadd = ipadd;}
+std::vector<int> Channel::channelListUsers()
+{
+    
+}

@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:15 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/04 00:48:52 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/04/05 19:20:38 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,15 @@ void Server::receiveNewData(int fd)
 		buff[bytes] = '\0';
 		std::cout << YEL << "Client [" << fd << "] Data: " << WHI << buff;
 		// code to process the received data
+		std::string message = "message received\n";
+		sendMessage(fd, message);
 	}
+}
+
+void Server::sendMessage(int fd, const std::string str)
+{
+	if (send(fd, str.c_str(), str.length(), 0) == -1)
+		throw(std::runtime_error("error sending message"));
 }
 
 void Server::acceptNewUser()
@@ -187,6 +195,17 @@ void Server::serverInit()
      				receiveNewData(_fds[i].fd);	// receive new data from a registered client
 			}
 		}
+		printUsers();
 	}
 	closeFds(); // close the file descriptors when the server stops
+}
+
+// debug functions
+void	Server::printUsers()
+{
+	std::cout << "Server fd: " << _fds[0].fd << std::endl;
+	for(size_t i = 0; i < _users.size(); i++)
+	{ 
+		std::cout << "User [" << i << "] fd: " << _users[i].getFd() << std::endl;
+ 	}
 }
