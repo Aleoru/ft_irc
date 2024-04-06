@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:04 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/04 00:52:15 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/04/06 14:10:03 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 int main(int argc, char **argv)
 {
-	if (argc == 3)
+	// validate number or arguments and value of argv1 and argv2
+	if (argc == 3 && Server::validPort(argv[1]) && Server::validPass(argv[2]))
 	{
-		//validate argv1,2
-		Server server(4242, argv[2]);
-		std::cout << "---- SERVER ----" << std::endl;
+		std::cout << "Init Server" << std::endl;
+		Server server(std::stoi(argv[1]), argv[2]);
+		signal(SIGINT, Server::signalHandler);			// catch the signal (ctrl + c)
+		signal(SIGQUIT, Server::signalHandler); 		// catch the signal (ctrl + \)
 		try
 		{
-			signal(SIGINT, Server::signalHandler);		// catch the signal (ctrl + c)
-			signal(SIGQUIT, Server::signalHandler); 	// catch the signal (ctrl + \)
 			server.serverInit();						// initialize the server
 		}
 		catch(const std::exception& e)
@@ -30,7 +30,7 @@ int main(int argc, char **argv)
 			server.closeFds();							// close the file descriptors
 			std::cerr << e.what() << std::endl;
 		}
-		std::cout << "The Server Closed!" << std::endl;
+		std::cout << "Server Closed" << std::endl;
 	}
 	else
 	{

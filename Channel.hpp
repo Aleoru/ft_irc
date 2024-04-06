@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 20:11:57 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/05 20:26:10 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/04/06 01:45:10 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,5 @@ public:
 
     std::vector<int>    channelListUsers();
 };
-
 
 #endif

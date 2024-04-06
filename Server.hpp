@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:27 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/05 20:13:22 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/04/06 12:32:32 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,16 @@ public:
 	void configServerSocket();							// server socket creation
 	void acceptNewUser();								// accept new user/client
 	void receiveNewData(int fd);						// receive new data from a registered user
-	void sendMessage(int fd, const std::string str);	// send message to a user
+	int	 sendMessage(int fd, const std::string str);	// send message to a user
 
-	static void signalHandler(int signum); 				// signal handler
  
 	void closeFds();									// close file descriptors
 	void clearClients(int fd);							// clear clients
 
+	static void signalHandler(int signum); 				// signal handler
+	static int	validPort(const std::string port);		// check if it is a valid port
+	static int	validPass(const std::string pass);		// check if it is a valid pass
+	
 	//debug
 	void printUsers();
 };

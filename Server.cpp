@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:15 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/05 19:20:38 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/04/06 14:03:04 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ Server::Server(int port, std::string pass) : _port(port), _pass(pass)
 	std::cout << "Server created" << std::endl;
 	std::cout << "port: " << _port << std::endl;
 	std::cout << "pass: " << _pass << std::endl;
+	_signal = false;
 }
 
 Server::~Server()
@@ -56,7 +57,28 @@ void Server::signalHandler(int signum)
 	(void)signum;
 	std::cout << std::endl << "Signal Received!" << std::endl;
 	// set the static boolean to true to stop the server
-	Server::_signal = true; 
+	Server::_signal = true;
+}
+
+int	Server::validPort(const std::string port)
+{
+	for (size_t i = 0; i < port.length(); i++)
+	{
+		if (!std::isdigit(port[i]))
+			return (0);
+	}
+	int num = std::stoi(port);
+	// Ports 0 to 1023 are reserved for specific services and protocols
+	if (num < 1024 || num > 65535) 
+		return (0);
+	return (1);
+}
+
+int	Server::validPass(const std::string pass)
+{
+	if (pass.length() > 8)
+		return (0);
+	return (1);
 }
 
 void Server::closeFds()
@@ -99,10 +121,14 @@ void Server::receiveNewData(int fd)
 	}
 }
 
-void Server::sendMessage(int fd, const std::string str)
+int Server::sendMessage(int fd, const std::string str)
 {
 	if (send(fd, str.c_str(), str.length(), 0) == -1)
-		throw(std::runtime_error("error sending message"));
+	{
+		std::cout << "error sending message" << std::endl;
+		return (1);
+	}
+	return (0);
 }
 
 void Server::acceptNewUser()
