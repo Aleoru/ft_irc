@@ -1,2 +1,3 @@
-*.o
-./objs/
+.vscode
+obj/
+irc_server

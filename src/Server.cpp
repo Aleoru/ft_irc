@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:15 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/08 11:05:58 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/04/08 19:19:21 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,26 +30,26 @@ void Server::clearClients(int fd)
 {
 	// remove the client from the pollfd
 	for(size_t i = 0; i < _fds.size(); i++)
-	{ 
+	{
 		if (_fds[i].fd == fd)
 		{
-			_fds.erase(_fds.begin() + i); 
+			_fds.erase(_fds.begin() + i);
 			break;
 		}
  	}
 	// remove the client from the vector of clients
  	for(size_t i = 0; i < _users.size(); i++)
-	{ 
+	{
 		if (_users[i].getFd() == fd)
 		{
-			_users.erase(_users.begin() + i); 
+			_users.erase(_users.begin() + i);
 			break;
 		}
  	}
 }
 
 // initialize the static boolean
-bool Server::_signal = false; 
+bool Server::_signal = false;
 
 
 void Server::signalHandler(int signum)
@@ -69,7 +69,7 @@ int	Server::validPort(const std::string port)
 	}
 	int num = std::stoi(port);
 	// Ports 0 to 1023 are reserved for specific services and protocols
-	if (num < 1024 || num > 65535) 
+	if (num < 1024 || num > 65535)
 		return (0);
 	return (1);
 }
@@ -85,7 +85,7 @@ void Server::closeFds()
 {
 	// close all the clients
 	for(size_t i = 0; i < _users.size(); i++)
-	{ 
+	{
 		std::cout << RED << "Client [" << _users[i].getFd() << "] Disconnected" << WHI << std::endl;
 		close(_users[i].getFd());
 	}
@@ -105,7 +105,7 @@ void Server::receiveNewData(int fd)
 	ssize_t bytes = recv(fd, buff, sizeof(buff) - 1 , 0); // receive the data
 	// check if the client disconnected
 	if(bytes <= 0)
-	{ 
+	{
 		std::cout << RED << "Client [" << fd << "] Disconnected" << WHI << std::endl;
 		clearClients(fd);	// clear the client
 		close(fd);			// close the client socket
@@ -114,7 +114,7 @@ void Server::receiveNewData(int fd)
 	{
 		// print the received data
 		buff[bytes] = '\0';
-		std::cout << YEL << "Client [" << fd << "] Data: " << WHI << buff;
+		std::cout << YEL << "Client [" << fd << "] Data: " << std::endl << WHI << buff;
 		// code to process the received data
 		std::string message = "message received\n";
 		sendMessage(fd, message);
@@ -134,21 +134,21 @@ int Server::sendMessage(int fd, const std::string str)
 void Server::acceptNewUser()
 {
 	// create a new client
-	User				user; 
+	User				user;
 	struct sockaddr_in	userAdd;
 	struct pollfd		newPoll;
 	socklen_t 			len = sizeof(userAdd);
 	// accept the new client
-	int newUserFd = accept(_serverFd, (sockaddr *)&(userAdd), &len); 
+	int newUserFd = accept(_serverFd, (sockaddr *)&(userAdd), &len);
 	if (newUserFd == -1)
   	{
-		std::cout << "accept() failed" << std::endl; 
+		std::cout << "accept() failed" << std::endl;
 		return;
 	}
 	// set the socket option (O_NONBLOCK) for non-blocking socket
-	if (fcntl(newUserFd, F_SETFL, O_NONBLOCK) == -1) 
+	if (fcntl(newUserFd, F_SETFL, O_NONBLOCK) == -1)
 	{
-		std::cout << "fcntl() failed" << std::endl; 
+		std::cout << "fcntl() failed" << std::endl;
 		return;
 	}
 
@@ -173,22 +173,22 @@ void Server::configServerSocket()
 	serverAdd.sin_port = htons(this->_port);	// convert the port to network byte order (big endian)
 
 	// create the server socket
-	_serverFd = socket(AF_INET, SOCK_STREAM, 0); 
+	_serverFd = socket(AF_INET, SOCK_STREAM, 0);
 	// check if the socket is created
-	if (_serverFd == -1) 
+	if (_serverFd == -1)
 		throw(std::runtime_error("faild to create socket"));
 	// set the socket option (SO_REUSEADDR) to reuse the address
 	int en = 1;
-	if (setsockopt(_serverFd, SOL_SOCKET, SO_REUSEADDR, &en, sizeof(en)) == -1) 
+	if (setsockopt(_serverFd, SOL_SOCKET, SO_REUSEADDR, &en, sizeof(en)) == -1)
 		throw(std::runtime_error("faild to set option (SO_REUSEADDR) on socket"));
 	// set the socket option (O_NONBLOCK) for non-blocking socket
 	if (fcntl(_serverFd, F_SETFL, O_NONBLOCK) == -1)
 		throw(std::runtime_error("faild to set option (O_NONBLOCK) on socket"));
 	// bind the socket to the address
-	if (bind(_serverFd, (struct sockaddr *)&serverAdd, sizeof(serverAdd)) == -1) 
+	if (bind(_serverFd, (struct sockaddr *)&serverAdd, sizeof(serverAdd)) == -1)
 		throw(std::runtime_error("faild to bind socket"));
 	// listen for incoming connections and making the socket a passive socket
-	if (listen(_serverFd, SOMAXCONN) == -1) 
+	if (listen(_serverFd, SOMAXCONN) == -1)
 		throw(std::runtime_error("listen() faild"));
 
 	newPoll.fd = _serverFd;  	// add the server socket to the pollfd
@@ -205,23 +205,23 @@ void Server::serverInit()
 	std::cout << "Waiting to accept a connection...\n";
 	// run the server until the signal is received
 	while (Server::_signal == false)
-	{ 
+	{
 		// wait for an event
-		if((poll(&_fds[0],_fds.size(),-1) == -1) && Server::_signal == false) 
+		if((poll(&_fds[0],_fds.size(),-1) == -1) && Server::_signal == false)
 			throw(std::runtime_error("poll() faild"));
 		// check all file descriptors
 		for (size_t i = 0; i < _fds.size(); i++)
 		{
 			// check if there is data to read
 			if (_fds[i].revents & POLLIN)
-			{ 
+			{
     			if (_fds[i].fd == _serverFd)
      				acceptNewUser(); 			// accept new client
     			else
      				receiveNewData(_fds[i].fd);	// receive new data from a registered client
 			}
 		}
-		printUsers();
+		//printUsers();
 	}
 	closeFds(); // close the file descriptors when the server stops
 }
@@ -231,7 +231,7 @@ void	Server::printUsers()
 {
 	std::cout << "Server fd: " << _fds[0].fd << std::endl;
 	for(size_t i = 0; i < _users.size(); i++)
-	{ 
+	{
 		std::cout << "User [" << i << "] fd: " << _users[i].getFd() << std::endl;
  	}
 }

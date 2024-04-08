@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:57:55 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/08 11:05:39 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/04/08 19:51:51 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,18 @@
 # include <iostream>
 # include "../inc/sockets.h"
 
-class User											
+/* Revisar punto 4.1 del IRC Protocol */
+
+class User
 {
 private:
-	int         _fd;					    // client file descriptor
-	std::string _iPadd;					    // client ip address
-    
+	int			_fd;					    // client file descriptor
+	std::string _ipAdd;					    // client ip address
+
 public:
 	User();
-    ~User();	
-    									
+	~User();
+
 	int     getFd();						// getter for fd
 
 	void    setFd(int fd);					// setter for fd
