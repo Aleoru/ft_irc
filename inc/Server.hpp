@@ -15,6 +15,7 @@
 
 # include <iostream>
 # include <vector>
+# include <cstring>			// Comprobar
 # include "User.hpp"
 # include "Channel.hpp"
 # include "sockets.h"
@@ -23,6 +24,7 @@
 # define WHI "\e[0;37m"		// white color
 # define GRE "\e[1;32m"		// green color
 # define YEL "\e[1;33m"		// yellow color
+# define CYA "\033[36;1m"	// cyan color
 
 class User;
 class Channel;
@@ -35,29 +37,40 @@ private:
 	std::string						_pass;				// server password
 	std::vector<User>				_users;				// vector of user/clients
 	std::vector<struct pollfd>		_fds;				// vector of pollfd
-	std::vector<Channel> 			_channels;			// vercotr fo channels
+	std::vector<Channel> 			_channels;			// verctor of channels
 	static bool						_signal;			// static boolean for signal
 	
 public:
 	Server(int port, std::string pass);						
 	~Server();
 
-	void serverInit();									// server initialization
-	void configServerSocket();							// server socket creation
-	void acceptNewUser();								// accept new user/client
-	void receiveNewData(int fd);						// receive new data from a registered user
-	int	 sendMessage(int fd, const std::string str);	// send message to a user
+	void		serverInit();									// server initialization
+	void		configServerSocket();							// server socket creation
+	void		acceptNewUser();								// accept new user/client
+	void		receiveNewData(int fd);						// receive new data from a registered user
+	int			sendMessage(int fd, const std::string str);	// send message to a user
 
- 
-	void closeFds();									// close file descriptors
-	void clearClients(int fd);							// clear clients
+	void		closeFds();									// close file descriptors
+	void		clearClients(int fd);							// clear clients
 
-	static void signalHandler(int signum); 				// signal handler
+	static void	signalHandler(int signum); 				// signal handler
 	static int	validPort(const std::string port);		// check if it is a valid port
 	static int	validPass(const std::string pass);		// check if it is a valid pass
-	
+
+	/*	JOIN COMMAND	*/
+
+	void		createNewChannel(std::string name, User user);
+	void		joinNewChannel(std::string name, User user);
+	void		sendUserList(Channel channel, User user);
+	User		searchUser(int fd);
+	Channel		searchChannel(std::string name);
+	bool		channelExists(std::string name);
+	bool		userExists(std::string name);
+
 	//debug
-	void printUsers();
+	void	printUsers();
+	void	printChannels();
+
 };
 
 #endif

@@ -23,15 +23,19 @@ class User
 private:
 	int			_fd;					    // client file descriptor
 	std::string _ipAdd;					    // client ip address
+	std::string _nick;						// client nickname
 
 public:
 	User();
+	User(const User &src);
 	~User();
 
-	int     getFd();						// getter for fd
+	int				getFd() const;						// getter for fd
+	std::string		getIpAdd() const;						// getter for ipAdd
+	std::string		getNick() const;
 
-	void    setFd(int fd);					// setter for fd
-	void    setIpAdd(std::string ipadd); 	// setter for ipadd
+	void	setFd(int fd);					// setter for fd
+	void	setIpAdd(std::string ipadd); 	// setter for ipadd
 };
 
 #endif

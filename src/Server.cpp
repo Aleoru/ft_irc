@@ -116,6 +116,20 @@ void Server::receiveNewData(int fd)
 		buff[bytes] = '\0';
 		std::cout << YEL << "Client [" << fd << "] Data: " << std::endl << WHI << buff;
 		// code to process the received data
+		{
+			char * p;
+			p = std::strtok(buff, " ");
+			while (p != NULL)
+			{
+				if (std::strcmp(p, "JOIN") == 0)
+				{
+					p = std::strtok(NULL, " ");
+					joinNewChannel(p, searchUser(fd));
+					return ;
+				} else
+					break ;
+			}
+		}
 		std::string message = "message received\n";
 		sendMessage(fd, message);
 	}
@@ -176,20 +190,20 @@ void Server::configServerSocket()
 	_serverFd = socket(AF_INET, SOCK_STREAM, 0);
 	// check if the socket is created
 	if (_serverFd == -1)
-		throw(std::runtime_error("faild to create socket"));
+		throw(std::runtime_error("failed to create socket"));
 	// set the socket option (SO_REUSEADDR) to reuse the address
 	int en = 1;
 	if (setsockopt(_serverFd, SOL_SOCKET, SO_REUSEADDR, &en, sizeof(en)) == -1)
-		throw(std::runtime_error("faild to set option (SO_REUSEADDR) on socket"));
+		throw(std::runtime_error("failed to set option (SO_REUSEADDR) on socket"));
 	// set the socket option (O_NONBLOCK) for non-blocking socket
 	if (fcntl(_serverFd, F_SETFL, O_NONBLOCK) == -1)
-		throw(std::runtime_error("faild to set option (O_NONBLOCK) on socket"));
+		throw(std::runtime_error("failed to set option (O_NONBLOCK) on socket"));
 	// bind the socket to the address
 	if (bind(_serverFd, (struct sockaddr *)&serverAdd, sizeof(serverAdd)) == -1)
-		throw(std::runtime_error("faild to bind socket"));
+		throw(std::runtime_error("failed to bind socket"));
 	// listen for incoming connections and making the socket a passive socket
 	if (listen(_serverFd, SOMAXCONN) == -1)
-		throw(std::runtime_error("listen() faild"));
+		throw(std::runtime_error("listen() failed"));
 
 	newPoll.fd = _serverFd;  	// add the server socket to the pollfd
 	newPoll.events = POLLIN;	// set the event to POLLIN for reading data
@@ -208,7 +222,7 @@ void Server::serverInit()
 	{
 		// wait for an event
 		if((poll(&_fds[0],_fds.size(),-1) == -1) && Server::_signal == false)
-			throw(std::runtime_error("poll() faild"));
+			throw(std::runtime_error("poll() failed"));
 		// check all file descriptors
 		for (size_t i = 0; i < _fds.size(); i++)
 		{
@@ -222,6 +236,7 @@ void Server::serverInit()
 			}
 		}
 		//printUsers();
+		printChannels();
 	}
 	closeFds(); // close the file descriptors when the server stops
 }
@@ -233,5 +248,14 @@ void	Server::printUsers()
 	for(size_t i = 0; i < _users.size(); i++)
 	{
 		std::cout << "User [" << i << "] fd: " << _users[i].getFd() << std::endl;
+ 	}
+}
+
+void	Server::printChannels()
+{
+	std::cout << "Server fd: " << _fds[0].fd << std::endl;
+	for(size_t i = 0; i < _channels.size(); i++)
+	{
+		std::cout << "Channel [" << i << "] name: " << _channels[i].getName() << std::endl;
  	}
 }

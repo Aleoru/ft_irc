@@ -17,13 +17,20 @@ User::User()
 	std::cout << "User constructor called" << std::endl;
 }
 
+User::User(const User &src) : _fd(src.getFd()), _ipAdd(src.getIpAdd())
+{
+	std::cout << "User copy constructor called" << std::endl;
+}
+
 User::~User()
 {
 	std::cout << "User destructor called" << std::endl;
 }
 
 //get
-int		User::getFd() {return _fd;}
+int				User::getFd() const {return this->_fd;}
+std::string		User::getIpAdd() const {return this->_ipAdd;}
+std::string		User::getNick() const {return this->_nick;}
 
 //set
 void	User::setFd(int fd) {_fd = fd;}
