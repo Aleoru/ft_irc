@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 20:11:57 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/08 19:55:24 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/04/11 19:23:34 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # define RPL_NOTOPIC 331
 # define RPL_TOPIC 332
 # define RPL_NAMREPLY 353
+# define RPL_JOIN(source, channel)	": " + source + " JOIN :" + channel
 
 /*	Hay 2 tipos de canales, el que nos interesa es el '&' ya que es conocido
 	solo por los clintes del servidor	*/
@@ -44,6 +45,7 @@ private:
 public:
 	Channel(std::string name, User user);
 	Channel(std::string name, std::string pass, User user);
+    //Channel(const Channel &src);
 	~Channel();
 
 	std::string			getName(void) const;
@@ -51,8 +53,8 @@ public:
 	std::vector<User>	getUsers(void) const;
 
 	std::vector<int>    channelListUsers();
+    void                addUserToList(User user);
 
-	
 };
 
 #endif

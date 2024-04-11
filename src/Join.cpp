@@ -5,10 +5,18 @@ void	Server::createNewChannel(std::string name, User user)
 	name.erase(name.begin() + name.length() - 2, name.end());
 	std::cout << "[" << RED << name << WHI << "]" << std::endl;
 	Channel	channel(name, user);
-	std::string	rpl = "<" + channel.getName() + "> :No topic is set\n";
-
+	std::string	rpl;
+	rpl.append(": ");
+	rpl.append(std::to_string(RPL_NOTOPIC) + " ");
+	rpl.append(user.getNick() + " ");
+	rpl.append(channel.getName() + " :No topic is set\r\n");
 	_channels.push_back(channel);
-	send(user.getFd(), rpl.c_str(), rpl.length(), RPL_NOTOPIC);
+
+	std::string msg = ":aoropeza!aoropeza@localhost JOIN :" + channel.getName();
+	msg.append("\r\n");
+
+	send(user.getFd(), msg.c_str(), msg.length(), 0);
+	send(user.getFd(), rpl.c_str(), rpl.length(), 0);
 	sendUserList(channel, user);
 	std::cout << GRE << "Channel [" << name << "] succesfully created" << WHI << std::endl;
 }
@@ -70,14 +78,19 @@ bool	Server::channelExists(std::string name)
 
 void	Server::sendUserList(Channel channel, User user)
 {
-	std::string			msg = "<" + channel.getName() + "> :";
+	std::string			rpl;
 	std::vector<User>	userlist(channel.getUsers());
 
+	rpl.append(": ");
+	rpl.append(std::to_string(RPL_NAMREPLY) + " ");
+	rpl.append(user.getNick() + " = ");
+	rpl.append(channel.getName() + " :");
 	for (size_t i = 0; i < userlist.size(); i++)
 	{
-		msg.append("<" + std::to_string(userlist[i].getFd()) + ">" + " ");	// cambiar por _nick
+		rpl.append(userlist[i].getNick() + " ");	// cambiar por _nick
 	}
-	msg.append("\n");
-	send(user.getFd(), msg.c_str(), msg.length(), RPL_NAMREPLY);
+	rpl.append("\r\n");
+	std::cout << YEL << rpl << WHI;
+	send(user.getFd(), rpl.c_str(), rpl.length(), 0);
 
 }

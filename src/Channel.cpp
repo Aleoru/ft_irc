@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 20:19:31 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/08 19:55:22 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/04/11 18:57:04 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,11 @@ Channel::Channel(std::string name, std::string pass, User user): _name(name), _p
 
 }
 
+/* Channel::Channel(const Channel &src) : _name(src.getName()), 
+{
+
+} */
+
 Channel::~Channel()
 {
 	std::cout << RED << "Channel destroyed" << WHI << std::endl;
@@ -50,4 +55,9 @@ std::vector<int>	Channel::channelListUsers()
 	std::vector<int> channelUsers;
 
 	return (channelUsers);
+}
+
+void    Channel::addUserToList(User user)
+{
+    _users.push_back(user);
 }
