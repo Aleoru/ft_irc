@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:27 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/06 12:32:32 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/04/12 13:24:23 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include "User.hpp"
 # include "Channel.hpp"
 # include "sockets.h"
+# include "replies.hpp"
+
 
 # define RED "\e[1;31m"		// red color
 # define WHI "\e[0;37m"		// white color

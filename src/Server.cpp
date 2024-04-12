@@ -6,7 +6,7 @@
 /*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:15 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/11 18:43:19 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/04/12 12:53:15 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,7 @@ void Server::acceptNewUser()
 
 	user.setFd(newUserFd);							// set the client file descriptor
 	user.setIpAdd(inet_ntoa((userAdd.sin_addr)));	// convert the ip address to string and set it
+	//user.setHostname(userAdd.)
 	_users.push_back(user);							// add the client to the vector of clients
 	_fds.push_back(newPoll);						// add the client socket to the pollfd
 

@@ -6,23 +6,21 @@
 /*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 20:11:57 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/11 19:23:34 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/04/12 13:33:30 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CHANNEL_HPP
 # define CHANNEL_HPP
 
-# include "../inc/User.hpp"
-# include "../inc/Server.hpp"
+# include "User.hpp"
+# include "Server.hpp"
+# include "replies.hpp"
 # include <vector>
 # include <iostream>
 
 # define NOLIMIT 0
-# define RPL_NOTOPIC 331
-# define RPL_TOPIC 332
-# define RPL_NAMREPLY 353
-# define RPL_JOIN(source, channel)	": " + source + " JOIN :" + channel
+
 
 /*	Hay 2 tipos de canales, el que nos interesa es el '&' ya que es conocido
 	solo por los clintes del servidor	*/
