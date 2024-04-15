@@ -6,7 +6,7 @@
 /*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:57:55 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/12 13:24:17 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/04/15 20:25:01 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ private:
 public:
 	User();
 	User(const User &src);
+	User(int fd, std::string ipAdd);
 	~User();
+
+	User & operator=(User const &src);
 
 	int				getFd() const;						// getter for fd
 	std::string		getIpAdd() const;						// getter for ipAdd
@@ -39,7 +42,8 @@ public:
 
 	void	setFd(int fd);					// setter for fd
 	void	setIpAdd(std::string ipadd); 	// setter for ipadd
-	void	setHostname(std::string host);	// setter for hostname
+	void	setNickname(std::string nick);
+	void	setUsername(std::string user);
 };
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:27 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/12 13:24:23 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/04/15 20:16:31 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <iostream>
 # include <vector>
+# include <sstream>
 # include <cstring>			// Comprobar
 # include "User.hpp"
 # include "Channel.hpp"
@@ -72,6 +73,8 @@ public:
 	//debug
 	void	printUsers();
 	void	printChannels();
+
+	std::vector<std::string> splitString(std::string str);
 
 };
 

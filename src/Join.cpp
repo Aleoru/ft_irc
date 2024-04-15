@@ -6,7 +6,7 @@
 /*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 12:32:29 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/04/12 18:45:48 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/04/15 19:23:46 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	Server::sendUserList(Channel channel, User user)
 	
 	for (size_t i = 0; i < userlist.size(); i++)
 	{
-		list.append(userlist[i].getNick() + " ");	// cambiar por _nick
+		list.append(userlist[i].getNick() + " ");
 	}
 	rpl = RPL_NAMREPLY(user.getNick(), channel.getName(), list);
 	send(user.getFd(), rpl.c_str(), rpl.length(), 0);

@@ -6,7 +6,7 @@
 /*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:57:44 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/12 13:12:46 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/04/15 20:25:11 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,32 @@ User::User()
 	std::cout << "User constructor called" << std::endl;
 }
 
-User::User(const User &src) : _fd(src.getFd()), _ipAdd(src.getIpAdd()), _nickname(src.getNick())
+User::User(int fd, std::string ipAdd) : _fd(fd), _ipAdd(ipAdd)
 {
-    //this->_nick = "default";
-	std::cout << "User copy constructor called" << std::endl;
+	std::cout << "User constructor called" << std::endl;
+}
+
+User::User(User const &src)
+{
+	*this = src;
+	std::cout << "Copy constructor called" << std::endl;
 }
 
 User::~User()
 {
 	std::cout << "User destructor called" << std::endl;
+}
+
+User &User::operator=(User const &src)
+{
+	if (this != &src)
+	{
+		this->_fd = src._fd;
+		this->_ipAdd = src._ipAdd;
+		this->_nickname = src._nickname;
+		this->_username = src._username;
+	}
+	return (*this);
 }
 
 //get
@@ -38,3 +55,5 @@ std::string		User::getUsername() const {return this->_username;}
 //set
 void	User::setFd(int fd) {this->_fd = fd;}
 void	User::setIpAdd(std::string ipadd) {this->_ipAdd = ipadd;}
+void	User::setNickname(std::string nickname) {this->_nickname = nickname;}
+void	User::setUsername(std::string username) {this->_username = username;}
