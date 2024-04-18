@@ -6,7 +6,7 @@
 /*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:27 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/15 20:16:31 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/04/18 17:56:30 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ public:
 	static int	validPort(const std::string port);		// check if it is a valid port
 	static int	validPass(const std::string pass);		// check if it is a valid pass
 
+	void parser(std::string str);		// temporal
+
 	/*	JOIN COMMAND	*/
 
 	void		createNewChannel(std::string name, User user);
@@ -73,8 +75,6 @@ public:
 	//debug
 	void	printUsers();
 	void	printChannels();
-
-	std::vector<std::string> splitString(std::string str);
 
 };
 
