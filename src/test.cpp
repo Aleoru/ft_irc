@@ -42,6 +42,8 @@ void Server::findComnand(std::vector<std::string> cmd, int fd, bool debug)
 	{
 		std::cout << "Nick command" << std::endl;
 		nickCmd(cmd[1], fd);
+		User	user = searchUser(fd);
+		std::cout << "Nickname " << fd << ": "<< user.getNick() << std::endl;
 	}
 	else if (!cmd[0].compare("USER"))
 		std::cout << "User command" << std::endl;
@@ -73,13 +75,15 @@ void Server::parser(std::string str, int fd, bool debug)
 				else
 					std::cout << "argument [" << j << "] -> " << cmd[j] << std::endl;
 			}
-			findComnand(cmd, fd, debug);
 		}
+		findComnand(cmd, fd, debug);
 	}
 }
 
 // provisional commands
-void Server::nickCmd(std::string userName, int fd)
+void Server::nickCmd(std::string nickname, int fd)
 {
 	std::cout << "executing nick command " << fd << std::endl;
+	User	user = searchUser(fd);
+	user.setNickname(nickname);
 }
