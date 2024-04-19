@@ -84,6 +84,6 @@ void Server::parser(std::string str, int fd, bool debug)
 void Server::nickCmd(std::string nickname, int fd)
 {
 	std::cout << "executing nick command " << fd << std::endl;
-	User	user = searchUser(fd);
-	user.setNickname(nickname);
+	User	*user = getUser(fd);
+	user->setNickname(nickname);
 }

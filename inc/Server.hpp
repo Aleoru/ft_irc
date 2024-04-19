@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:27 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/19 14:17:20 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/04/19 14:51:24 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ public:
 
 	/*	NICK COMMAND	*/
 	void		nickCmd(std::string userName, int fd); //prueba
+	User 		*getUser(int fd);
 
 	//debug
 	void	printUsers();
