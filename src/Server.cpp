@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:15 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/18 17:55:10 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/04/19 14:10:43 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,21 +116,8 @@ void Server::receiveNewData(int fd)
 		buff[bytes] = '\0';
 		std::cout << YEL << "Client [" << fd << "] Data: " << std::endl << WHI << buff;
 		// code to process the received data
-		parser(buff);
-/* 		{
-			char * p;
-			p = std::strtok(buff, " ");
-			while (p != NULL)
-			{
-				if (std::strcmp(p, "JOIN") == 0)
-				{
-					p = std::strtok(NULL, " ");
-					joinNewChannel(p, searchUser(fd));
-					return ;
-				} else
-					break ;
-			}
-		} */
+		parser(buff, fd, true);
+
 	}
 }
 

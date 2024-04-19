@@ -33,22 +33,53 @@ static std::vector<std::string> splitString2(const std::string str, char delimit
 	return (split);
 }
 
-void Server::parser(std::string str)
+void Server::findComnand(std::vector<std::string> cmd, int fd, bool debug)
 {
-	std::cout << "str recived: <<" << str << ">>" << std::endl;
-	std::cout << "-------------------" << std::endl;
+	(void)debug;
+	if (!cmd[0].compare("JOIN"))
+		std::cout << "Join command" << std::endl;	
+	else if (!cmd[0].compare("NICK"))
+	{
+		std::cout << "Nick command" << std::endl;
+		nickCmd(cmd[1], fd);
+	}
+	else if (!cmd[0].compare("USER"))
+		std::cout << "User command" << std::endl;
+	else if (!cmd[0].compare("PASS"))
+		std::cout << "Pass command" << std::endl;
+}
+
+// Parser (de mierda xD) provisional 
+void Server::parser(std::string str, int fd, bool debug)
+{
+	if (debug)
+	{
+		std::cout << "str recived: <<" << str << ">>" << std::endl;
+		std::cout << "-------------------" << std::endl;
+	}
 	std::vector<std::string> vec = splitString(str);
 
 	for (size_t i = 0; i < vec.size(); i++)
 	{
-		std::cout << "Substring [" << i << "] -> " << vec[i] << std::endl;
+		if (debug)
+			std::cout << "Substring [" << i << "] -> " << vec[i] << std::endl;
 		std::vector<std::string> cmd = splitString2(vec[i], ' ');
 		for (size_t j = 0; j < cmd.size(); j++)
 		{
-			if (j == 0)
-				std::cout << "Comand -> " << cmd[j] << std::endl;
-			else
-				std::cout << "argument [" << j << "] -> " << cmd[j] << std::endl;
+			if (debug)
+			{
+				if (j == 0)
+					std::cout << "Comand -> " << cmd[j] << std::endl;
+				else
+					std::cout << "argument [" << j << "] -> " << cmd[j] << std::endl;
+			}
+			findComnand(cmd, fd, debug);
 		}
 	}
+}
+
+// provisional commands
+void Server::nickCmd(std::string userName, int fd)
+{
+	std::cout << "executing nick command " << fd << std::endl;
 }

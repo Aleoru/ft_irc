@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:27 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/18 17:56:30 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/04/19 14:17:20 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,17 +50,19 @@ public:
 	void		serverInit();									// server initialization
 	void		configServerSocket();							// server socket creation
 	void		acceptNewUser();								// accept new user/client
-	void		receiveNewData(int fd);						// receive new data from a registered user
-	int			sendMessage(int fd, const std::string str);	// send message to a user
+	void		receiveNewData(int fd);							// receive new data from a registered user
+	int			sendMessage(int fd, const std::string str);		// send message to a user
 
-	void		closeFds();									// close file descriptors
+	void		closeFds();										// close file descriptors
 	void		clearClients(int fd);							// clear clients
 
-	static void	signalHandler(int signum); 				// signal handler
-	static int	validPort(const std::string port);		// check if it is a valid port
-	static int	validPass(const std::string pass);		// check if it is a valid pass
+	static void	signalHandler(int signum); 						// signal handler
+	static int	validPort(const std::string port);				// check if it is a valid port
+	static int	validPass(const std::string pass);				// check if it is a valid pass
 
-	void parser(std::string str);		// temporal
+	/*	PARSER			*/
+	void		parser(std::string str, int fd, bool debug);			// temporal
+	void		findComnand(std::vector<std::string> cmd, int fd, bool debug); 	// temporal
 
 	/*	JOIN COMMAND	*/
 
@@ -71,6 +73,9 @@ public:
 	Channel		searchChannel(std::string name);
 	bool		channelExists(std::string name);
 	bool		userExists(std::string name);
+
+	/*	NICK COMMAND	*/
+	void		nickCmd(std::string userName, int fd); //prueba
 
 	//debug
 	void	printUsers();
