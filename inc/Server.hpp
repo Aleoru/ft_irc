@@ -61,7 +61,7 @@ public:
 	static int	validPass(const std::string pass);				// check if it is a valid pass
 
 	/*	PARSER			*/
-	void		parser(std::string str, int fd, bool debug);			// temporal
+	void		parser(std::string str, int fd, bool debug);					// temporal
 	void		findComnand(std::vector<std::string> cmd, int fd, bool debug); 	// temporal
 
 	/*	JOIN COMMAND	*/
