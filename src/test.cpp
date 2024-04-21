@@ -40,15 +40,29 @@ void Server::findComnand(std::vector<std::string> cmd, int fd, bool debug)
 		std::cout << "Join command" << std::endl;	
 	else if (!cmd[0].compare("NICK"))
 	{
-		std::cout << "Nick command" << std::endl;
-		nickCmd(cmd[1], fd);
-		User	user = searchUser(fd);
-		std::cout << "Nickname " << fd << ": "<< user.getNick() << std::endl;
+		User	*user = getUser(fd);
+		if (user->getHasAccess())
+		{
+			nickCmd(cmd, fd);
+			std::cout << "Testing Nickname " << fd << ": "<< user->getNick() << std::endl;
+		}
 	}
 	else if (!cmd[0].compare("USER"))
-		std::cout << "User command" << std::endl;
+	{
+		User	*user = getUser(fd);
+		if (user->getHasAccess())
+		{
+			userCmd(cmd, fd);
+			std::cout << "Testing Username " << fd << ": "<< user->getUsername() << std::endl;		
+		}
+	}
 	else if (!cmd[0].compare("PASS"))
-		std::cout << "Pass command" << std::endl;
+	{
+		passCmd(cmd, fd);
+		User	*user = getUser(fd);
+		std::cout << "Testing access " << fd << ": "<< user->getHasAccess() << std::endl;
+	}
+	std::cout << "-------" << std::endl;
 }
 
 // Parser (de mierda xD) provisional 
@@ -81,9 +95,38 @@ void Server::parser(std::string str, int fd, bool debug)
 }
 
 // provisional commands
-void Server::nickCmd(std::string nickname, int fd)
+void	Server::nickCmd(std::vector<std::string> cmd, int fd)
 {
 	std::cout << "executing nick command " << fd << std::endl;
+	if (cmd.size() == 2)
+	{
+		User	*user = getUser(fd);
+		user->setNickname(cmd[1]);
+	}
+	else
+	{
+
+	}
+}
+
+void	Server::passCmd(std::vector<std::string> cmd, int fd)
+{
+	std::cout << "executing pass command " << fd << std::endl;
+	if (!cmd[1].compare(this->_pass))
+	{
+		User	*user = getUser(fd);
+		user->setHasAccess(true);
+		//sendMessage(fd, "371 : ok"); //info
+	}
+	else
+	{
+
+	}
+}
+
+void	Server::userCmd(std::vector<std::string> cmd, int fd)
+{
+	std::cout << "executing user command " << fd << std::endl;
 	User	*user = getUser(fd);
-	user->setNickname(nickname);
+	user->setUsername(cmd[1]);
 }

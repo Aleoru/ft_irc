@@ -116,7 +116,8 @@ void Server::receiveNewData(int fd)
 		buff[bytes] = '\0';
 		std::cout << YEL << "Client [" << fd << "] Data: " << std::endl << WHI << buff;
 		// code to process the received data
-		parser(buff, fd, true);
+		//sendMessage(fd, "371 : receive message"); //371 info?
+ 		parser(buff, fd, true);
 
 	}
 }
@@ -131,10 +132,9 @@ int Server::sendMessage(int fd, const std::string str)
 	return (0);
 }
 
+// create and set a new User
 void Server::acceptNewUser()
 {
-	// create a new client
-	User				user;
 	struct sockaddr_in	userAdd;
 	struct pollfd		newPoll;
 	socklen_t 			len = sizeof(userAdd);
@@ -152,15 +152,15 @@ void Server::acceptNewUser()
 		return;
 	}
 
+	// config newPoll fd
 	newPoll.fd = newUserFd;							// add the client socket to the pollfd
 	newPoll.events = POLLIN;						// set the event to POLLIN for reading data
 	newPoll.revents = 0;							// set the revents to 0
-
-	user.setFd(newUserFd);							// set the client file descriptor
-	user.setIpAdd(inet_ntoa((userAdd.sin_addr)));	// convert the ip address to string and set it
-	//user.setHostname(userAdd.)
-	_users.push_back(user);							// add the client to the vector of clients
 	_fds.push_back(newPoll);						// add the client socket to the pollfd
+
+	// set the client file descriptor and convert the ip address to string and set it
+	User	user(newUserFd, inet_ntoa((userAdd.sin_addr)));
+	_users.push_back(user);							// add the client to the vector of clients
 
 	std::cout << GRE << "User [" << newUserFd << "] Connected" << WHI << std::endl;
 }

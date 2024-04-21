@@ -47,18 +47,21 @@ public:
 	Server(int port, std::string pass);						
 	~Server();
 
+	/*	SERVER CREATION	*/
 	void		serverInit();									// server initialization
 	void		configServerSocket();							// server socket creation
 	void		acceptNewUser();								// accept new user/client
 	void		receiveNewData(int fd);							// receive new data from a registered user
-	int			sendMessage(int fd, const std::string str);		// send message to a user
+	static int	validPort(const std::string port);				// check if it is a valid port
+	static int	validPass(const std::string pass);				// check if it is a valid pass
+	static void	signalHandler(int signum); 						// signal handler
 
+	/*	CLEAR FDS AND CLIENTS */
 	void		closeFds();										// close file descriptors
 	void		clearClients(int fd);							// clear clients
 
-	static void	signalHandler(int signum); 						// signal handler
-	static int	validPort(const std::string port);				// check if it is a valid port
-	static int	validPass(const std::string pass);				// check if it is a valid pass
+	/*	MESSAGES		*/
+	int			sendMessage(int fd, const std::string str);		// send message to a user
 
 	/*	PARSER			*/
 	void		parser(std::string str, int fd, bool debug);					// temporal
@@ -74,14 +77,15 @@ public:
 	bool		channelExists(std::string name);
 	bool		userExists(std::string name);
 
-	/*	NICK COMMAND	*/
-	void		nickCmd(std::string userName, int fd); //prueba
+	/*	PASS, NICK, USER COMMAND	*/
+	void		passCmd(std::vector<std::string> cmd, int fd);	//prueba
+	void		nickCmd(std::vector<std::string> cmd, int fd);	//prueba
+	void		userCmd(std::vector<std::string> cmd, int fd);	//prueba
 	User 		*getUser(int fd);
 
 	//debug
-	void	printUsers();
-	void	printChannels();
-	//
+	void		printUsers();
+	void		printChannels();
 
 };
 

@@ -20,6 +20,7 @@ User::User()
 
 User::User(int fd, std::string ipAdd) : _fd(fd), _ipAdd(ipAdd)
 {
+	this->_hasAccess = false;
 	std::cout << "User constructor called" << std::endl;
 }
 
@@ -51,9 +52,11 @@ int				User::getFd() const {return this->_fd;}
 std::string		User::getIpAdd() const {return this->_ipAdd;}
 std::string		User::getNick() const {return this->_nickname;}
 std::string		User::getUsername() const {return this->_username;}
+bool			User::getHasAccess() const {return this->_hasAccess;}
 
 //set
 void	User::setFd(int fd) {this->_fd = fd;}
 void	User::setIpAdd(std::string ipadd) {this->_ipAdd = ipadd;}
 void	User::setNickname(std::string nickname) {this->_nickname = nickname;}
 void	User::setUsername(std::string username) {this->_username = username;}
+void	User::setHasAccess(bool access) {this->_hasAccess = access;}

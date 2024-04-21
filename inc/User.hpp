@@ -26,6 +26,7 @@ private:
 	std::string	_ipAdd;					    // client ip address
 	std::string	_nickname;					// client nickname
 	std::string	_username;					// client username
+	bool		_hasAccess;				// client password is correct
 
 public:
 	User();
@@ -36,14 +37,16 @@ public:
 	User & operator=(User const &src);
 
 	int				getFd() const;						// getter for fd
-	std::string		getIpAdd() const;						// getter for ipAdd
+	std::string		getIpAdd() const;					// getter for ipAdd
 	std::string		getNick() const;
 	std::string		getUsername() const;
+	bool			getHasAccess() const;
 
 	void	setFd(int fd);					// setter for fd
 	void	setIpAdd(std::string ipadd); 	// setter for ipadd
 	void	setNickname(std::string nick);
 	void	setUsername(std::string user);
+	void	setHasAccess(bool access);
 };
 
 #endif
