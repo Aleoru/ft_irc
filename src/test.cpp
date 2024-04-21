@@ -54,6 +54,7 @@ void Server::findComnand(std::vector<std::string> cmd, int fd, bool debug)
 		{
 			userCmd(cmd, fd);
 			std::cout << "Testing Username " << fd << ": "<< user->getUsername() << std::endl;		
+			sendMessage(fd, ": 001 " + user->getNick() + ": Welcome " + user->getNick() + "\r\n");
 		}
 	}
 	else if (!cmd[0].compare("PASS"))
@@ -116,11 +117,12 @@ void	Server::passCmd(std::vector<std::string> cmd, int fd)
 	{
 		User	*user = getUser(fd);
 		user->setHasAccess(true);
-		//sendMessage(fd, "371 : ok"); //info
+		sendMessage(fd, ": 371  : valid pass \r\n"); //info
 	}
 	else
 	{
-
+		sendMessage(fd, ": 371  : wrong pass \r\n");
+		clearClients(fd);
 	}
 }
 
