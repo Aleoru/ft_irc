@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:27 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/19 14:51:24 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/04/23 20:19:26 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,27 +65,32 @@ public:
 
 	/*	PARSER			*/
 	void		parser(std::string str, int fd, bool debug);					// temporal
-	void		findComnand(std::vector<std::string> cmd, int fd, bool debug); 	// temporal
+	void		findCommand(std::vector<std::string> cmd, int fd, bool debug); 	// temporal
 
 	/*	JOIN COMMAND	*/
 
 	void		createNewChannel(std::string name, User user);
-	void		joinNewChannel(std::string name, User user);
+	void		joinNewChannel(std::string name, User *user);
 	void		sendUserList(Channel channel, User user);
-	User		searchUser(int fd);
-	Channel		searchChannel(std::string name);
-	bool		channelExists(std::string name);
-	bool		userExists(std::string name);
 
 	/*	PASS, NICK, USER COMMAND	*/
 	void		passCmd(std::vector<std::string> cmd, int fd);	//prueba
 	void		nickCmd(std::vector<std::string> cmd, int fd);	//prueba
 	void		userCmd(std::vector<std::string> cmd, int fd);	//prueba
-	User 		*getUser(int fd);
 
 	//debug
 	void		printUsers();
 	void		printChannels();
+
+	/*	UTILS	*/
+	User		*searchUser(int fd);
+	User		*searchUser(std::string nick);
+	Channel		*searchChannel(std::string name);
+	bool		channelExists(std::string name);
+	bool		userExists(std::string name);
+	
+	std::vector<std::string>	split(const std::string str, char delimiter);
+
 
 };
 

@@ -6,7 +6,7 @@
 /*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 20:11:57 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/12 18:45:41 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/04/23 20:11:14 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ private:
 	int					_limit;		// l: set/remove user limit - 0 = no limit
 	bool				_invite;	// i: set/remove invite-only
 	std::vector<User>	_users;
+	std::vector<User>	_invitedUsers;
 	std::vector<User>	_operators;	// o: give/take channel operator privilege
 
 public:

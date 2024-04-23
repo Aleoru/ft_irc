@@ -3,7 +3,7 @@
 #include <vector>
 #include "../inc/Server.hpp"
 
-static std::vector<std::string> splitString(const std::string str)
+static std::vector<std::string> splitcmd(const std::string str)
 {
 	std::vector<std::string> split;
 	std::istringstream tokenStream(str);
@@ -21,7 +21,7 @@ static std::vector<std::string> splitString(const std::string str)
 	return (split);
 }
 
-static std::vector<std::string> splitString2(const std::string str, char delimiter)
+std::vector<std::string> Server::split(const std::string str, char delimiter)
 {
 	std::vector<std::string> split;
 	std::string token;
@@ -33,14 +33,14 @@ static std::vector<std::string> splitString2(const std::string str, char delimit
 	return (split);
 }
 
-void Server::findComnand(std::vector<std::string> cmd, int fd, bool debug)
+void Server::findCommand(std::vector<std::string> cmd, int fd, bool debug)
 {
 	(void)debug;
 	if (!cmd[0].compare("JOIN"))
-		std::cout << "Join command" << std::endl;	
+		joinNewChannel(cmd[1], searchUser(fd));
 	else if (!cmd[0].compare("NICK"))
 	{
-		User	*user = getUser(fd);
+		User	*user = searchUser(fd);
 		if (user->getHasAccess())
 		{
 			nickCmd(cmd, fd);
@@ -49,7 +49,7 @@ void Server::findComnand(std::vector<std::string> cmd, int fd, bool debug)
 	}
 	else if (!cmd[0].compare("USER"))
 	{
-		User	*user = getUser(fd);
+		User	*user = searchUser(fd);
 		if (user->getHasAccess())
 		{
 			userCmd(cmd, fd);
@@ -60,7 +60,7 @@ void Server::findComnand(std::vector<std::string> cmd, int fd, bool debug)
 	else if (!cmd[0].compare("PASS"))
 	{
 		passCmd(cmd, fd);
-		User	*user = getUser(fd);
+		User	*user = searchUser(fd);
 		std::cout << "Testing access " << fd << ": "<< user->getHasAccess() << std::endl;
 	}
 	std::cout << "-------" << std::endl;
@@ -74,13 +74,13 @@ void Server::parser(std::string str, int fd, bool debug)
 		std::cout << "str recived: <<" << str << ">>" << std::endl;
 		std::cout << "-------------------" << std::endl;
 	}
-	std::vector<std::string> vec = splitString(str);
+	std::vector<std::string> vec = splitcmd(str);
 
 	for (size_t i = 0; i < vec.size(); i++)
 	{
 		if (debug)
 			std::cout << "Substring [" << i << "] -> " << vec[i] << std::endl;
-		std::vector<std::string> cmd = splitString2(vec[i], ' ');
+		std::vector<std::string> cmd = split(vec[i], ' ');
 		for (size_t j = 0; j < cmd.size(); j++)
 		{
 			if (debug)
@@ -91,7 +91,7 @@ void Server::parser(std::string str, int fd, bool debug)
 					std::cout << "argument [" << j << "] -> " << cmd[j] << std::endl;
 			}
 		}
-		findComnand(cmd, fd, debug);
+		findCommand(cmd, fd, debug);
 	}
 }
 
@@ -101,7 +101,7 @@ void	Server::nickCmd(std::vector<std::string> cmd, int fd)
 	std::cout << "executing nick command " << fd << std::endl;
 	if (cmd.size() == 2)
 	{
-		User	*user = getUser(fd);
+		User	*user = searchUser(fd);
 		user->setNickname(cmd[1]);
 	}
 	else
@@ -115,7 +115,7 @@ void	Server::passCmd(std::vector<std::string> cmd, int fd)
 	std::cout << "executing pass command " << fd << std::endl;
 	if (!cmd[1].compare(this->_pass))
 	{
-		User	*user = getUser(fd);
+		User	*user = searchUser(fd);
 		user->setHasAccess(true);
 		sendMessage(fd, ": 371  : valid pass \r\n"); //info
 	}
@@ -129,6 +129,6 @@ void	Server::passCmd(std::vector<std::string> cmd, int fd)
 void	Server::userCmd(std::vector<std::string> cmd, int fd)
 {
 	std::cout << "executing user command " << fd << std::endl;
-	User	*user = getUser(fd);
+	User	*user = searchUser(fd);
 	user->setUsername(cmd[1]);
 }

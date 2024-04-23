@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:15 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/19 14:53:40 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/04/23 19:42:35 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,15 +245,4 @@ void	Server::printChannels()
 	{
 		std::cout << "Channel [" << i << "] name: " << _channels[i].getName() << std::endl;
  	}
-}
-
-// return a pointer to a User
-User *Server::getUser(int fd)
-{
-	for (size_t i = 0; i < _users.size(); i++)
-	{
-		if (_users[i].getFd() == fd)
-			return (&_users[i]);
-	}
-	return NULL;
 }

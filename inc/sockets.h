@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sockets.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 16:31:37 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/03 15:37:22 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/04/23 19:01:00 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 # include <unistd.h>
 # include <signal.h>
 
-void	*ft_memset(void *str, int c, size_t n);
-size_t	ft_strlen(const char *str);
+void	*ft_memset(void *str, int c, size_t n);	// Cambiar por memset de cstring	
 
 #endif
