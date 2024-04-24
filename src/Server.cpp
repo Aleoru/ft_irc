@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: akent-go <akent-go@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:15 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/23 19:42:35 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/04/24 17:21:07 by akent-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,4 +245,69 @@ void	Server::printChannels()
 	{
 		std::cout << "Channel [" << i << "] name: " << _channels[i].getName() << std::endl;
  	}
+}
+
+int Server::getPort() const 
+{
+	return _port;
+}
+
+int Server::getServerFd() const {
+	return _serverFd;
+}
+
+const std::string& Server::getPass() const {
+	return _pass;
+}
+
+const std::vector<User>& Server::getUsers() const {
+	return _users;
+}
+
+const std::vector<struct pollfd>& Server::getFds() const {
+	return _fds;
+}
+
+const std::vector<Channel>& Server::getChannels() const {
+	return _channels;
+}
+
+bool Server::getSignal() 
+{
+	return _signal;
+}
+
+void Server::setPort(int port)
+{
+	_port = port;
+}
+
+void Server::setServerFd(int serverFd)
+{
+	_serverFd = serverFd;
+}
+
+void Server::setPass(std::string &pass)
+{
+	_pass = pass;
+}
+
+void Server::setUsers(const std::vector<User>& users) 
+{
+        _users = users;
+}
+
+void Server::setFds(const std::vector<struct pollfd>& fds) 
+{
+    _fds = fds;
+}
+
+void Server::setChannels(const std::vector<Channel>& channels) 
+{
+    _channels = channels;
+}
+
+void Server::setSignal(bool signal) 
+{
+    _signal = signal;
 }

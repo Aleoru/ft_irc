@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: akent-go <akent-go@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:27 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/23 20:19:26 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/04/24 17:21:21 by akent-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,22 @@ public:
 	
 	std::vector<std::string>	split(const std::string str, char delimiter);
 
+	//GETTERS Y SETTERS
+	int getPort() const;
+	int getServerFd() const;
+	const std::string& getPass() const;
+	const std::vector<User>& getUsers() const;
+	const std::vector<struct pollfd>& getFds() const;
+	const std::vector<Channel>& getChannels() const;
+	bool getSignal();
 
+	void setPort(int port);
+	void setServerFd(int serverFd);
+	void setPass(std::string &pass);
+	void setUsers(const std::vector<User>& users);
+	void setFds(const std::vector<struct pollfd>& fds);
+	void setChannels(const std::vector<Channel>& channels);
+	void setSignal(bool signal);
 };
 
 #endif
