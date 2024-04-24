@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:57:55 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/08 19:51:51 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/04/15 20:25:01 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 # define USER_HPP
 
 # include <iostream>
-# include "../inc/sockets.h"
+# include "sockets.h"
+# include "replies.hpp"
 
 /* Revisar punto 4.1 del IRC Protocol */
 
@@ -22,16 +23,30 @@ class User
 {
 private:
 	int			_fd;					    // client file descriptor
-	std::string _ipAdd;					    // client ip address
+	std::string	_ipAdd;					    // client ip address
+	std::string	_nickname;					// client nickname
+	std::string	_username;					// client username
+	bool		_hasAccess;				// client password is correct
 
 public:
 	User();
+	User(const User &src);
+	User(int fd, std::string ipAdd);
 	~User();
 
-	int     getFd();						// getter for fd
+	User & operator=(User const &src);
 
-	void    setFd(int fd);					// setter for fd
-	void    setIpAdd(std::string ipadd); 	// setter for ipadd
+	int				getFd() const;						// getter for fd
+	std::string		getIpAdd() const;					// getter for ipAdd
+	std::string		getNick() const;
+	std::string		getUsername() const;
+	bool			getHasAccess() const;
+
+	void	setFd(int fd);					// setter for fd
+	void	setIpAdd(std::string ipadd); 	// setter for ipadd
+	void	setNickname(std::string nick);
+	void	setUsername(std::string user);
+	void	setHasAccess(bool access);
 };
 
 #endif

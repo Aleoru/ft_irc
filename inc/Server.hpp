@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:27 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/06 12:32:32 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/04/23 20:19:26 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,19 @@
 
 # include <iostream>
 # include <vector>
+# include <sstream>
+# include <cstring>			// Comprobar
 # include "User.hpp"
 # include "Channel.hpp"
 # include "sockets.h"
+# include "replies.hpp"
+
 
 # define RED "\e[1;31m"		// red color
 # define WHI "\e[0;37m"		// white color
 # define GRE "\e[1;32m"		// green color
 # define YEL "\e[1;33m"		// yellow color
+# define CYA "\033[36;1m"	// cyan color
 
 class User;
 class Channel;
@@ -35,29 +40,58 @@ private:
 	std::string						_pass;				// server password
 	std::vector<User>				_users;				// vector of user/clients
 	std::vector<struct pollfd>		_fds;				// vector of pollfd
-	std::vector<Channel> 			_channels;			// vercotr fo channels
+	std::vector<Channel> 			_channels;			// verctor of channels
 	static bool						_signal;			// static boolean for signal
 	
 public:
 	Server(int port, std::string pass);						
 	~Server();
 
-	void serverInit();									// server initialization
-	void configServerSocket();							// server socket creation
-	void acceptNewUser();								// accept new user/client
-	void receiveNewData(int fd);						// receive new data from a registered user
-	int	 sendMessage(int fd, const std::string str);	// send message to a user
+	/*	SERVER CREATION	*/
+	void		serverInit();									// server initialization
+	void		configServerSocket();							// server socket creation
+	void		acceptNewUser();								// accept new user/client
+	void		receiveNewData(int fd);							// receive new data from a registered user
+	static int	validPort(const std::string port);				// check if it is a valid port
+	static int	validPass(const std::string pass);				// check if it is a valid pass
+	static void	signalHandler(int signum); 						// signal handler
 
- 
-	void closeFds();									// close file descriptors
-	void clearClients(int fd);							// clear clients
+	/*	CLEAR FDS AND CLIENTS */
+	void		closeFds();										// close file descriptors
+	void		clearClients(int fd);							// clear clients
 
-	static void signalHandler(int signum); 				// signal handler
-	static int	validPort(const std::string port);		// check if it is a valid port
-	static int	validPass(const std::string pass);		// check if it is a valid pass
-	
+	/*	MESSAGES		*/
+	int			sendMessage(int fd, const std::string str);		// send message to a user
+
+	/*	PARSER			*/
+	void		parser(std::string str, int fd, bool debug);					// temporal
+	void		findCommand(std::vector<std::string> cmd, int fd, bool debug); 	// temporal
+
+	/*	JOIN COMMAND	*/
+
+	void		createNewChannel(std::string name, User user);
+	void		joinNewChannel(std::string name, User *user);
+	void		sendUserList(Channel channel, User user);
+
+	/*	PASS, NICK, USER COMMAND	*/
+	void		passCmd(std::vector<std::string> cmd, int fd);	//prueba
+	void		nickCmd(std::vector<std::string> cmd, int fd);	//prueba
+	void		userCmd(std::vector<std::string> cmd, int fd);	//prueba
+
 	//debug
-	void printUsers();
+	void		printUsers();
+	void		printChannels();
+
+	/*	UTILS	*/
+	User		*searchUser(int fd);
+	User		*searchUser(std::string nick);
+	Channel		*searchChannel(std::string name);
+	bool		channelExists(std::string name);
+	bool		userExists(std::string name);
+	
+	std::vector<std::string>	split(const std::string str, char delimiter);
+
+
 };
 
 #endif
