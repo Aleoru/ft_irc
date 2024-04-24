@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akent-go <akent-go@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:27 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/24 17:21:21 by akent-go         ###   ########.fr       */
+/*   Updated: 2024/04/24 19:42:45 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ public:
 
 	/*	JOIN COMMAND	*/
 
-	void		createNewChannel(std::string name, User user);
+	void		createNewChannel(std::string name, User *user);
 	void		joinNewChannel(std::string name, User *user);
 	void		sendUserList(Channel channel, User user);
 
@@ -79,7 +79,7 @@ public:
 	void		userCmd(std::vector<std::string> cmd, int fd);	//prueba
 
 	//debug
-	void		printUsers();
+	void		printUsers(std::vector<User> userlist);
 	void		printChannels();
 
 	/*	UTILS	*/
@@ -90,6 +90,9 @@ public:
 	bool		userExists(std::string name);
 	
 	std::vector<std::string>	split(const std::string str, char delimiter);
+
+	std::string	getUserSource(User *user);
+
 
 	//GETTERS Y SETTERS
 	int getPort() const;

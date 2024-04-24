@@ -37,7 +37,10 @@ void Server::findCommand(std::vector<std::string> cmd, int fd, bool debug)
 {
 	(void)debug;
 	if (!cmd[0].compare("JOIN"))
+	{
 		joinNewChannel(cmd[1], searchUser(fd));
+		printUsers(searchChannel(cmd[1])->getUsers());
+	}
 	else if (!cmd[0].compare("NICK"))
 	{
 		User	*user = searchUser(fd);
@@ -54,7 +57,9 @@ void Server::findCommand(std::vector<std::string> cmd, int fd, bool debug)
 		{
 			userCmd(cmd, fd);
 			std::cout << "Testing Username " << fd << ": "<< user->getUsername() << std::endl;		
-			sendMessage(fd, ": 001 " + user->getNick() + ": Welcome " + user->getNick() + "\r\n");
+			//sendMessage(fd, ": 001 " + user->getNick() + ": Welcome " + user->getNick() + "\r\n");
+			sendMessage(fd, RPL_WELCOME(getUserSource(user), user->getNick()));
+			/* Comprobar formato de RPL_WELCOME */
 		}
 	}
 	else if (!cmd[0].compare("PASS"))
@@ -117,11 +122,11 @@ void	Server::passCmd(std::vector<std::string> cmd, int fd)
 	{
 		User	*user = searchUser(fd);
 		user->setHasAccess(true);
-		sendMessage(fd, ": 371  : valid pass \r\n"); //info
+		//sendMessage(fd, RPL_INFO("Valid Pass")); //info
 	}
 	else
 	{
-		sendMessage(fd, ": 371  : wrong pass \r\n");
+		//sendMessage(fd, RPL_INFO("Wrong Pass"));
 		clearClients(fd);
 	}
 }

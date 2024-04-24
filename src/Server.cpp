@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akent-go <akent-go@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:15 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/24 17:21:07 by akent-go         ###   ########.fr       */
+/*   Updated: 2024/04/24 19:42:59 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,18 +223,24 @@ void Server::serverInit()
 			}
 		}
 		//printUsers();
+		std::cout << CYA << "Channel List:" << WHI << std::endl;
 		printChannels();
 	}
 	closeFds(); // close the file descriptors when the server stops
 }
 
+std::string	Server::getUserSource(User *user)
+{
+	return (user->getNick() + "!" + user->getUsername() + "@" + user->getIpAdd());
+}
+
 // debug functions
-void	Server::printUsers()
+void	Server::printUsers(std::vector<User> userlist)
 {
 	std::cout << "Server fd: " << _fds[0].fd << std::endl;
-	for(size_t i = 0; i < _users.size(); i++)
+	for(size_t i = 0; i < userlist.size(); i++)
 	{
-		std::cout << "User [" << i << "] fd: " << _users[i].getFd() << std::endl;
+		std::cout << "User [" << i << "] fd: " << userlist[i].getFd() << std::endl;
  	}
 }
 

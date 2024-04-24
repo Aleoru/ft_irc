@@ -6,27 +6,27 @@
 /*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 12:32:29 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/04/23 20:47:02 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/04/24 19:35:45 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/Server.hpp"
 
-void	Server::createNewChannel(std::string name, User user)
+void	Server::createNewChannel(std::string name, User *user)
 {
 	//name.erase(name.begin() + name.length() - 2, name.end());
 	std::cout << "[" << RED << name << WHI << "]" << std::endl;
-	Channel	channel(name, user);
-	std::string	rpl = RPL_NOTOPIC(user.getNick(), channel.getName());
+	Channel	channel(name, *user);
+	std::string	rpl = RPL_NOTOPIC(user->getNick(), channel.getName());
 	_channels.push_back(channel);
 
 	//std::string msg = ":aoropeza!aoropeza@" + user.getIpAdd() + " JOIN :" + channel.getName();
 	//msg.append("\r\n");
-	std::string msg = RPL_JOIN(user.getNick() + "!" + user.getUsername() + "@" + user.getIpAdd(), channel.getName());
+	std::string msg = RPL_JOIN(getUserSource(user), channel.getName());
 	std::cout << YEL << msg << WHI;
-	send(user.getFd(), msg.c_str(), msg.length(), 0);
-	send(user.getFd(), rpl.c_str(), rpl.length(), 0);
-	sendUserList(channel, user);
+	send(user->getFd(), msg.c_str(), msg.length(), 0);
+	send(user->getFd(), rpl.c_str(), rpl.length(), 0);
+	sendUserList(channel, *user);
 	std::cout << GRE << "Channel [" << name << "] succesfully created" << WHI << std::endl;
 }
 
@@ -35,18 +35,21 @@ void	Server::joinNewChannel(std::string name, User *user)
 	std::string	rpl;
 	
 	if (!channelExists(name))
-		createNewChannel(name, *user);
+		createNewChannel(name, user);
 	else
 	{
 		Channel *channel = searchChannel(name);
 		//std::string msg = ":aoropeza!aoropeza@" + user.getIpAdd() + " JOIN :" + channel.getName();
 		//msg.append("\r\n");
-		std::string msg = RPL_JOIN(user->getNick() + "!" + user->getUsername() + "@" + user->getIpAdd(), channel->getName());
+		channel->getUsers().push_back(*user);
+		std::string msg = RPL_JOIN(getUserSource(user), channel->getName());
 		if (channel->getHasTopic())
 			rpl = RPL_TOPIC(user->getNick(), channel->getName(), channel->getTopic());
 		else
 			rpl = RPL_NOTOPIC(user->getNick(), channel->getName());
+		send(user->getFd(), msg.c_str(), msg.length(), 0);
 		send(user->getFd(), rpl.c_str(), rpl.length(), 0);
+		sendUserList(*channel, *user);
 		std::cout << CYA << "User [" << user->getFd() << "] joined the channel [" << channel->getName() << "]" << WHI << std::endl;
 	}
 }
@@ -115,5 +118,6 @@ void	Server::sendUserList(Channel channel, User user)
 	}
 	rpl = RPL_NAMREPLY(user.getNick(), channel.getName(), list);
 	send(user.getFd(), rpl.c_str(), rpl.length(), 0);
+	sendMessage(user.getFd(), RPL_ENDOFNAMES(user.getNick(), channel.getName()));
 
 }
