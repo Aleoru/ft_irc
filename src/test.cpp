@@ -137,3 +137,12 @@ void	Server::userCmd(std::vector<std::string> cmd, int fd)
 	User	*user = searchUser(fd);
 	user->setUsername(cmd[1]);
 }
+
+void		Server::sendMsgUsersList(std::vector<User> users, std::string str)
+{
+	for (size_t i = 0; i < users.size(); i++)
+	{
+		sendMessage(users[i].getFd(), str);
+		std::cout << CYA << "MSG SEND TO " << users[i].getFd() << WHI << std::endl;
+	}
+}

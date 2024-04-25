@@ -6,7 +6,7 @@
 /*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:27 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/24 19:42:45 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/04/25 19:32:09 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ public:
 
 	/*	MESSAGES		*/
 	int			sendMessage(int fd, const std::string str);		// send message to a user
+	void		sendMsgUsersList(std::vector<User> users, std::string str);
 
 	/*	PARSER			*/
 	void		parser(std::string str, int fd, bool debug);					// temporal
@@ -95,13 +96,13 @@ public:
 
 
 	//GETTERS Y SETTERS
-	int getPort() const;
+	int	getPort() const;
 	int getServerFd() const;
 	const std::string& getPass() const;
 	const std::vector<User>& getUsers() const;
 	const std::vector<struct pollfd>& getFds() const;
 	const std::vector<Channel>& getChannels() const;
-	bool getSignal();
+	bool getSignal() const;
 
 	void setPort(int port);
 	void setServerFd(int serverFd);

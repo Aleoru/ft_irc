@@ -6,7 +6,7 @@
 /*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:15 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/24 19:42:59 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/04/25 19:32:08 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,67 +253,19 @@ void	Server::printChannels()
  	}
 }
 
-int Server::getPort() const 
-{
-	return _port;
-}
-
-int Server::getServerFd() const {
-	return _serverFd;
-}
-
-const std::string& Server::getPass() const {
-	return _pass;
-}
-
-const std::vector<User>& Server::getUsers() const {
-	return _users;
-}
-
-const std::vector<struct pollfd>& Server::getFds() const {
-	return _fds;
-}
-
-const std::vector<Channel>& Server::getChannels() const {
-	return _channels;
-}
-
-bool Server::getSignal() 
-{
-	return _signal;
-}
-
-void Server::setPort(int port)
-{
-	_port = port;
-}
-
-void Server::setServerFd(int serverFd)
-{
-	_serverFd = serverFd;
-}
-
-void Server::setPass(std::string &pass)
-{
-	_pass = pass;
-}
-
-void Server::setUsers(const std::vector<User>& users) 
-{
-        _users = users;
-}
-
-void Server::setFds(const std::vector<struct pollfd>& fds) 
-{
-    _fds = fds;
-}
-
-void Server::setChannels(const std::vector<Channel>& channels) 
-{
-    _channels = channels;
-}
-
-void Server::setSignal(bool signal) 
-{
-    _signal = signal;
-}
+// getters
+int Server::getPort() const {return _port;}
+int Server::getServerFd() const {return _serverFd;}
+const std::string& Server::getPass() const {return _pass;}
+const std::vector<User>& Server::getUsers() const {return _users;}
+const std::vector<struct pollfd>& Server::getFds() const {return _fds;}
+const std::vector<Channel>& Server::getChannels() const {return _channels;}
+bool Server::getSignal() const {return _signal;}
+// setters
+void Server::setPort(int port) {_port = port;}
+void Server::setServerFd(int serverFd) {_serverFd = serverFd;}
+void Server::setPass(std::string &pass) {_pass = pass;}
+void Server::setUsers(const std::vector<User>& users) {_users = users;}
+void Server::setFds(const std::vector<struct pollfd>& fds) {_fds = fds;}
+void Server::setChannels(const std::vector<Channel>& channels) {_channels = channels;}
+void Server::setSignal(bool signal) {_signal = signal;}

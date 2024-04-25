@@ -6,7 +6,7 @@
 /*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:57:44 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/15 20:25:11 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/04/25 17:46:02 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,24 @@
 User::User()
 {
     //this->_nick = "default";
-	std::cout << "User constructor called" << std::endl;
+	//std::cout << "User constructor called" << std::endl;
 }
 
 User::User(int fd, std::string ipAdd) : _fd(fd), _ipAdd(ipAdd)
 {
 	this->_hasAccess = false;
-	std::cout << "User constructor called" << std::endl;
+	//std::cout << "User constructor called" << std::endl;
 }
 
 User::User(User const &src)
 {
 	*this = src;
-	std::cout << "Copy constructor called" << std::endl;
+	//std::cout << "Copy constructor called" << std::endl;
 }
 
 User::~User()
 {
-	std::cout << "User destructor called" << std::endl;
+	//std::cout << "User destructor called" << std::endl;
 }
 
 User &User::operator=(User const &src)

@@ -6,7 +6,7 @@
 /*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 20:19:31 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/23 20:12:32 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/04/25 19:07:29 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ Channel::Channel(std::string name, std::string pass, User user): _name(name), _p
 	this->_invite = false;
 	_users.push_back(user);
 	_operators.push_back(user);
-	std::cout << GRE << "Channel created with password" << WHI << std::endl;
+	std::cout << GRE << "Channel: "<< name <<" created with password" << WHI << std::endl;
 
 }
 
@@ -49,6 +49,7 @@ Channel::~Channel()
 std::string	Channel::getName() const { return (this->_name); }
 std::string	Channel::getTopic() const { return (this->_topic); }
 std::vector<User>	Channel::getUsers() const { return (this->_users); }
+std::vector<User>	Channel::getOperators() const { return (this->_operators); }
 bool		Channel::getHasTopic() const { return (this->_hasTopic); }
 
 std::vector<int>	Channel::channelListUsers()
@@ -61,4 +62,14 @@ std::vector<int>	Channel::channelListUsers()
 void    Channel::addUserToList(User user)
 {
     _users.push_back(user);
+}
+
+bool	Channel::operatorExists(std::string nick)
+{
+	for (size_t i = 0; i < _operators.size(); i++)
+	{
+		if (_operators[i].getNick().compare(nick) == 0)
+			return (true);
+	}
+	return (false);
 }
