@@ -6,7 +6,7 @@
 /*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 20:19:31 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/25 19:07:29 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/04/29 20:28:40 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,16 @@ bool	Channel::operatorExists(std::string nick)
 	for (size_t i = 0; i < _operators.size(); i++)
 	{
 		if (_operators[i].getNick().compare(nick) == 0)
+			return (true);
+	}
+	return (false);
+}
+
+bool	Channel::userExists(std::string nick)
+{
+	for (size_t i = 0; i < _users.size(); i++)
+	{
+		if (_users[i].getNick().compare(nick) == 0)
 			return (true);
 	}
 	return (false);

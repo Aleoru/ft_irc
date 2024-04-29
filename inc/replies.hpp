@@ -6,7 +6,7 @@
 /*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 13:22:05 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/04/25 18:49:43 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/04/29 19:52:06 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,6 @@
 
 // source = nickname!username@host
 # define RPL_JOIN(source, channel)	":" + source + " JOIN :" + channel + "\r\n"
+# define RPL_PRIVMSG(source, target, message) ":" + source + " PRIVMSG " + target + " :" + message + "\r\n"
 
 #endif

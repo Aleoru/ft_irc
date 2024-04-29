@@ -68,6 +68,10 @@ void Server::findCommand(std::vector<std::string> cmd, int fd, bool debug)
 		User	*user = searchUser(fd);
 		std::cout << "Testing access " << fd << ": "<< user->getHasAccess() << std::endl;
 	}
+	else if (!cmd[0].compare("PRIVMSG"))
+	{
+		privMsgCmd(cmd, fd);
+	}
 	std::cout << "-------" << std::endl;
 }
 
@@ -143,6 +147,26 @@ void		Server::sendMsgUsersList(std::vector<User> users, std::string str)
 	for (size_t i = 0; i < users.size(); i++)
 	{
 		sendMessage(users[i].getFd(), str);
-		std::cout << CYA << "MSG SEND TO " << users[i].getFd() << WHI << std::endl;
+	}
+}
+
+void 	Server::privMsgCmd(std::vector<std::string> cmd, int fd)
+{
+	if (cmd.size() >= 3)
+	{
+		std::string			nickname = searchUser(fd)->getNick();
+		//std::vector<User>	users = searchUsersChannel(cmd[1]);
+		std::vector<User>	users = searchChannel(cmd[1])->getUsers();
+		std::cout << YEL << getUserSource(searchUser(fd)) << WHI << std::endl;
+		for (size_t i = 0; i < users.size(); i++)
+		{
+			if (users[i].getNick().compare(nickname))
+				sendMessage(users[i].getFd(), RPL_PRIVMSG(getUserSource(searchUser(fd)), cmd[1], cmd[3])); //sin formatear al protocolo irc todavía
+			std::cout << YEL << RPL_PRIVMSG(getUserSource(searchUser(fd)), cmd[1], cmd[3]) << WHI << std::endl;
+		}
+	}
+	else
+	{
+		//error number of arguments
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 12:32:29 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/04/25 19:33:50 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/04/29 20:30:18 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,10 @@ void	Server::joinNewChannel(std::string name, User *user)
 	else
 	{
 		Channel *channel = searchChannel(name);
+		if (channel->userExists(user->getNick()))
+			return ;
 		channel->addUserToList(*user);
-		sendMessage(user->getFd(), RPL_JOIN(getUserSource(user), channel->getName()));
+		sendMsgUsersList(channel->getUsers(), RPL_JOIN(getUserSource(user), channel->getName()));
 		if (channel->getHasTopic())
 			sendMessage(user->getFd(), (user->getNick(), channel->getName(), channel->getTopic()));
 		else
@@ -92,6 +94,37 @@ bool	Server::channelExists(std::string name)
 
 }
 
+std::string	Server::strUsersChannel(std::string channelName)
+{
+	std::vector<std::string> users;
+	std::vector<std::string> operators;
+	std::vector<User> vecUsers = searchChannel(channelName)->getUsers();
+	std::vector<User> vecOperators = searchChannel(channelName)->getOperators();
+	for (size_t i = 0; i < vecUsers.size(); i++)
+		users.push_back(vecUsers[i].getNick());	
+	for (size_t i = 0; i < vecOperators.size(); i++)
+		operators.push_back(vecOperators[i].getNick());
+	std::vector<std::string> copy;
+	std::string str;
+	std::vector<std::string>::iterator res;
+	for (size_t i = 0; i < users.size(); i++)
+	{
+		res = std::find(operators.begin(), operators.end(), users[i]);
+		if (*res == users[i])
+			copy.push_back("@" + users[i]);
+		else
+			copy.push_back(users[i]);
+	}
+	std::sort(copy.begin(), copy.end());
+	for (size_t i = 0; i < copy.size(); i++)
+	{
+		str.append(copy[i]);
+		if (i + 1 < copy.size())
+			str.append(" ");
+	}
+	return (str);
+}
+
 void	Server::sendUserList(Channel channel, User user)
 {
 	std::string			rpl;
@@ -99,6 +132,8 @@ void	Server::sendUserList(Channel channel, User user)
 	std::vector<User>	userList(channel.getUsers());
 	std::vector<User>	operatorsList(channel.getOperators());
 
+	std::sort(operatorsList.begin(), operatorsList.end());
+	std::sort(userList.begin(), userList.end());
 	for (size_t i = 0; i < operatorsList.size(); i++)
 	{
 		list.append("@" + operatorsList[i].getNick() + " ");
@@ -108,7 +143,9 @@ void	Server::sendUserList(Channel channel, User user)
 		if (!channel.operatorExists(userList[i].getNick()))
 			list.append(userList[i].getNick() + " ");
 	}
+	std::cout << CYA << list << std::endl;
 	sendMsgUsersList(userList, RPL_NAMREPLY(user.getNick(), channel.getName(), list));
+	//sendMsgUsersList(userList, RPL_NAMREPLY(user.getNick(), channel.getName(), strUsersChannel(channel.getName())));
 	sendMsgUsersList(userList, RPL_ENDOFNAMES(user.getNick(), channel.getName()));
 
 }

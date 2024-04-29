@@ -6,7 +6,7 @@
 /*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:27 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/25 19:32:09 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/04/29 20:29:48 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <vector>
 # include <sstream>
 # include <cstring>			// Comprobar
+# include <algorithm>
+# include <iterator>
 # include "User.hpp"
 # include "Channel.hpp"
 # include "sockets.h"
@@ -73,11 +75,15 @@ public:
 	void		createNewChannel(std::string name, User *user);
 	void		joinNewChannel(std::string name, User *user);
 	void		sendUserList(Channel channel, User user);
+	std::string	strUsersChannel(std::string channelName);
 
 	/*	PASS, NICK, USER COMMAND	*/
 	void		passCmd(std::vector<std::string> cmd, int fd);	//prueba
 	void		nickCmd(std::vector<std::string> cmd, int fd);	//prueba
 	void		userCmd(std::vector<std::string> cmd, int fd);	//prueba
+
+	/*	PRIVMSG		*/
+	void 		privMsgCmd(std::vector<std::string> cmd, int fd);
 
 	//debug
 	void		printUsers(std::vector<User> userlist);
@@ -88,7 +94,7 @@ public:
 	User		*searchUser(std::string nick);
 	Channel		*searchChannel(std::string name);
 	bool		channelExists(std::string name);
-	bool		userExists(std::string name);
+	bool		userExists(std::string name);		// Pasar vector de usuarios y el nickname
 	
 	std::vector<std::string>	split(const std::string str, char delimiter);
 
@@ -112,5 +118,10 @@ public:
 	void setChannels(const std::vector<Channel>& channels);
 	void setSignal(bool signal);
 };
+
+inline bool operator<(const User& a, const User& b)
+{
+	return a.getNick() < b.getNick();
+}
 
 #endif
