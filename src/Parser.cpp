@@ -6,7 +6,7 @@
 /*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:31:58 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/02 18:32:41 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/02 20:02:15 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,11 @@ void Server::findCommand(std::vector<std::string> cmd, int fd, bool debug)
 	else if (!cmd[0].compare("PRIVMSG"))
 	{
 		privMsgCmd(cmd, fd);
+	}
+	else if (!cmd[0].compare("INVITE"))
+	{
+		//invite(cmd[1])
+		std::cout << "INVITE" << std::endl;
 	}
 	std::cout << "-------" << std::endl;
 }
