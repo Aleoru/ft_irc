@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akent-go <akent-go@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:27 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/24 17:21:21 by akent-go         ###   ########.fr       */
+/*   Updated: 2024/05/02 18:26:47 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <vector>
 # include <sstream>
 # include <cstring>			// Comprobar
+# include <algorithm>
+# include <iterator>
 # include "User.hpp"
 # include "Channel.hpp"
 # include "sockets.h"
@@ -62,6 +64,7 @@ public:
 
 	/*	MESSAGES		*/
 	int			sendMessage(int fd, const std::string str);		// send message to a user
+	void		sendMsgUsersList(std::vector<User> users, std::string str);
 
 	/*	PARSER			*/
 	void		parser(std::string str, int fd, bool debug);					// temporal
@@ -69,17 +72,21 @@ public:
 
 	/*	JOIN COMMAND	*/
 
-	void		createNewChannel(std::string name, User user);
+	void		createNewChannel(std::string name, User *user);
 	void		joinNewChannel(std::string name, User *user);
 	void		sendUserList(Channel channel, User user);
+	std::string	strUsersChannel(std::string channelName);
 
 	/*	PASS, NICK, USER COMMAND	*/
 	void		passCmd(std::vector<std::string> cmd, int fd);	//prueba
 	void		nickCmd(std::vector<std::string> cmd, int fd);	//prueba
 	void		userCmd(std::vector<std::string> cmd, int fd);	//prueba
 
+	/*	PRIVMSG		*/
+	void 		privMsgCmd(std::vector<std::string> cmd, int fd);
+
 	//debug
-	void		printUsers();
+	void		printUsers(std::vector<User> userlist);
 	void		printChannels();
 
 	/*	UTILS	*/
@@ -87,18 +94,22 @@ public:
 	User		*searchUser(std::string nick);
 	Channel		*searchChannel(std::string name);
 	bool		channelExists(std::string name);
-	bool		userExists(std::string name);
+	bool		userExists(std::vector<User> userlist, std::string nickname);		// Pasar vector de usuarios y el nickname
+	void		rmUserFromChannel(std::string channel, std::string nickname);
 	
 	std::vector<std::string>	split(const std::string str, char delimiter);
 
+	std::string	getUserSource(User *user);
+
+
 	//GETTERS Y SETTERS
-	int getPort() const;
+	int	getPort() const;
 	int getServerFd() const;
 	const std::string& getPass() const;
 	const std::vector<User>& getUsers() const;
 	const std::vector<struct pollfd>& getFds() const;
 	const std::vector<Channel>& getChannels() const;
-	bool getSignal();
+	bool getSignal() const;
 
 	void setPort(int port);
 	void setServerFd(int serverFd);
@@ -108,5 +119,10 @@ public:
 	void setChannels(const std::vector<Channel>& channels);
 	void setSignal(bool signal);
 };
+
+inline bool operator<(const User& a, const User& b)
+{
+	return a.getNick() < b.getNick();
+}
 
 #endif

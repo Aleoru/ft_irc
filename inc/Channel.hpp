@@ -6,7 +6,7 @@
 /*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 20:11:57 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/23 20:11:14 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/02 18:44:04 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,11 @@ private:
 	std::vector<User>	_invitedUsers;
 	std::vector<User>	_operators;	// o: give/take channel operator privilege
 
+	/* Los usuarios se almacenaran todos en users siempre y cuando esten dentro del canal
+	da igual que sean operadores o no. Para los comandos que se requiera el permiso de 
+	operador, de esta manera se podrá consultar solo esa lista. Y para mandar un mensaje
+	a todo el mundo se podrá usar directamente la de usuarios. */
+
 public:
 	Channel(std::string name, User user);
 	Channel(std::string name, std::string pass, User user);
@@ -50,10 +55,17 @@ public:
 	std::string			getName(void) const;
 	std::string			getTopic(void) const;
 	std::vector<User>	getUsers(void) const;
+	std::vector<User>	getOperators(void) const;
 	bool				getHasTopic(void) const;
+
+	void				setTopic(std::string newTopic);
 
 	std::vector<int>    channelListUsers();
     void                addUserToList(User user);
+	bool				operatorExists(std::string nick);
+	void				removeUser(std::string nickname);
+	void				removeUser(int fd);
+
 
 };
 

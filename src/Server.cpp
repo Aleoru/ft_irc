@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akent-go <akent-go@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:15 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/24 17:21:07 by akent-go         ###   ########.fr       */
+/*   Updated: 2024/05/02 18:24:42 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,19 @@ Server::~Server()
 // clear the clients
 void Server::clearClients(int fd)
 {
+	// remove the client from all channels
+	User *user = searchUser(fd);
+	for(size_t i = 0; i < _channels.size(); i++)
+	{
+		rmUserFromChannel(_channels[i].getName(), user->getNick());
+	}
 	// remove the client from the pollfd
 	for(size_t i = 0; i < _fds.size(); i++)
 	{
 		if (_fds[i].fd == fd)
 		{
 			_fds.erase(_fds.begin() + i);
-			break;
+			break ;
 		}
  	}
 	// remove the client from the vector of clients
@@ -43,9 +49,21 @@ void Server::clearClients(int fd)
 		if (_users[i].getFd() == fd)
 		{
 			_users.erase(_users.begin() + i);
-			break;
+			break ;
 		}
  	}
+}
+
+void	Server::rmUserFromChannel(std::string channel, std::string nickname)
+{
+	for (size_t i = 0; i < _channels.size(); i ++)
+	{
+		if (!_channels[i].getName().compare(channel))
+		{
+			_channels[i].removeUser(nickname);
+			break ;
+		}
+	}
 }
 
 // initialize the static boolean
@@ -223,18 +241,24 @@ void Server::serverInit()
 			}
 		}
 		//printUsers();
+		std::cout << CYA << "Channel List:" << WHI << std::endl;
 		printChannels();
 	}
 	closeFds(); // close the file descriptors when the server stops
 }
 
+std::string	Server::getUserSource(User *user)
+{
+	return (user->getNick() + "!" + user->getUsername() + "@" + user->getIpAdd());
+}
+
 // debug functions
-void	Server::printUsers()
+void	Server::printUsers(std::vector<User> userlist)
 {
 	std::cout << "Server fd: " << _fds[0].fd << std::endl;
-	for(size_t i = 0; i < _users.size(); i++)
+	for(size_t i = 0; i < userlist.size(); i++)
 	{
-		std::cout << "User [" << i << "] fd: " << _users[i].getFd() << std::endl;
+		std::cout << "User [" << i << "] fd: " << userlist[i].getFd() << std::endl;
  	}
 }
 
@@ -247,67 +271,19 @@ void	Server::printChannels()
  	}
 }
 
-int Server::getPort() const 
-{
-	return _port;
-}
-
-int Server::getServerFd() const {
-	return _serverFd;
-}
-
-const std::string& Server::getPass() const {
-	return _pass;
-}
-
-const std::vector<User>& Server::getUsers() const {
-	return _users;
-}
-
-const std::vector<struct pollfd>& Server::getFds() const {
-	return _fds;
-}
-
-const std::vector<Channel>& Server::getChannels() const {
-	return _channels;
-}
-
-bool Server::getSignal() 
-{
-	return _signal;
-}
-
-void Server::setPort(int port)
-{
-	_port = port;
-}
-
-void Server::setServerFd(int serverFd)
-{
-	_serverFd = serverFd;
-}
-
-void Server::setPass(std::string &pass)
-{
-	_pass = pass;
-}
-
-void Server::setUsers(const std::vector<User>& users) 
-{
-        _users = users;
-}
-
-void Server::setFds(const std::vector<struct pollfd>& fds) 
-{
-    _fds = fds;
-}
-
-void Server::setChannels(const std::vector<Channel>& channels) 
-{
-    _channels = channels;
-}
-
-void Server::setSignal(bool signal) 
-{
-    _signal = signal;
-}
+// getters
+int Server::getPort() const {return _port;}
+int Server::getServerFd() const {return _serverFd;}
+const std::string& Server::getPass() const {return _pass;}
+const std::vector<User>& Server::getUsers() const {return _users;}
+const std::vector<struct pollfd>& Server::getFds() const {return _fds;}
+const std::vector<Channel>& Server::getChannels() const {return _channels;}
+bool Server::getSignal() const {return _signal;}
+// setters
+void Server::setPort(int port) {_port = port;}
+void Server::setServerFd(int serverFd) {_serverFd = serverFd;}
+void Server::setPass(std::string &pass) {_pass = pass;}
+void Server::setUsers(const std::vector<User>& users) {_users = users;}
+void Server::setFds(const std::vector<struct pollfd>& fds) {_fds = fds;}
+void Server::setChannels(const std::vector<Channel>& channels) {_channels = channels;}
+void Server::setSignal(bool signal) {_signal = signal;}

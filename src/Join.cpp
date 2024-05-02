@@ -6,47 +6,39 @@
 /*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 12:32:29 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/04/23 20:47:02 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/02 18:29:04 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/Server.hpp"
 
-void	Server::createNewChannel(std::string name, User user)
+void	Server::createNewChannel(std::string name, User *user)
 {
-	//name.erase(name.begin() + name.length() - 2, name.end());
-	std::cout << "[" << RED << name << WHI << "]" << std::endl;
-	Channel	channel(name, user);
-	std::string	rpl = RPL_NOTOPIC(user.getNick(), channel.getName());
-	_channels.push_back(channel);
+	Channel	channel(name, *user);
 
-	//std::string msg = ":aoropeza!aoropeza@" + user.getIpAdd() + " JOIN :" + channel.getName();
-	//msg.append("\r\n");
-	std::string msg = RPL_JOIN(user.getNick() + "!" + user.getUsername() + "@" + user.getIpAdd(), channel.getName());
-	std::cout << YEL << msg << WHI;
-	send(user.getFd(), msg.c_str(), msg.length(), 0);
-	send(user.getFd(), rpl.c_str(), rpl.length(), 0);
-	sendUserList(channel, user);
+	_channels.push_back(channel);
+	sendMessage(user->getFd(), RPL_JOIN(getUserSource(user), channel.getName()));
+	sendMessage(user->getFd(), RPL_NOTOPIC(user->getNick(), channel.getName()));
+	sendUserList(channel, *user);
 	std::cout << GRE << "Channel [" << name << "] succesfully created" << WHI << std::endl;
 }
 
 void	Server::joinNewChannel(std::string name, User *user)
 {
-	std::string	rpl;
-	
 	if (!channelExists(name))
-		createNewChannel(name, *user);
+		createNewChannel(name, user);
 	else
 	{
 		Channel *channel = searchChannel(name);
-		//std::string msg = ":aoropeza!aoropeza@" + user.getIpAdd() + " JOIN :" + channel.getName();
-		//msg.append("\r\n");
-		std::string msg = RPL_JOIN(user->getNick() + "!" + user->getUsername() + "@" + user->getIpAdd(), channel->getName());
+		if (userExists(channel->getUsers(), user->getNick()))
+			return ;
+		channel->addUserToList(*user);
+		sendMsgUsersList(channel->getUsers(), RPL_JOIN(getUserSource(user), channel->getName()));
 		if (channel->getHasTopic())
-			rpl = RPL_TOPIC(user->getNick(), channel->getName(), channel->getTopic());
+			sendMessage(user->getFd(), (user->getNick(), channel->getName(), channel->getTopic()));
 		else
-			rpl = RPL_NOTOPIC(user->getNick(), channel->getName());
-		send(user->getFd(), rpl.c_str(), rpl.length(), 0);
+			sendMessage(user->getFd(), RPL_NOTOPIC(user->getNick(), channel->getName()));
+		sendUserList(*channel, *user);
 		std::cout << CYA << "User [" << user->getFd() << "] joined the channel [" << channel->getName() << "]" << WHI << std::endl;
 	}
 }
@@ -81,11 +73,11 @@ Channel	*Server::searchChannel(std::string name)
 	return NULL;
 }
 
-bool	Server::userExists(std::string nick)
+bool	Server::userExists(std::vector<User> userlist, std::string nickname)
 {
-	for (size_t i = 0; i < _users.size(); i++)
+	for (size_t i = 0; i < userlist.size(); i++)
 	{
-		if (_users[i].getNick().compare(nick) == 0)
+		if (userlist[i].getNick().compare(nickname) == 0)
 			return (true);
 	}
 	return (false);
@@ -106,14 +98,22 @@ void	Server::sendUserList(Channel channel, User user)
 {
 	std::string			rpl;
 	std::string			list;
-	std::vector<User>	userlist(channel.getUsers());
+	std::vector<User>	userList(channel.getUsers());
+	std::vector<User>	operatorsList(channel.getOperators());
 
-	
-	for (size_t i = 0; i < userlist.size(); i++)
+	std::sort(operatorsList.begin(), operatorsList.end());
+	std::sort(userList.begin(), userList.end());
+	for (size_t i = 0; i < operatorsList.size(); i++)
 	{
-		list.append(userlist[i].getNick() + " ");
+		list.append("@" + operatorsList[i].getNick() + " ");
 	}
-	rpl = RPL_NAMREPLY(user.getNick(), channel.getName(), list);
-	send(user.getFd(), rpl.c_str(), rpl.length(), 0);
+	for (size_t i = 0; i < userList.size(); i++)
+	{
+		if (!channel.operatorExists(userList[i].getNick()))
+			list.append(userList[i].getNick() + " ");
+	}
+	std::cout << CYA << list << std::endl;
+	sendMsgUsersList(userList, RPL_NAMREPLY(user.getNick(), channel.getName(), list));
+	sendMsgUsersList(userList, RPL_ENDOFNAMES(user.getNick(), channel.getName()));
 
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Parser.cpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/02 18:31:58 by aoropeza          #+#    #+#             */
+/*   Updated: 2024/05/02 18:32:41 by aoropeza         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <iostream>
 #include <sstream>
 #include <vector>
@@ -37,7 +49,10 @@ void Server::findCommand(std::vector<std::string> cmd, int fd, bool debug)
 {
 	(void)debug;
 	if (!cmd[0].compare("JOIN"))
+	{
 		joinNewChannel(cmd[1], searchUser(fd));
+		printUsers(searchChannel(cmd[1])->getUsers());
+	}
 	else if (!cmd[0].compare("NICK"))
 	{
 		User	*user = searchUser(fd);
@@ -54,7 +69,9 @@ void Server::findCommand(std::vector<std::string> cmd, int fd, bool debug)
 		{
 			userCmd(cmd, fd);
 			std::cout << "Testing Username " << fd << ": "<< user->getUsername() << std::endl;		
-			sendMessage(fd, ": 001 " + user->getNick() + ": Welcome " + user->getNick() + "\r\n");
+			//sendMessage(fd, ": 001 " + user->getNick() + ": Welcome " + user->getNick() + "\r\n");
+			sendMessage(fd, RPL_WELCOME(getUserSource(user), user->getNick()));
+			/* Comprobar formato de RPL_WELCOME */
 		}
 	}
 	else if (!cmd[0].compare("PASS"))
@@ -62,6 +79,10 @@ void Server::findCommand(std::vector<std::string> cmd, int fd, bool debug)
 		passCmd(cmd, fd);
 		User	*user = searchUser(fd);
 		std::cout << "Testing access " << fd << ": "<< user->getHasAccess() << std::endl;
+	}
+	else if (!cmd[0].compare("PRIVMSG"))
+	{
+		privMsgCmd(cmd, fd);
 	}
 	std::cout << "-------" << std::endl;
 }
@@ -117,11 +138,11 @@ void	Server::passCmd(std::vector<std::string> cmd, int fd)
 	{
 		User	*user = searchUser(fd);
 		user->setHasAccess(true);
-		sendMessage(fd, ": 371  : valid pass \r\n"); //info
+		//sendMessage(fd, RPL_INFO("Valid Pass")); //info
 	}
 	else
 	{
-		sendMessage(fd, ": 371  : wrong pass \r\n");
+		//sendMessage(fd, RPL_INFO("Wrong Pass"));
 		clearClients(fd);
 	}
 }
@@ -131,4 +152,50 @@ void	Server::userCmd(std::vector<std::string> cmd, int fd)
 	std::cout << "executing user command " << fd << std::endl;
 	User	*user = searchUser(fd);
 	user->setUsername(cmd[1]);
+}
+
+void		Server::sendMsgUsersList(std::vector<User> users, std::string str)
+{
+	for (size_t i = 0; i < users.size(); i++)
+	{
+		sendMessage(users[i].getFd(), str);
+	}
+}
+
+void 	Server::privMsgCmd(std::vector<std::string> cmd, int fd)
+{
+	if (cmd.size() >= 3)
+	{
+		std::string			nickname = searchUser(fd)->getNick();
+		std::string			subStr;
+		std::string			msg;
+		size_t				len = 400;
+		for (size_t i = 2; i < cmd.size(); i++)
+		{
+			msg.append(cmd[i]);
+			if (i < cmd.size())
+				msg.append(" ");
+		}
+		//std::vector<User>	users = searchUsersChannel(cmd[1]);
+		std::vector<User>	users = searchChannel(cmd[1])->getUsers();
+		std::cout << YEL << getUserSource(searchUser(fd)) << WHI << std::endl;
+		for (size_t i = 0; i < users.size(); i++)
+		{
+			if (users[i].getNick().compare(nickname))
+			{
+				size_t j = 0;
+				while (j < msg.size())
+				{
+					subStr = msg.substr(j, len);;
+					sendMessage(users[i].getFd(), RPL_PRIVMSG(getUserSource(searchUser(fd)), cmd[1], subStr));
+					std::cout << YEL << RPL_PRIVMSG(getUserSource(searchUser(fd)), cmd[1], subStr) << WHI << std::endl;
+					j += len; 
+				}
+			}
+		}
+	}
+	else
+	{
+		//error number of arguments
+	}
 }
