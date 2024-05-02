@@ -6,7 +6,11 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:27 by fgalan-r          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/05/06 03:54:46 by fgalan-r         ###   ########.fr       */
+=======
+/*   Updated: 2024/05/02 20:06:05 by aoropeza         ###   ########.fr       */
+>>>>>>> Fixes to Topic, Kick and Invite commands
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +92,15 @@ public:
 	/*	PRIVMSG		*/
 	void 		privMsgCmd(std::vector<std::string> cmd, int fd);
 
+	/*	INVITE	*/
+	void		invite(std::string inv_user, Channel canal, bool needOp);
+	
+	/*	KICK	*/
+	void		Kick(User admin, User *user, Channel *canal, const std::string &message);
+
+	/*	TOPIC	*/
+	void 		changeTopic(User usuario, Channel *canal, std::string newTopic, bool needOp);
+
 	//debug
 	void		printUsers(std::vector<User> userlist);
 	void		printChannels();
@@ -97,7 +110,7 @@ public:
 	User		*searchUser(std::string nick);
 	Channel		*searchChannel(std::string name);
 	bool		channelExists(std::string name);
-	bool		userExists(std::vector<User> userlist, std::string nickname);		// Pasar vector de usuarios y el nickname
+	bool		userExists(std::vector<User> userlist, std::string nickname);
 	void		rmUserFromChannel(std::string channel, std::string nickname);
 	
 	std::vector<std::string>	split(const std::string str, char delimiter);

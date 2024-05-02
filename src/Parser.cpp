@@ -6,7 +6,11 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:31:58 by aoropeza          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/05/06 03:57:26 by fgalan-r         ###   ########.fr       */
+=======
+/*   Updated: 2024/05/02 20:02:15 by aoropeza         ###   ########.fr       */
+>>>>>>> Fixes to Topic, Kick and Invite commands
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +78,19 @@ void Server::findCommand(std::vector<std::string> cmd, int fd, bool debug)
 	{
 		privMsgCmd(cmd, fd);
 	}
+<<<<<<< HEAD
 	else if (!cmd[0].compare("PART") && access)
 	{
 		partCmd(cmd, fd);
 	}
 	//else if (!cmd[0].compare("COMMAND") && access) //need access to execute commands
+=======
+	else if (!cmd[0].compare("INVITE"))
+	{
+		//invite(cmd[1])
+		std::cout << "INVITE" << std::endl;
+	}
+>>>>>>> Fixes to Topic, Kick and Invite commands
 	std::cout << "-------" << std::endl;
 }
 
