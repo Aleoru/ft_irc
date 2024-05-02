@@ -6,7 +6,7 @@
 /*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 20:11:57 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/02 18:30:00 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/02 18:44:04 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ public:
 	std::vector<User>	getUsers(void) const;
 	std::vector<User>	getOperators(void) const;
 	bool				getHasTopic(void) const;
+
+	void				setTopic(std::string newTopic);
 
 	std::vector<int>    channelListUsers();
     void                addUserToList(User user);

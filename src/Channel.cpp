@@ -6,7 +6,7 @@
 /*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 20:19:31 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/02 18:30:04 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/02 18:43:09 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ std::string	Channel::getTopic() const { return (this->_topic); }
 std::vector<User>	Channel::getUsers() const { return (this->_users); }
 std::vector<User>	Channel::getOperators() const { return (this->_operators); }
 bool		Channel::getHasTopic() const { return (this->_hasTopic); }
+
+void	Channel::setTopic(std::string newTopic){ _topic = newTopic; }
 
 std::vector<int>	Channel::channelListUsers()
 {
