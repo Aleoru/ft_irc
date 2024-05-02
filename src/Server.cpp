@@ -6,7 +6,7 @@
 /*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:15 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/25 19:32:08 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/02 18:24:42 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,19 @@ Server::~Server()
 // clear the clients
 void Server::clearClients(int fd)
 {
+	// remove the client from all channels
+	User *user = searchUser(fd);
+	for(size_t i = 0; i < _channels.size(); i++)
+	{
+		rmUserFromChannel(_channels[i].getName(), user->getNick());
+	}
 	// remove the client from the pollfd
 	for(size_t i = 0; i < _fds.size(); i++)
 	{
 		if (_fds[i].fd == fd)
 		{
 			_fds.erase(_fds.begin() + i);
-			break;
+			break ;
 		}
  	}
 	// remove the client from the vector of clients
@@ -43,9 +49,21 @@ void Server::clearClients(int fd)
 		if (_users[i].getFd() == fd)
 		{
 			_users.erase(_users.begin() + i);
-			break;
+			break ;
 		}
  	}
+}
+
+void	Server::rmUserFromChannel(std::string channel, std::string nickname)
+{
+	for (size_t i = 0; i < _channels.size(); i ++)
+	{
+		if (!_channels[i].getName().compare(channel))
+		{
+			_channels[i].removeUser(nickname);
+			break ;
+		}
+	}
 }
 
 // initialize the static boolean

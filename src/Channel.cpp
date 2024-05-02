@@ -6,7 +6,7 @@
 /*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 20:19:31 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/29 20:28:40 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/02 18:30:04 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,26 @@ bool	Channel::operatorExists(std::string nick)
 	return (false);
 }
 
-bool	Channel::userExists(std::string nick)
+void	Channel::removeUser(std::string nickname)
 {
 	for (size_t i = 0; i < _users.size(); i++)
 	{
-		if (_users[i].getNick().compare(nick) == 0)
-			return (true);
+		if (!_users[i].getNick().compare(nickname))
+		{
+			_users.erase(_users.begin() + i);
+			break ;
+		}
 	}
-	return (false);
+}
+
+void	Channel::removeUser(int fd)
+{
+	for (size_t i = 0; i < _users.size(); i++)
+	{
+		if (_users[i].getFd() == fd)
+		{
+			_users.erase(_users.begin() + i);
+			break ;
+		}
+	}
 }

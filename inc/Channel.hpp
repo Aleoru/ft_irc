@@ -6,7 +6,7 @@
 /*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 20:11:57 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/29 20:30:05 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/02 18:30:00 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ public:
 	std::vector<int>    channelListUsers();
     void                addUserToList(User user);
 	bool				operatorExists(std::string nick);
-	bool				userExists(std::string nick);	// cambiar por la de Server
+	void				removeUser(std::string nickname);
+	void				removeUser(int fd);
 
 
 };

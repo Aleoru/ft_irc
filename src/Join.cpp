@@ -6,7 +6,7 @@
 /*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 12:32:29 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/04/29 20:30:18 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/02 18:29:04 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	Server::joinNewChannel(std::string name, User *user)
 	else
 	{
 		Channel *channel = searchChannel(name);
-		if (channel->userExists(user->getNick()))
+		if (userExists(channel->getUsers(), user->getNick()))
 			return ;
 		channel->addUserToList(*user);
 		sendMsgUsersList(channel->getUsers(), RPL_JOIN(getUserSource(user), channel->getName()));
@@ -73,11 +73,11 @@ Channel	*Server::searchChannel(std::string name)
 	return NULL;
 }
 
-bool	Server::userExists(std::string nick)
+bool	Server::userExists(std::vector<User> userlist, std::string nickname)
 {
-	for (size_t i = 0; i < _users.size(); i++)
+	for (size_t i = 0; i < userlist.size(); i++)
 	{
-		if (_users[i].getNick().compare(nick) == 0)
+		if (userlist[i].getNick().compare(nickname) == 0)
 			return (true);
 	}
 	return (false);
@@ -92,37 +92,6 @@ bool	Server::channelExists(std::string name)
 	}
 	return (false);
 
-}
-
-std::string	Server::strUsersChannel(std::string channelName)
-{
-	std::vector<std::string> users;
-	std::vector<std::string> operators;
-	std::vector<User> vecUsers = searchChannel(channelName)->getUsers();
-	std::vector<User> vecOperators = searchChannel(channelName)->getOperators();
-	for (size_t i = 0; i < vecUsers.size(); i++)
-		users.push_back(vecUsers[i].getNick());	
-	for (size_t i = 0; i < vecOperators.size(); i++)
-		operators.push_back(vecOperators[i].getNick());
-	std::vector<std::string> copy;
-	std::string str;
-	std::vector<std::string>::iterator res;
-	for (size_t i = 0; i < users.size(); i++)
-	{
-		res = std::find(operators.begin(), operators.end(), users[i]);
-		if (*res == users[i])
-			copy.push_back("@" + users[i]);
-		else
-			copy.push_back(users[i]);
-	}
-	std::sort(copy.begin(), copy.end());
-	for (size_t i = 0; i < copy.size(); i++)
-	{
-		str.append(copy[i]);
-		if (i + 1 < copy.size())
-			str.append(" ");
-	}
-	return (str);
 }
 
 void	Server::sendUserList(Channel channel, User user)
@@ -145,7 +114,6 @@ void	Server::sendUserList(Channel channel, User user)
 	}
 	std::cout << CYA << list << std::endl;
 	sendMsgUsersList(userList, RPL_NAMREPLY(user.getNick(), channel.getName(), list));
-	//sendMsgUsersList(userList, RPL_NAMREPLY(user.getNick(), channel.getName(), strUsersChannel(channel.getName())));
 	sendMsgUsersList(userList, RPL_ENDOFNAMES(user.getNick(), channel.getName()));
 
 }

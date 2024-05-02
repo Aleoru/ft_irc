@@ -6,7 +6,7 @@
 /*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:27 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/29 20:29:48 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/02 18:26:47 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ public:
 	User		*searchUser(std::string nick);
 	Channel		*searchChannel(std::string name);
 	bool		channelExists(std::string name);
-	bool		userExists(std::string name);		// Pasar vector de usuarios y el nickname
+	bool		userExists(std::vector<User> userlist, std::string nickname);		// Pasar vector de usuarios y el nickname
+	void		rmUserFromChannel(std::string channel, std::string nickname);
 	
 	std::vector<std::string>	split(const std::string str, char delimiter);
 
