@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Parser.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:31:58 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/02 18:32:41 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/02 23:03:15 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,12 +122,18 @@ void	Server::nickCmd(std::vector<std::string> cmd, int fd)
 	std::cout << "executing nick command " << fd << std::endl;
 	if (cmd.size() == 2)
 	{
-		User	*user = searchUser(fd);
-		user->setNickname(cmd[1]);
+		if (userExists(getUsers() ,cmd[1]) == false)
+		{
+			User	*user = searchUser(fd);
+			user->setNickname(cmd[1]);
+
+		}
+		else
+			std::cout << "error: nick on use" << std::endl;
 	}
 	else
 	{
-
+		std::cout << "error: nick arguments" << std::endl;
 	}
 }
 
@@ -138,11 +144,11 @@ void	Server::passCmd(std::vector<std::string> cmd, int fd)
 	{
 		User	*user = searchUser(fd);
 		user->setHasAccess(true);
-		//sendMessage(fd, RPL_INFO("Valid Pass")); //info
+		sendMessage(fd, ": 371  : valid pass \r\n"); //info
 	}
 	else
 	{
-		//sendMessage(fd, RPL_INFO("Wrong Pass"));
+		sendMessage(fd, ": 371  : wrong pass \r\n");
 		clearClients(fd);
 	}
 }
