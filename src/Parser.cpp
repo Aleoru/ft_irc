@@ -6,13 +6,10 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:31:58 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/02 23:03:15 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/03 18:33:04 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
-#include <sstream>
-#include <vector>
 #include "../inc/Server.hpp"
 
 static std::vector<std::string> splitcmd(const std::string str)
@@ -38,7 +35,7 @@ std::vector<std::string> Server::split(const std::string str, char delimiter)
 	std::vector<std::string> split;
 	std::string token;
 	std::istringstream tokenStream(str);
-	while (std::getline(tokenStream, token, delimiter)) 
+	while (std::getline(tokenStream, token, delimiter))
 	{
 		split.push_back(token);
 	}
@@ -68,7 +65,7 @@ void Server::findCommand(std::vector<std::string> cmd, int fd, bool debug)
 		if (user->getHasAccess())
 		{
 			userCmd(cmd, fd);
-			std::cout << "Testing Username " << fd << ": "<< user->getUsername() << std::endl;		
+			std::cout << "Testing Username " << fd << ": "<< user->getUsername() << std::endl;
 			//sendMessage(fd, ": 001 " + user->getNick() + ": Welcome " + user->getNick() + "\r\n");
 			sendMessage(fd, RPL_WELCOME(getUserSource(user), user->getNick()));
 			/* Comprobar formato de RPL_WELCOME */
@@ -87,7 +84,7 @@ void Server::findCommand(std::vector<std::string> cmd, int fd, bool debug)
 	std::cout << "-------" << std::endl;
 }
 
-// Parser (de mierda xD) provisional 
+// Parser (de mierda xD) provisional
 void Server::parser(std::string str, int fd, bool debug)
 {
 	if (debug)
@@ -114,50 +111,6 @@ void Server::parser(std::string str, int fd, bool debug)
 		}
 		findCommand(cmd, fd, debug);
 	}
-}
-
-// provisional commands
-void	Server::nickCmd(std::vector<std::string> cmd, int fd)
-{
-	std::cout << "executing nick command " << fd << std::endl;
-	if (cmd.size() == 2)
-	{
-		if (userExists(getUsers() ,cmd[1]) == false)
-		{
-			User	*user = searchUser(fd);
-			user->setNickname(cmd[1]);
-
-		}
-		else
-			std::cout << "error: nick on use" << std::endl;
-	}
-	else
-	{
-		std::cout << "error: nick arguments" << std::endl;
-	}
-}
-
-void	Server::passCmd(std::vector<std::string> cmd, int fd)
-{
-	std::cout << "executing pass command " << fd << std::endl;
-	if (!cmd[1].compare(this->_pass))
-	{
-		User	*user = searchUser(fd);
-		user->setHasAccess(true);
-		sendMessage(fd, ": 371  : valid pass \r\n"); //info
-	}
-	else
-	{
-		sendMessage(fd, ": 371  : wrong pass \r\n");
-		clearClients(fd);
-	}
-}
-
-void	Server::userCmd(std::vector<std::string> cmd, int fd)
-{
-	std::cout << "executing user command " << fd << std::endl;
-	User	*user = searchUser(fd);
-	user->setUsername(cmd[1]);
 }
 
 void		Server::sendMsgUsersList(std::vector<User> users, std::string str)
@@ -195,7 +148,7 @@ void 	Server::privMsgCmd(std::vector<std::string> cmd, int fd)
 					subStr = msg.substr(j, len);;
 					sendMessage(users[i].getFd(), RPL_PRIVMSG(getUserSource(searchUser(fd)), cmd[1], subStr));
 					std::cout << YEL << RPL_PRIVMSG(getUserSource(searchUser(fd)), cmd[1], subStr) << WHI << std::endl;
-					j += len; 
+					j += len;
 				}
 			}
 		}
