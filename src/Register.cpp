@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:27:17 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/03 18:31:00 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/03 20:10:56 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	Server::passCmd(std::vector<std::string> cmd, int fd)
 	else
 	{
 		sendMessage(fd, ": 371  : wrong pass \r\n");
-		clearClients(fd);
+		//clearClients(fd);
 	}
 }
 

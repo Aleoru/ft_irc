@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replies.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 13:22:05 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/02 18:46:00 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/03 20:11:40 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 // user = nickname
 # define RPL_WELCOME(source, user) ": 001 " + user + " :Welcome to the Internet Relay Network " + source + "\r\n"
-# define RPL_NOTOPIC(user, channel) ": 331 " + user + " " + channel + " :No topic is set\r\n"
 # define RPL_NOTOPIC(user, channel) ": 331 " + user + " " + channel + " :No topic is set\r\n"
 # define RPL_TOPIC(user, channel, topic) ": 332 " + user + " " + channel + " :" + topic + "\r\n"
 # define RPL_INVITING(user, channel) ": 341 " + user + " " + channel + "\r\n"
