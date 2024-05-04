@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:31:58 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/03 18:33:04 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/04 20:24:46 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,43 +44,37 @@ std::vector<std::string> Server::split(const std::string str, char delimiter)
 
 void Server::findCommand(std::vector<std::string> cmd, int fd, bool debug)
 {
-	(void)debug;
-	if (!cmd[0].compare("JOIN"))
+	bool access = searchUser(fd)->getHasAccess();
+	if (!cmd[0].compare("PASS") && searchUser(fd)->getCheckPass() == false)
+	{
+		passCmd(cmd, fd);
+		if (debug)
+			std::cout << YEL << "Testing PASS client[" << fd << "]: " << searchUser(fd)->getCheckPass() << WHI << std::endl;
+	}
+	else if (!cmd[0].compare("NICK") && searchUser(fd)->getCheckPass())
+	{
+		nickCmd(cmd, fd);
+		if (debug)
+			std::cout << YEL << "Testing NICK client[" << fd << "]: " << searchUser(fd)->getNick() << WHI << std::endl;
+	}
+	else if (!cmd[0].compare("USER") && searchUser(fd)->getCheckPass())
+	{
+		userCmd(cmd, fd);
+		if (debug)
+			std::cout << YEL << "Testing USER client[" << fd << "]: "<< searchUser(fd)->getUsername() << WHI << std::endl;
+		//sendMessage(fd, RPL_WELCOME(getUserSource(searchUser(fd)), searchUser(fd)->getNick()));
+
+	}
+	else if (!cmd[0].compare("JOIN") && access)
 	{
 		joinNewChannel(cmd[1], searchUser(fd));
 		printUsers(searchChannel(cmd[1])->getUsers());
 	}
-	else if (!cmd[0].compare("NICK"))
-	{
-		User	*user = searchUser(fd);
-		if (user->getHasAccess())
-		{
-			nickCmd(cmd, fd);
-			std::cout << "Testing Nickname " << fd << ": "<< user->getNick() << std::endl;
-		}
-	}
-	else if (!cmd[0].compare("USER"))
-	{
-		User	*user = searchUser(fd);
-		if (user->getHasAccess())
-		{
-			userCmd(cmd, fd);
-			std::cout << "Testing Username " << fd << ": "<< user->getUsername() << std::endl;
-			//sendMessage(fd, ": 001 " + user->getNick() + ": Welcome " + user->getNick() + "\r\n");
-			sendMessage(fd, RPL_WELCOME(getUserSource(user), user->getNick()));
-			/* Comprobar formato de RPL_WELCOME */
-		}
-	}
-	else if (!cmd[0].compare("PASS"))
-	{
-		passCmd(cmd, fd);
-		User	*user = searchUser(fd);
-		std::cout << "Testing access " << fd << ": "<< user->getHasAccess() << std::endl;
-	}
-	else if (!cmd[0].compare("PRIVMSG"))
+	else if (!cmd[0].compare("PRIVMSG") && access)
 	{
 		privMsgCmd(cmd, fd);
 	}
+	//else if (!cmd[0].compare("COMMAND") && access) //need access to execute commands
 	std::cout << "-------" << std::endl;
 }
 
@@ -93,7 +87,8 @@ void Server::parser(std::string str, int fd, bool debug)
 		std::cout << "-------------------" << std::endl;
 	}
 	std::vector<std::string> vec = splitcmd(str);
-
+	if (vec[0].empty())
+		return ;
 	for (size_t i = 0; i < vec.size(); i++)
 	{
 		if (debug)

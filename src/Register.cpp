@@ -6,32 +6,11 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:27:17 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/03 20:10:56 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/04 20:03:00 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/Server.hpp"
-
-// provisional commands
-void	Server::nickCmd(std::vector<std::string> cmd, int fd)
-{
-	std::cout << "executing nick command " << fd << std::endl;
-	if (cmd.size() == 2)
-	{
-		if (userExists(getUsers() ,cmd[1]) == false)
-		{
-			User	*user = searchUser(fd);
-			user->setNickname(cmd[1]);
-
-		}
-		else
-			std::cout << "error: nick on use" << std::endl;
-	}
-	else
-	{
-		std::cout << "error: nick arguments" << std::endl;
-	}
-}
 
 void	Server::passCmd(std::vector<std::string> cmd, int fd)
 {
@@ -39,19 +18,55 @@ void	Server::passCmd(std::vector<std::string> cmd, int fd)
 	if (!cmd[1].compare(this->_pass))
 	{
 		User	*user = searchUser(fd);
-		user->setHasAccess(true);
-		sendMessage(fd, ": 371  : valid pass \r\n"); //info
+		user->setCheckPass(true);
+		sendMessage(fd, ": 371  : valid pass \r\n"); //info debug en cliente
 	}
 	else
 	{
 		sendMessage(fd, ": 371  : wrong pass \r\n");
-		//clearClients(fd);
+	}
+}
+void	Server::nickCmd(std::vector<std::string> cmd, int fd)
+{
+	if (cmd.size() == 2)
+	{
+		if (userExists(getUsers() ,cmd[1]) == false && searchUser(fd)->getHasAccess()) //cambio de nick
+		{
+			searchUser(fd)->setNickname(cmd[1]);
+			//enviar cambio de nick al cliente
+		}
+		else if (userExists(getUsers() ,cmd[1]) == false)                              //registro de nick
+		{
+			User	*user = searchUser(fd);
+			user->setNickname(cmd[1]);
+			user->setCheckNick(true);
+			if (user->getCheckNick() && user->getCheckUser() && user->getCheckPass() && user->getHasAccess() == false)
+			{
+				user->setHasAccess(true);
+				sendMessage(fd, RPL_WELCOME(getUserSource(searchUser(fd)), searchUser(fd)->getNick()));
+			}
+		}
+		else
+		{
+			std::cout << "error: nick on use" << std::endl;
+			//enviar mensaje de nick en uso al cliente o ignorar mensaje?
+		}
+	}
+	else
+	{
+		std::cout << "error: nick arguments" << std::endl;
+		//enviar mensaje al cliente
 	}
 }
 
 void	Server::userCmd(std::vector<std::string> cmd, int fd)
 {
-	std::cout << "executing user command " << fd << std::endl;
 	User	*user = searchUser(fd);
 	user->setUsername(cmd[1]);
+	user->setCheckUser(true);
+	if (user->getCheckNick() && user->getCheckUser() && user->getCheckPass() && user->getHasAccess() == false)
+	{
+		user->setHasAccess(true);
+		sendMessage(fd, RPL_WELCOME(getUserSource(searchUser(fd)), searchUser(fd)->getNick()));
+	}
 }

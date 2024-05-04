@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:57:55 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/03 20:18:27 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/04 18:47:34 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,9 @@ public:
 
 	User & operator=(User const &src);
 
-	int				getFd() const;				// getter for fd
-	std::string		getIpAdd() const;			// getter for ipAdd
+	/*	SETTERS & GETTERS	*/
+	int				getFd() const;						// getter for fd
+	std::string		getIpAdd() const;					// getter for ipAdd
 	std::string		getNick() const;
 	std::string		getUsername() const;
 	bool			getHasAccess() const;
@@ -48,14 +49,15 @@ public:
 	bool			getCheckNick() const;
 	bool			getCheckUser() const;
 
-	void	setFd(int fd);						// setter for fd
-	void	setIpAdd(std::string ipadd); 		// setter for ipadd
-	void	setNickname(std::string nick);
-	void	setUsername(std::string user);
-	void	setHasAccess(bool access);
-	void	setCheckPass(bool pass);
-	void	setCheckNick(bool nick);
-	void	setCheckUser(bool user);
+	void			setFd(int fd);						// setter for fd
+	void			setIpAdd(std::string ipadd); 		// setter for ipadd
+	void			setNickname(std::string nick);
+	void			setUsername(std::string user);
+	void			setHasAccess(bool access);
+	void			setCheckPass(bool pass);
+	void			setCheckNick(bool nick);
+	void			setCheckUser(bool user);
+
 };
 
 #endif
