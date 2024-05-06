@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Register.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:27:17 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/06 03:25:17 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/06 19:01:18 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,12 @@ void	Server::passCmd(std::vector<std::string> cmd, int fd)
 		{
 			User	*user = searchUser(fd);
 			user->setCheckPass(true);
-			sendMessage(fd, ": 371  : valid pass \r\n"); //info debug en cliente
+			//sendMessage(fd, ": 371  : valid pass \r\n"); //info debug en cliente
 		}
 		else
 		{
-			sendMessage(fd, ": 371  : wrong pass \r\n");
+			std::cout << "wrong pass";
+			//sendMessage(fd, ": 371  : wrong pass \r\n");
 		}
 	}
 	else

@@ -30,7 +30,7 @@ TODO
 Esta función busca a un usuario en un vector de usuarios, devuelve verdadero si lo encuentra y falso si no
 */
 
-void	Server::Kick(User admin, User *user, Channel *canal, const std::string &message)
+/* void	Server::Kick(User admin, User *user, Channel *canal, const std::string &message)
 {
 	//Para el kick, tengo que verificar que el usuario que lo está haciendo sea admin del canal
 	//También que el usuario que vamos a expulsar exista
@@ -52,4 +52,4 @@ void	Server::Kick(User admin, User *user, Channel *canal, const std::string &mes
 	else
 		sendMessage(1, ERR_CHANOPRIVSNEEDED(canal->getName()));
 	return ;
-}
+} */

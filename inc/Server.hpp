@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:27 by fgalan-r          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/05/06 03:54:46 by fgalan-r         ###   ########.fr       */
-=======
-/*   Updated: 2024/05/02 20:06:05 by aoropeza         ###   ########.fr       */
->>>>>>> Fixes to Topic, Kick and Invite commands
+/*   Updated: 2024/05/06 18:30:39 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

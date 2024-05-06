@@ -6,7 +6,7 @@
 /*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 19:55:14 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/02 20:14:09 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/06 18:31:34 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ PASOS:
 3.5- Si ya existe en la lista de invitados, ignorar el comando, osea no hace nada
 */
 
-void	Server::invite(std::string inv_user, Channel canal, bool needOp) //last var is temporary atm
+/* void	Server::invite(std::string inv_user, Channel canal, bool needOp) //last var is temporary atm
 {
 	if (!channelExists(canal.getName())) //Esta comprobación es innecesaria según el protocolo pero es posible que de lugar a un error de segmentación o se crea un canal nuevo?
 		return ;
@@ -51,4 +51,4 @@ void	Server::invite(std::string inv_user, Channel canal, bool needOp) //last var
 	}
 	sendMessage(1, ERR_NOSUCHNICK(it->getNick())); //Si no hemos podido añadir el usuario al canal, la última opción es que no exista el usuario y por ende, no se haya podido invitar
 	return ;
-}
+} */

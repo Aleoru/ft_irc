@@ -6,7 +6,7 @@
 /*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 20:19:31 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/02 18:43:09 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/06 19:16:53 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,23 @@
 
 Channel::Channel(std::string name, User user): _name(name)
 {
+	(void)user;
 	this->_setTopic = false;
 	this->_hasTopic = false;
 	this->_limit = NOLIMIT;
 	this->_invite = false;
-	_users.push_back(user);
-	_operators.push_back(user);
 	std::cout << GRE << "Channel: "<< name <<" created" << WHI << std::endl;
 
 }
 
 Channel::Channel(std::string name, std::string pass, User user): _name(name), _pass(pass)
 {
+	(void)user;
 	this->_setTopic = false;
 	this->_limit = NOLIMIT;
 	this->_invite = false;
-	_users.push_back(user);
-	_operators.push_back(user);
+/* 	_users.push_back(user);
+	_operators.push_back(user); */
 	std::cout << GRE << "Channel: "<< name <<" created with password" << WHI << std::endl;
 
 }
@@ -64,6 +64,11 @@ std::vector<int>	Channel::channelListUsers()
 void    Channel::addUserToList(User user)
 {
     _users.push_back(user);
+}
+
+void    Channel::addOperatorToList(User user)
+{
+    _operators.push_back(user);
 }
 
 bool	Channel::operatorExists(std::string nick)

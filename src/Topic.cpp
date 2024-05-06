@@ -6,7 +6,7 @@
 /*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 19:55:18 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/02 20:06:07 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/06 18:31:29 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ El topic es simple, tenemos que verificar varias cositas:
 */
 
 
-void Server::changeTopic(User usuario, Channel *canal, std::string newTopic, bool needOp)
+/* void Server::changeTopic(User usuario, Channel *canal, std::string newTopic, bool needOp)
 {
 	if (newTopic.length() < 1) //Aquí completamos la primera comprobación y actuamos en base al resultado
 	{
@@ -44,4 +44,4 @@ void Server::changeTopic(User usuario, Channel *canal, std::string newTopic, boo
 	}
 	else //Si hay topic y la flag está desactivada cambiar el topic y listo
 		canal->setTopic(newTopic);
-}
+} */
