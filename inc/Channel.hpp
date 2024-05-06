@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 20:11:57 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/02 18:44:04 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/06 19:33:26 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,17 @@ private:
 	std::vector<User>	_operators;	// o: give/take channel operator privilege
 
 	/* Los usuarios se almacenaran todos en users siempre y cuando esten dentro del canal
-	da igual que sean operadores o no. Para los comandos que se requiera el permiso de 
+	da igual que sean operadores o no. Para los comandos que se requiera el permiso de
 	operador, de esta manera se podrá consultar solo esa lista. Y para mandar un mensaje
 	a todo el mundo se podrá usar directamente la de usuarios. */
 
 public:
 	Channel(std::string name, User user);
 	Channel(std::string name, std::string pass, User user);
-    //Channel(const Channel &src);
+    Channel(const Channel &src);
 	~Channel();
+
+	Channel & operator =(Channel const &src);
 
 	std::string			getName(void) const;
 	std::string			getTopic(void) const;

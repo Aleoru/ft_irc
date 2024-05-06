@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 20:19:31 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/02 18:43:09 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/06 19:42:20 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ Channel::Channel(std::string name, User user): _name(name)
 	this->_hasTopic = false;
 	this->_limit = NOLIMIT;
 	this->_invite = false;
+	user.setNbChannels(1);
 	_users.push_back(user);
 	_operators.push_back(user);
 	std::cout << GRE << "Channel: "<< name <<" created" << WHI << std::endl;
@@ -29,20 +30,38 @@ Channel::Channel(std::string name, std::string pass, User user): _name(name), _p
 	this->_setTopic = false;
 	this->_limit = NOLIMIT;
 	this->_invite = false;
+	user.setNbChannels(1);
 	_users.push_back(user);
 	_operators.push_back(user);
 	std::cout << GRE << "Channel: "<< name <<" created with password" << WHI << std::endl;
 
 }
 
-/* Channel::Channel(const Channel &src) : _name(src.getName()), 
+Channel::Channel(const Channel &src)
 {
-
-} */
+	*this = src;
+}
 
 Channel::~Channel()
 {
 	std::cout << RED << "Channel destroyed" << WHI << std::endl;
+}
+
+Channel & Channel::operator =(Channel const &src)
+{
+	if (this != &src)
+	{
+		this->_name = src._name;
+		this->_pass = src._pass;
+		this->_topic = src._topic;
+		this->_hasTopic = src._hasTopic;
+		this->_setTopic = src._setTopic;
+		this->_limit = src._limit;
+		this->_users = src._users;
+		this->_invitedUsers = src._invitedUsers;
+		this->_operators = src._operators;
+	}
+	return (*this);
 }
 
 
