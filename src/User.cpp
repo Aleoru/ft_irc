@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:57:44 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/04 18:08:33 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/06 03:19:03 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 User::User()
 {
-    //this->_nick = "default";
 	//std::cout << "User constructor called" << std::endl;
 }
 
@@ -26,6 +25,7 @@ User::User(int fd, std::string ipAdd) : _fd(fd), _ipAdd(ipAdd)
 	this->_checkUser = false;
 	this->_nickname = "*";
 	this->_username = "*";
+	this->_nbChannels = 0;
 	//std::cout << "User constructor called" << std::endl;
 }
 
@@ -61,6 +61,7 @@ bool			User::getHasAccess() const {return this->_hasAccess;}
 bool			User::getCheckPass() const {return this->_checkPass;}
 bool			User::getCheckNick() const {return this->_checkNick;}
 bool			User::getCheckUser() const {return this->_checkUser;}
+int				User::getNbChannels() const {return this->_nbChannels;}
 
 //set
 void	User::setFd(int fd) {this->_fd = fd;}
@@ -71,3 +72,4 @@ void	User::setHasAccess(bool access) {this->_hasAccess = access;}
 void	User::setCheckPass(bool pass) {this->_checkPass = pass;}
 void	User::setCheckNick(bool nick) {this->_checkNick = nick;}
 void	User::setCheckUser(bool user) {this->_checkUser = user;}
+void	User::setNbChannels(int num) {this->_nbChannels+=num;}

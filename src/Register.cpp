@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:27:17 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/04 20:03:00 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/06 03:25:17 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,23 @@
 
 void	Server::passCmd(std::vector<std::string> cmd, int fd)
 {
-	std::cout << "executing pass command " << fd << std::endl;
-	if (!cmd[1].compare(this->_pass))
+	if (cmd.size() == 2)
 	{
-		User	*user = searchUser(fd);
-		user->setCheckPass(true);
-		sendMessage(fd, ": 371  : valid pass \r\n"); //info debug en cliente
+		std::cout << "executing pass command " << fd << std::endl;
+		if (!cmd[1].compare(this->_pass))
+		{
+			User	*user = searchUser(fd);
+			user->setCheckPass(true);
+			sendMessage(fd, ": 371  : valid pass \r\n"); //info debug en cliente
+		}
+		else
+		{
+			sendMessage(fd, ": 371  : wrong pass \r\n");
+		}
 	}
 	else
 	{
-		sendMessage(fd, ": 371  : wrong pass \r\n");
+		//ERR_NEEDMOREPARAMS
 	}
 }
 void	Server::nickCmd(std::vector<std::string> cmd, int fd)
@@ -49,6 +56,7 @@ void	Server::nickCmd(std::vector<std::string> cmd, int fd)
 		else
 		{
 			std::cout << "error: nick on use" << std::endl;
+			// ERR_NICKNAMEINUSE 
 			//enviar mensaje de nick en uso al cliente o ignorar mensaje?
 		}
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:27 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/02 18:26:47 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/06 03:54:46 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,9 @@ public:
 	void		joinNewChannel(std::string name, User *user);
 	void		sendUserList(Channel channel, User user);
 	std::string	strUsersChannel(std::string channelName);
+
+	/*	PART	*/
+	void		partCmd(std::vector<std::string> cmd, int fd);
 
 	/*	PASS, NICK, USER COMMAND	*/
 	void		passCmd(std::vector<std::string> cmd, int fd);	//prueba

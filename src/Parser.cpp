@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:31:58 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/04 20:24:46 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/06 03:57:26 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,10 @@ void Server::findCommand(std::vector<std::string> cmd, int fd, bool debug)
 	else if (!cmd[0].compare("PRIVMSG") && access)
 	{
 		privMsgCmd(cmd, fd);
+	}
+	else if (!cmd[0].compare("PART") && access)
+	{
+		partCmd(cmd, fd);
 	}
 	//else if (!cmd[0].compare("COMMAND") && access) //need access to execute commands
 	std::cout << "-------" << std::endl;

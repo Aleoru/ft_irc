@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:57:55 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/04 18:47:34 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/06 03:16:31 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ private:
 	bool		_checkNick;
 	bool		_checkUser;
 	bool		_hasAccess;					// client password is correct
+	int			_nbChannels;				// number of channels of the user
 
 public:
 	User();
@@ -48,6 +49,7 @@ public:
 	bool			getCheckPass() const;
 	bool			getCheckNick() const;
 	bool			getCheckUser() const;
+	int				getNbChannels() const;
 
 	void			setFd(int fd);						// setter for fd
 	void			setIpAdd(std::string ipadd); 		// setter for ipadd
@@ -57,6 +59,7 @@ public:
 	void			setCheckPass(bool pass);
 	void			setCheckNick(bool nick);
 	void			setCheckUser(bool user);
+	void			setNbChannels(int num);				// add num to _nbChannels
 
 };
 
