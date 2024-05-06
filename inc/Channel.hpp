@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: akent-go <akent-go@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 20:11:57 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/02 18:44:04 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/06 18:42:23 by akent-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ public:
 	std::vector<User>	getUsers(void) const;
 	std::vector<User>	getOperators(void) const;
 	bool				getHasTopic(void) const;
+	bool 				getInvite() const; //changed akentgo
 
 	void				setTopic(std::string newTopic);
 
