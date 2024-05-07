@@ -6,7 +6,7 @@
 /*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 12:32:29 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/07 17:27:41 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/07 20:09:21 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,12 @@
 void	Server::createNewChannel(std::string name, User *user)
 {
 	std::cout << CYA << "Creating channel " << name << WHI << std::endl;
+	if ((name.front() != '&' && name.front() != '#') || name.size() > 200) {
+		std::cout << RED << "Invalid channel name" << WHI << std::endl;
+		sendMessage(user->getFd(), ERR_BADCHANMASK(user->getNick(), name, "Invalid channel name"));
+		return;
+	}
 	Channel	channel(name, *user);
-
-	user->setNbChannels(1);
-	channel.addUserToList(*user);
-	channel.addOperatorToList(*user);
 	_channels.push_back(channel);
 	sendMessage(user->getFd(), RPL_JOIN(getUserSource(user), channel.getName()));
 	sendMessage(user->getFd(), RPL_NOTOPIC(user->getNick(), channel.getName()));

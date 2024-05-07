@@ -6,7 +6,7 @@
 /*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 20:19:31 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/06 19:16:53 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/07 19:53:56 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,45 +14,61 @@
 
 Channel::Channel(std::string name, User user): _name(name)
 {
-	(void)user;
 	this->_setTopic = false;
 	this->_hasTopic = false;
 	this->_limit = NOLIMIT;
 	this->_invite = false;
-	std::cout << GRE << "Channel: "<< name <<" created" << WHI << std::endl;
-
+	user.setNbChannels(1);
+	_users.push_back(user);
+	_operators.push_back(user);
 }
 
 Channel::Channel(std::string name, std::string pass, User user): _name(name), _pass(pass)
 {
-	(void)user;
 	this->_setTopic = false;
 	this->_limit = NOLIMIT;
 	this->_invite = false;
-/* 	_users.push_back(user);
-	_operators.push_back(user); */
-	std::cout << GRE << "Channel: "<< name <<" created with password" << WHI << std::endl;
-
+	user.setNbChannels(1);
+	_users.push_back(user);
+	_operators.push_back(user);
 }
 
-/* Channel::Channel(const Channel &src) : _name(src.getName()), 
+Channel::Channel(const Channel &src)
 {
-
-} */
+	*this = src;
+}
 
 Channel::~Channel()
 {
-	std::cout << RED << "Channel destroyed" << WHI << std::endl;
 }
 
+Channel & Channel::operator=(Channel const &src)
+{
+	if (this != &src)
+	{
+		this->_name = src._name;
+		this->_pass = src._pass;
+		this->_topic = src._topic;
+		this->_hasTopic = src._hasTopic;
+		this->_setTopic = src._setTopic;
+		this->_limit = src._limit;
+		this->_users = src._users;
+		this->_invitedUsers = src._invitedUsers;
+		this->_operators = src._operators;
+	}
+	return (*this);
+}
 
 std::string	Channel::getName() const { return (this->_name); }
 std::string	Channel::getTopic() const { return (this->_topic); }
 std::vector<User>	Channel::getUsers() const { return (this->_users); }
 std::vector<User>	Channel::getOperators() const { return (this->_operators); }
 bool		Channel::getHasTopic() const { return (this->_hasTopic); }
+bool		Channel::getSetTopic() const { return (this->_hasTopic); }
 
-void	Channel::setTopic(std::string newTopic){ _topic = newTopic; }
+void		Channel::setTopic(std::string newTopic){ _topic = newTopic; }
+void		Channel::setSetTopic(bool setTopic) { this->_setTopic = setTopic; }
+void		Channel::setHasTopic(bool hasTopic) { this->_hasTopic = hasTopic; }
 
 std::vector<int>	Channel::channelListUsers()
 {

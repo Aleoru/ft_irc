@@ -6,7 +6,7 @@
 /*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 20:11:57 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/06 19:10:02 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/07 19:50:53 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ private:
 	std::string			_name;
 	std::string			_pass;		// k: set/remove channel key
 	std::string			_topic;
-	bool				_hasTopic;	// t: topic settable by channel operator only flag
+	bool				_hasTopic;	// check to send the correct RPL_TOPIC or RPL_NOTOPIC
 	bool				_setTopic;	// t: topic settable by channel operator only flag
 	int					_limit;		// l: set/remove user limit - 0 = no limit
 	bool				_invite;	// i: set/remove invite-only
@@ -49,16 +49,21 @@ private:
 public:
 	Channel(std::string name, User user);
 	Channel(std::string name, std::string pass, User user);
-    //Channel(const Channel &src);
+    Channel(const Channel &src);
 	~Channel();
+
+	Channel & operator=(Channel const &src);
 
 	std::string			getName(void) const;
 	std::string			getTopic(void) const;
 	std::vector<User>	getUsers(void) const;
 	std::vector<User>	getOperators(void) const;
 	bool				getHasTopic(void) const;
+	bool				getSetTopic(void) const;
 
 	void				setTopic(std::string newTopic);
+	void				setSetTopic(bool setTopic);
+	void				setHasTopic(bool hasTopic);
 
 	std::vector<int>    channelListUsers();
     void                addUserToList(User user);

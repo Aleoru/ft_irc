@@ -6,15 +6,11 @@
 /*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 19:55:18 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/06 18:31:29 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/07 20:26:53 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-#include "../inc/Channel.hpp"
-#include "../inc/replies.hpp"
 #include "../inc/Server.hpp"
-#include <algorithm>
 
 /*
 El topic es simple, tenemos que verificar varias cositas:
@@ -23,25 +19,50 @@ El topic es simple, tenemos que verificar varias cositas:
 */
 
 
-/* void Server::changeTopic(User usuario, Channel *canal, std::string newTopic, bool needOp)
+void Server::changeTopic(std::vector<std::string> cmd, int fd)
 {
-	if (newTopic.length() < 1) //Aquí completamos la primera comprobación y actuamos en base al resultado
+	if (!channelExists(cmd[1])) //Esta comprobación es innecesaria según el protocolo pero es posible que de lugar a un error de segmentación o se crea un canal nuevo?
+		return ;
+	std::string channel_name = cmd[1];
+	Channel *canal = searchChannel(channel_name);
+
+	if (cmd.size() == 2)
 	{
-		if (!canal->getHasTopic()) //si no hay topic, imprimimos solo un salto de línea
-			std::cout << std::endl;
+		std::cout << YEL << "Te digo el topic" << WHI << std::endl;
+		if (canal->getHasTopic())
+			sendMessage(fd, (searchUser(fd)->getNick(), canal->getName(), canal->getTopic()));
 		else
-			std::cout << canal->getTopic() << std::endl; //Sino imprimimos el topic
+			sendMessage(fd, RPL_NOTOPIC(searchUser(fd)->getNick(), channel_name));
+		return ;
 	}
-	else if (needOp == 1) //si la flag +t está activada, además ya hemos verificado que la string de topic no esté vacía
+	
+	std::string newTopic;
+	std::vector<User> users_ch = canal->getUsers();
+	cmd[2].erase(cmd[2].begin());
+	for (size_t i = 2; i < cmd.size(); i++)
 	{
-		std::vector<User> users_ch = canal->getUsers();
+		newTopic.append(cmd[i]);
+		if (i < cmd.size())
+			newTopic.append(" ");
+	}
+	std::cout << YEL << newTopic << WHI << std::endl;
+	if (canal->getSetTopic()) //si la flag +t está activada, además ya hemos verificado que la string de topic no esté vacía
+	{
+		std::cout << YEL << "Te cambio el Topic solo porque eres mi amigo" << WHI << std::endl;
 		std::vector<User> ops = canal->getOperators();
-		std::vector<User>::iterator it = std::find(ops.begin(), ops.end(), usuario.getNick()); //lleva el iterador a la posición en la que usuario esté en operadores
-		if (it != ops.end()) //cambiar el topic
+		if (canal->operatorExists(searchUser(fd)->getNick())){ //cambiar el topic
 			canal->setTopic(newTopic);
+			canal->setHasTopic(true);
+			sendMsgUsersList(users_ch, RPL_TOPIC(searchUser(fd)->getNick(), channel_name, newTopic));
+		}
 		else
-			sendMessage(2, ERR_CHANOPRIVSNEEDED(canal->getName()));
+			sendMessage(fd, ERR_CHANOPRIVSNEEDED(searchUser(fd)->getNick(), channel_name));
 	}
-	else //Si hay topic y la flag está desactivada cambiar el topic y listo
+	else
+	{
+		std::cout << YEL << "Te cambio el Topic" << WHI << std::endl;
 		canal->setTopic(newTopic);
-} */
+		canal->setHasTopic(true);
+		sendMsgUsersList(users_ch, RPL_TOPIC(searchUser(fd)->getNick(), channel_name, newTopic));
+	} //Si hay topic y la flag está desactivada cambiar el topic y listo
+}

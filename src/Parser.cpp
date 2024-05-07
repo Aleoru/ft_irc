@@ -6,7 +6,7 @@
 /*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:31:58 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/06 19:43:36 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/07 20:35:45 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,17 +67,18 @@ void Server::findCommand(std::vector<std::string> cmd, int fd, bool debug)
 	}
 	else if (!cmd[0].compare("JOIN") && access)
 	{
-		joinNewChannel(cmd[1], searchUser(fd));
-		printUsers(searchChannel(cmd[1])->getUsers());
+		joinNewChannel(cmd[1], searchUser(fd));	// crear joincmd
 	}
 	else if (!cmd[0].compare("PRIVMSG") && access)
 	{
 		privMsgCmd(cmd, fd);
 	}
 	else if (!cmd[0].compare("PART") && access)
-	{
 		partCmd(cmd, fd);
-	}
+	else if (!cmd[0].compare("QUIT") && access)
+		quitCmd(cmd, fd);
+	else if (!cmd[0].compare("TOPIC") && access)
+		changeTopic(cmd, fd);
 	//else if (!cmd[0].compare("COMMAND") && access) //need access to execute commands
 	std::cout << "-------" << std::endl;
 }
@@ -128,6 +129,8 @@ void 	Server::privMsgCmd(std::vector<std::string> cmd, int fd)
 		std::string			subStr;
 		std::string			msg;
 		size_t				len = 400;
+		
+		cmd[2].erase(cmd[2].begin());
 		for (size_t i = 2; i < cmd.size(); i++)
 		{
 			msg.append(cmd[i]);

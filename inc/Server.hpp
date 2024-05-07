@@ -6,7 +6,7 @@
 /*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:27 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/06 18:30:39 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/07 19:41:34 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,9 @@ public:
 	/*	PART	*/
 	void		partCmd(std::vector<std::string> cmd, int fd);
 
+	/*	QUIT	*/
+	void		quitCmd(std::vector<std::string> cmd, int fd);
+
 	/*	PASS, NICK, USER COMMAND	*/
 	void		passCmd(std::vector<std::string> cmd, int fd);	//prueba
 	void		nickCmd(std::vector<std::string> cmd, int fd);	//prueba
@@ -95,7 +98,7 @@ public:
 	void		Kick(User admin, User *user, Channel *canal, const std::string &message);
 
 	/*	TOPIC	*/
-	void 		changeTopic(User usuario, Channel *canal, std::string newTopic, bool needOp);
+	void 		changeTopic(std::vector<std::string> cmd, int fd);
 
 	//debug
 	void		printUsers(std::vector<User> userlist);
