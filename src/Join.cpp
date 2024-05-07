@@ -6,7 +6,7 @@
 /*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 12:32:29 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/06 20:12:30 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/07 17:27:41 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ void	Server::createNewChannel(std::string name, User *user)
 	std::cout << CYA << "Creating channel " << name << WHI << std::endl;
 	Channel	channel(name, *user);
 
-	_channels.push_back(channel);
+	user->setNbChannels(1);
 	channel.addUserToList(*user);
 	channel.addOperatorToList(*user);
-	user->setNbChannels(1);
+	_channels.push_back(channel);
 	sendMessage(user->getFd(), RPL_JOIN(getUserSource(user), channel.getName()));
 	sendMessage(user->getFd(), RPL_NOTOPIC(user->getNick(), channel.getName()));
 	sendUserList(channel, *user);
@@ -34,20 +34,18 @@ void	Server::joinNewChannel(std::string name, User *user)
 	else
 	{
 		Channel *channel = searchChannel(name);
-		if (!userExists(channel->getUsers(), user->getNick()))
-		{
-			std::cout << CYA << "Joining channel " << name << WHI << std::endl;
-			channel->addUserToList(*user);
-			user->setNbChannels(1);
-			sendMsgUsersList(channel->getUsers(), RPL_JOIN(getUserSource(user), channel->getName()));
-			if (channel->getHasTopic())
-				sendMessage(user->getFd(), (user->getNick(), channel->getName(), channel->getTopic()));
-			else
-				sendMessage(user->getFd(), RPL_NOTOPIC(user->getNick(), channel->getName()));
-			sendUserList(*channel, *user);
-			std::cout << CYA << "User [" << user->getFd() << "] joined the channel [" << channel->getName() << "]" << WHI << std::endl;
-		} else
-			std::cout << YEL << "EL USUARIO YA ESTA EN EL CANAL" << WHI << std::endl;		
+		if (userExists(channel->getUsers(), user->getNick()))
+			return;
+		std::cout << CYA << "Joining channel " << name << WHI << std::endl;
+		channel->addUserToList(*user);
+		user->setNbChannels(1);
+		sendMsgUsersList(channel->getUsers(), RPL_JOIN(getUserSource(user), channel->getName()));
+		if (channel->getHasTopic())
+			sendMessage(user->getFd(), (user->getNick(), channel->getName(), channel->getTopic()));
+		else
+			sendMessage(user->getFd(), RPL_NOTOPIC(user->getNick(), channel->getName()));
+		sendUserList(*channel, *user);
+		std::cout << CYA << "User [" << user->getFd() << "] joined the channel [" << channel->getName() << "]" << WHI << std::endl;
 	}
 }
 
@@ -85,12 +83,9 @@ bool	Server::userExists(std::vector<User> userlist, std::string nickname)
 {
 	for (size_t i = 0; i < userlist.size(); i++)
 	{
-		if (userlist[i].getNick().compare(nickname) == 0){
-			std::cout << GRE << "EL USUARIO ESTA" << WHI << std::endl;
+		if (userlist[i].getNick().compare(nickname) == 0)
 			return (true);
-		}
 	}
-	std::cout << RED << "EL USUARIO NO ESTA" << WHI << std::endl;
 	return (false);
 }
 
@@ -99,12 +94,8 @@ bool	Server::channelExists(std::string name)
 	for (size_t i = 0; i < _channels.size(); i++)
 	{
 		if (_channels[i].getName().compare(name) == 0)
-		{
-			std::cout << GRE << "EL CANAL EXISTE" << WHI << std::endl;
 			return (true);
-		}
 	}
-	std::cout << RED << "EL CANAL NO EXISTE" << WHI << std::endl;
 	return (false);
 
 }
