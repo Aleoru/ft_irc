@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akent-go <akent-go@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:27 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/06 18:55:35 by akent-go         ###   ########.fr       */
+/*   Updated: 2024/05/02 20:06:05 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,10 @@ public:
 	void 		privMsgCmd(std::vector<std::string> cmd, int fd);
 
 	/*	INVITE	*/
-	void		invite(std::vector<std::string> cmd, int fd);
+	void		invite(std::string inv_user, Channel canal, bool needOp);
 	
 	/*	KICK	*/
-	void		Kick(std::vector<std::string> cmd, int fd);
+	void		Kick(User admin, User *user, Channel *canal, const std::string &message);
 
 	/*	TOPIC	*/
 	void 		changeTopic(User usuario, Channel *canal, std::string newTopic, bool needOp);

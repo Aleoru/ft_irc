@@ -30,26 +30,21 @@ TODO
 Esta función busca a un usuario en un vector de usuarios, devuelve verdadero si lo encuentra y falso si no
 */
 
-void	Server::Kick(std::vector<std::string> cmd, int fd)
+void	Server::Kick(User admin, User *user, Channel *canal, const std::string &message)
 {
 	//Para el kick, tengo que verificar que el usuario que lo está haciendo sea admin del canal
 	//También que el usuario que vamos a expulsar exista
-	std::string channel_name = cmd[1];
-	std::string kicked_user = cmd[2];
-	std::string comment = cmd[3];
-	Channel *canal = searchChannel(channel_name);
-	std::vector<User> chan_users = canal->getUsers();
-	std::vector<User>::iterator it = chan_users.begin();
+	std::vector<User> ops = canal->getOperators();
+	std::vector<User> users = canal->getUsers();
+	std::vector<User>::iterator it = users.begin();
 
-	//necesitamos buscar al usuario en el canal y luego si el operador es bueno, operador
-
-	if (canal->operatorExists(searchUser(fd)->getNick())) //Si el admin es admin y está en el canal
+	if (userExists(users, admin.getNick()) && userExists(ops, admin.getNick())) //Si el admin es admin y está en el canal
 	{
-		if (searchUser(kicked_user)) //Si el usuario está en el canal
+		if (userExists(users, user->getNick())) //Si el usuario está en el canal
 		{
-			for(it; it != chan_users.end();it++) //busca al usuario y eliminalo
-				if (it->getNick() == kicked_user)
-					canal->removeUser(it->getNick());
+			for(it; it != users.end();it++) //busca al usuario y eliminalo
+				if (it->getNick() == user->getNick())
+					users.erase(it);
 		}
 		else
 			sendMessage(1, ERR_NOTONCHANNEL(canal->getName()));
