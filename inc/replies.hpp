@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 13:22:05 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/06 19:41:29 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/07 17:55:44 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 // source = nickname!username@host
 # define RPL_JOIN(source, channel)	":" + source + " JOIN :" + channel + "\r\n"
 # define RPL_PART(source, channel)	":" + source + " PART :" + channel + "\r\n"
+# define RPL_QUIT(source, message)  ":" + source + " QUIT :" + message + "\r\n"
 # define RPL_PRIVMSG(source, target, message) ":" + source + " PRIVMSG " + target + " :" + message + "\r\n"
 
 // ERROR REPLIES
