@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:06:50 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/07 17:58:03 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/08 05:09:52 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,14 @@ void Server::quitCmd(std::vector<std::string> cmd, int fd)
 	{
 		std::cout<<cmd[2]<<fd<<std::endl;
 		sendMsgUsersList(_users, RPL_QUIT(getUserSource(searchUser(fd)), cmd[2]));
+		for (size_t  i = 0; i < _channels.size(); i++)
+		{
+			if (userExists(_channels[i].getUsers(), searchUser(fd)->getNick()))
+			{
+				sendMsgUsersList(_users, RPL_PART(getUserSource(searchUser(fd)),_channels[i].getName()));
+				rmUserFromChannel(_channels[i].getName(), searchUser(fd)->getNick());
+			}
+		}	
 	}
 	else
 	{
