@@ -6,7 +6,7 @@
 /*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 20:19:31 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/07 19:53:56 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/09 19:39:17 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ Channel::Channel(std::string name, User user): _name(name)
 Channel::Channel(std::string name, std::string pass, User user): _name(name), _pass(pass)
 {
 	this->_setTopic = false;
+	this->_hasTopic = false;
 	this->_limit = NOLIMIT;
 	this->_invite = false;
 	user.setNbChannels(1);
@@ -64,7 +65,7 @@ std::string	Channel::getTopic() const { return (this->_topic); }
 std::vector<User>	Channel::getUsers() const { return (this->_users); }
 std::vector<User>	Channel::getOperators() const { return (this->_operators); }
 bool		Channel::getHasTopic() const { return (this->_hasTopic); }
-bool		Channel::getSetTopic() const { return (this->_hasTopic); }
+bool		Channel::getSetTopic() const { return (this->_setTopic); }
 
 void		Channel::setTopic(std::string newTopic){ _topic = newTopic; }
 void		Channel::setSetTopic(bool setTopic) { this->_setTopic = setTopic; }

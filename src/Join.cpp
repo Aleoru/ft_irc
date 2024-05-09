@@ -6,7 +6,7 @@
 /*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 12:32:29 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/07 20:09:21 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/09 18:30:13 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	Server::joinNewChannel(std::string name, User *user)
 		user->setNbChannels(1);
 		sendMsgUsersList(channel->getUsers(), RPL_JOIN(getUserSource(user), channel->getName()));
 		if (channel->getHasTopic())
-			sendMessage(user->getFd(), (user->getNick(), channel->getName(), channel->getTopic()));
+			sendMessage(user->getFd(), RPL_TOPIC(user->getNick(), channel->getName(), channel->getTopic()));
 		else
 			sendMessage(user->getFd(), RPL_NOTOPIC(user->getNick(), channel->getName()));
 		sendUserList(*channel, *user);
