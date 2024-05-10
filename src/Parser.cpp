@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Parser.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: akent-go <akent-go@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:31:58 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/07 20:35:45 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/10 17:50:32 by akent-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ void Server::findCommand(std::vector<std::string> cmd, int fd, bool debug)
 		quitCmd(cmd, fd);
 	else if (!cmd[0].compare("TOPIC") && access)
 		changeTopic(cmd, fd);
+	else if (!cmd[0].compare("KICK") && access)
+		Kick(cmd, fd);
 	//else if (!cmd[0].compare("COMMAND") && access) //need access to execute commands
 	std::cout << "-------" << std::endl;
 }

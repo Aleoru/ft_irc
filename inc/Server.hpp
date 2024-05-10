@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: akent-go <akent-go@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:27 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/07 19:41:34 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/10 17:33:13 by akent-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ public:
 	void		invite(std::string inv_user, Channel canal, bool needOp);
 	
 	/*	KICK	*/
-	void		Kick(User admin, User *user, Channel *canal, const std::string &message);
+	void		Kick(std::vector<std::string> cmd, int fd);
 
 	/*	TOPIC	*/
 	void 		changeTopic(std::vector<std::string> cmd, int fd);

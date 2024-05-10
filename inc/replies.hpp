@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replies.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: akent-go <akent-go@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 13:22:05 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/07 20:12:28 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/10 17:49:10 by akent-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 
 // ERROR REPLIES
 # define ERR_NOSUCHNICK(user) ": 401 " + user + " :No existe el nick/canal\r\n"
-# define ERR_NOSUCHCHANNEL(user, channel, reason) ": 403 " + user + " " + channel + " :" + reason + "\r\n"
+# define ERR_NOSUCHCHANNEL(channel) ": 403 " + channel + " : Channel not Found" + "\r\n"
 # define ERR_TOOMANYCHANNELS(user, channel, reason) ": 405 " + user + " " + channel + " :" + reason + "\r\n"
 # define ERR_NOTONCHANNEL(channel) ": 442 " + channel + " :No estás en ese canal\r\n"
 # define ERR_USERONCHANNEL(user, channel) ": 443 " + user + " " channel + " " + " :ya está en el canal\r\n"
@@ -39,6 +39,6 @@
 # define ERR_INVITEONLYCHAN(user, channel, reason) ": 473 " + user + " " + channel + " :" + reason + "\r\n"
 # define ERR_BADCHANNELKEY(user, channel, reason) ": 475 " + user + " " + channel + " :" + reason + "\r\n"
 # define ERR_BADCHANMASK(user, channel, reason) ": 476 " + user + " " + channel + " :" + reason + "\r\n"
-# define ERR_CHANOPRIVSNEEDED(user, channel) " : 482 " + user + " " + channel + " :No es operador de canal\r\n"
+# define ERR_CHANOPRIVSNEEDED(user, channel) ": 482 " + user + " " + channel + " :No es operador de canal\r\n"
 
 #endif
