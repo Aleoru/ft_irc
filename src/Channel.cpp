@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 20:19:31 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/06 19:42:20 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/10 03:15:23 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,11 @@ void    Channel::addUserToList(User user)
     _users.push_back(user);
 }
 
+void	Channel::addUserToOperators(User user)
+{
+	_operators.push_back(user);
+}
+
 bool	Channel::operatorExists(std::string nick)
 {
 	for (size_t i = 0; i < _operators.size(); i++)
@@ -105,6 +110,14 @@ void	Channel::removeUser(std::string nickname)
 			break ;
 		}
 	}
+	for (size_t i = 0; i < _operators.size(); i++)
+	{
+		if (!_operators[i].getNick().compare(nickname))
+		{
+			_operators.erase(_operators.begin() + i);
+			break ;
+		}
+	}
 }
 
 void	Channel::removeUser(int fd)
@@ -114,6 +127,14 @@ void	Channel::removeUser(int fd)
 		if (_users[i].getFd() == fd)
 		{
 			_users.erase(_users.begin() + i);
+			break ;
+		}
+	}
+	for (size_t i = 0; i < _operators.size(); i++)
+	{
+		if (!_operators[i].getFd() == fd)
+		{
+			_operators.erase(_operators.begin() + i);
 			break ;
 		}
 	}

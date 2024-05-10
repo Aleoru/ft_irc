@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 20:11:57 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/06 19:33:26 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/10 03:14:14 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,10 @@ public:
 
 	std::vector<int>    channelListUsers();
     void                addUserToList(User user);
+	void				addUserToOperators(User user);
 	bool				operatorExists(std::string nick);
-	void				removeUser(std::string nickname);
+	void				removeUser(std::string nickname); //remove user from _unser and _operators
 	void				removeUser(int fd);
-
 
 };
 

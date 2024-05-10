@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:27 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/07 17:36:14 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/10 03:04:00 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,10 +102,9 @@ public:
 	bool		channelExists(std::string name);
 	bool		userExists(std::vector<User> userlist, std::string nickname);		// Pasar vector de usuarios y el nickname
 	void		rmUserFromChannel(std::string channel, std::string nickname);
-
-	std::vector<std::string>	split(const std::string str, char delimiter);
-
 	std::string	getUserSource(User *user);
+	void		promoteUser(std::string nickname, std::string channel); 			//promote user to operator
+	std::vector<std::string>	split(const std::string str, char delimiter);
 
 
 	//GETTERS Y SETTERS
