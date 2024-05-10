@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:27 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/07 19:41:34 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/10 17:36:51 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 class User;
 class Channel;
 
-class Server										
+class Server
 {
 private:
 	int 							_port;				// server port
@@ -44,9 +44,9 @@ private:
 	std::vector<struct pollfd>		_fds;				// vector of pollfd
 	std::vector<Channel> 			_channels;			// verctor of channels
 	static bool						_signal;			// static boolean for signal
-	
+
 public:
-	Server(int port, std::string pass);						
+	Server(int port, std::string pass);
 	~Server();
 
 	/*	SERVER CREATION	*/
@@ -93,7 +93,7 @@ public:
 
 	/*	INVITE	*/
 	void		invite(std::string inv_user, Channel canal, bool needOp);
-	
+
 	/*	KICK	*/
 	void		Kick(User admin, User *user, Channel *canal, const std::string &message);
 
@@ -111,10 +111,10 @@ public:
 	bool		channelExists(std::string name);
 	bool		userExists(std::vector<User> userlist, std::string nickname);
 	void		rmUserFromChannel(std::string channel, std::string nickname);
-	
+	void		promoteUser(std::string nickname, std::string channel); 			//promote user to operator
+	std::string	getUserSource(User *user);
 	std::vector<std::string>	split(const std::string str, char delimiter);
 
-	std::string	getUserSource(User *user);
 
 
 	//GETTERS Y SETTERS

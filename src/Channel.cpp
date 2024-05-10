@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 20:19:31 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/09 19:39:17 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/10 17:41:50 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,14 @@ void	Channel::removeUser(std::string nickname)
 			break ;
 		}
 	}
+	for (size_t i = 0; i < _operators.size(); i++)
+	{
+		if (!_operators[i].getNick().compare(nickname))
+		{
+			_operators.erase(_operators.begin() + i);
+			break ;
+		}
+	}
 }
 
 void	Channel::removeUser(int fd)
@@ -117,6 +125,14 @@ void	Channel::removeUser(int fd)
 		if (_users[i].getFd() == fd)
 		{
 			_users.erase(_users.begin() + i);
+			break ;
+		}
+	}
+	for (size_t i = 0; i < _operators.size(); i++)
+	{
+		if (_operators[i].getFd() == fd)
+		{
+			_operators.erase(_operators.begin() + i);
 			break ;
 		}
 	}

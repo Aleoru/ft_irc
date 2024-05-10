@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:15 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/07 18:17:47 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/10 17:40:27 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,6 +269,19 @@ void	Server::printChannels()
 	{
 		std::cout << "Channel [" << i << "] name: " << _channels[i].getName() << std::endl;
  	}
+}
+
+void	Server::promoteUser(std::string nickname, std::string channel)
+{
+	if (userExists(searchChannel(channel)->getUsers(), nickname)
+		&& !userExists(searchChannel(channel)->getOperators(), nickname))
+	{
+		//User	*user = searchUser(nickname);
+		//Channel *channelPtr = searchChannel(channel);
+		//channelPtr->addOperatorToList(*user);
+		searchChannel(channel)->addOperatorToList(*searchUser(nickname));
+		std::cout<<GRE<<nickname<<" has been promoted to operator on channel "<<channel<<WHI<<std::endl;
+	}
 }
 
 // getters
