@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:27:17 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/11 02:54:31 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/11 03:10:10 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@ void	Server::passCmd(std::vector<std::string> cmd, int fd)
 		//ERR_NEEDMOREPARAMS
 	}
 }
+
+// nick max size?
+// nick invalid characteres?
 void	Server::nickCmd(std::vector<std::string> cmd, int fd)
 {
 	if (cmd.size() == 2)
