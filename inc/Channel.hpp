@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: akent-go <akent-go@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 20:11:57 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/07 19:50:53 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/11 12:31:10 by akent-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ public:
 	bool				operatorExists(std::string nick);
 	void				removeUser(std::string nickname);
 	void				removeUser(int fd);
-
+	bool				getInvite(); //esta función devuelve true si necesitas permisos y false si no necesitas permisos de admin
 
 };
 

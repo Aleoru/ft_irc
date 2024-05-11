@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Join.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: akent-go <akent-go@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 12:32:29 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/09 18:30:13 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/10 18:06:59 by akent-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,5 +122,4 @@ void	Server::sendUserList(Channel channel, User user)
 	std::cout << CYA << list << std::endl;
 	sendMsgUsersList(userList, RPL_NAMREPLY(user.getNick(), channel.getName(), list));
 	sendMsgUsersList(userList, RPL_ENDOFNAMES(user.getNick(), channel.getName()));
-
 }

@@ -6,7 +6,7 @@
 /*   By: akent-go <akent-go@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:27 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/10 17:33:13 by akent-go         ###   ########.fr       */
+/*   Updated: 2024/05/11 12:46:40 by akent-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ public:
 	void 		privMsgCmd(std::vector<std::string> cmd, int fd);
 
 	/*	INVITE	*/
-	void		invite(std::string inv_user, Channel canal, bool needOp);
+	void		invite(std::vector<std::string> cmd, int fd);
 	
 	/*	KICK	*/
 	void		Kick(std::vector<std::string> cmd, int fd);

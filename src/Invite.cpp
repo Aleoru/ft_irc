@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Invite.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: akent-go <akent-go@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 19:55:14 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/06 18:31:34 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/11 12:57:02 by akent-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,31 +24,50 @@ PASOS:
 3.5- Si ya existe en la lista de invitados, ignorar el comando, osea no hace nada
 */
 
-/* void	Server::invite(std::string inv_user, Channel canal, bool needOp) //last var is temporary atm
+void	Server::invite(std::vector<std::string> cmd, int fd) //last var is temporary atm
 {
-	if (!channelExists(canal.getName())) //Esta comprobación es innecesaria según el protocolo pero es posible que de lugar a un error de segmentación o se crea un canal nuevo?
-		return ;
-	std::vector<User> users = getUsers(); //Vector for Users in the server
+	std::string InvitedNick = cmd[1];
+	std::string channelName = cmd[2];
+	
+	Channel *canal = searchChannel(channelName);
+	std::vector<User> users = canal->getUsers(); //Vector for Users in the server
 	std::vector<User>::iterator it = users.begin(); //Iterator for users in the server
-	std::vector<User> users_ch = canal.getUsers(); //Vector for Users in the channel
-	std::vector<User> ops = canal.getOperators(); //FALTA HACER ESTE GETTER
-	for(it; it != users.end(); it++)
+	if (!searchChannel(channelName))//Si no existe el canal, enviar NOSUCHCHANNEL
 	{
-		if (needOp == true)
+		sendMessage(fd, ERR_NOSUCHCHANNEL(canal->getName()));
+		return ;
+	}
+	else
+	{
+		if (searchUser(InvitedNick) != NULL)
 		{
-			if (it->getNick() == inv_user && !userExists(users_ch, it->getNick()) && !userExists(ops, it->getNick()))  //si existe el nick en el servidor y no está unido al canal
+			if (canal->getInvite() == true)
 			{
-				canal.addUserToList(*it);
-				sendMessage(1, RPL_INVITING(it->getNick(), canal.getName()));
-				return ;
+				if (userExists(users, InvitedNick) == true) //Si el usuario ya está en el canal
+				{
+					sendMessage(fd, ERR_USERONCHANNEL(InvitedNick, canal->getName()));
+				}
+				else if (userExists(this->getUsers(), InvitedNick) && canal->operatorExists(searchUser(fd)->getNick()))  //si existe el nick en el servidor, y no está dentro del canal ya
+				{ //y si fd es administrador
+					canal->addUserToList(*searchUser(InvitedNick)); //añadimos usuario a la lista de usuarios del canal
+					sendMessage(1, RPL_INVITING(searchUser(InvitedNick)->getNick(), canal->getName()));
+					return ;
+				}
+				else //Si el usuario no es administrador
+					sendMessage(1, ERR_CHANOPRIVSNEEDED(searchUser(fd)->getNick(), canal->getName()));
+			}
+			else
+			{
+				if (userExists(users, InvitedNick) == true) //Si el usuario ya está en el canal
+					sendMessage(fd, ERR_USERONCHANNEL(InvitedNick, canal->getName()));
+				else  //si existe el nick en el servidor, y no está dentro del canal ya
+				{
+					canal->addUserToList(*searchUser(InvitedNick));
+					sendMessage(1, RPL_INVITING(searchUser(InvitedNick)->getNick(), canal->getName()));
+					return ;
+				}
 			}
 		}
-		else if (needOp == false)
-		{
-			if (it->getNick() == inv_user && !userExists(users_ch, it->getNick()))  //si existe el nick en el servidor y no está unido al canal
-				canal.addUserToList(*it);
-		}
+		sendMessage(1, ERR_NOSUCHNICK(it->getNick())); //Si no hemos podido añadir el usuario al canal, la última opción es que no exista el usuario y por ende, no se haya podido invitar
 	}
-	sendMessage(1, ERR_NOSUCHNICK(it->getNick())); //Si no hemos podido añadir el usuario al canal, la última opción es que no exista el usuario y por ende, no se haya podido invitar
-	return ;
-} */
+}

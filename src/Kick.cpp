@@ -40,18 +40,27 @@ void	Server::Kick(std::vector<std::string> cmd, int fd)
 	std::string kickedUser = cmd[2];
 	std::string comment = cmd[3];
 	Channel *canal = searchChannel(channel_name);
+	std::vector<User> users = canal->getUsers();
+	std::vector<User>::iterator it = users.begin();
 
 	if (cmd.size() < 2) //aqui comprobamos si el comando esta vacío
 		sendMessage(fd, ERR_NOSUCHCHANNEL(canal->getName()));
-	if (canal->operatorExists(searchUser(fd)->getNick())) //Si el admin es admin y el usuario a echar está en el canal
+	if (canal->operatorExists(searchUser(fd)->getNick())) //Si el admin es admin 
 	{
-		if (searchUser(kickedUser) != NULL) //Si el usuario está en el canal
+		for(;it != users.end(); ++it)
 		{
-			canal->removeUser(searchUser(kickedUser)->getFd()); //eliminar al usuario del canal
-			sendMessage(fd, RPL_PART(getUserSource(searchUser(fd)), canal->getName())); //enviar respuesta
+			if (it->getNick() == kickedUser) //Si el usuario esta en el canal
+			{
+				canal->removeUser(searchUser(kickedUser)->getFd()); //eliminar al usuario del canal
+				sendMessage(fd, RPL_PART(getUserSource(searchUser(fd)), canal->getName())); //enviar respuesta
+				return ;
+			}
+			else
+			{
+				sendMessage(1, ERR_NOTONCHANNEL(canal->getName()));
+				return ;
+			}
 		}
-		else
-			sendMessage(1, ERR_NOTONCHANNEL(canal->getName()));
 	}
 	else
 		sendMessage(1, ERR_CHANOPRIVSNEEDED(searchUser(fd)->getNick(), canal->getName()));
