@@ -6,7 +6,7 @@
 /*   By: akent-go <akent-go@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 13:22:05 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/10 17:49:10 by akent-go         ###   ########.fr       */
+/*   Updated: 2024/05/11 13:02:46 by akent-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 # define ERR_NOSUCHCHANNEL(channel) ": 403 " + channel + " : Channel not Found" + "\r\n"
 # define ERR_TOOMANYCHANNELS(user, channel, reason) ": 405 " + user + " " + channel + " :" + reason + "\r\n"
 # define ERR_NOTONCHANNEL(channel) ": 442 " + channel + " :No estás en ese canal\r\n"
-# define ERR_USERONCHANNEL(user, channel) ": 443 " + user + " " channel + " " + " :ya está en el canal\r\n"
+# define ERR_USERONCHANNEL(user, channel) ": 443 " + user + " " + channel + " " + " :ya está en el canal\r\n"
 # define ERR_NEEDMOREPARAMS(user, command, reason) ": 461 " + user + " " + command + " :" + reason + "\r\n"
 # define ERR_CHANNELISFULL(user, channel, reason) ": 471 " + user + " " + channel + " :" + reason + "\r\n"
 # define ERR_INVITEONLYCHAN(user, channel, reason) ": 473 " + user + " " + channel + " :" + reason + "\r\n"

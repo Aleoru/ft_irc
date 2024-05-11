@@ -6,7 +6,7 @@
 /*   By: akent-go <akent-go@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 19:55:14 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/11 12:57:02 by akent-go         ###   ########.fr       */
+/*   Updated: 2024/05/11 13:01:07 by akent-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	Server::invite(std::vector<std::string> cmd, int fd) //last var is temporar
 			{
 				if (userExists(users, InvitedNick) == true) //Si el usuario ya está en el canal
 				{
-					sendMessage(fd, ERR_USERONCHANNEL(InvitedNick, canal->getName()));
+					sendMessage(fd, ERR_USERONCHANNEL(searchUser(InvitedNick)->getNick(), canal->getName()));
 				}
 				else if (userExists(this->getUsers(), InvitedNick) && canal->operatorExists(searchUser(fd)->getNick()))  //si existe el nick en el servidor, y no está dentro del canal ya
 				{ //y si fd es administrador
