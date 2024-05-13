@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:27:17 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/13 18:16:17 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/13 19:34:17 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ void	Server::nickCmd(std::vector<std::string> cmd, int fd)
 	{
 		if (userExists(getUsers() ,cmd[1]) == false && searchUser(fd)->getHasAccess()) //cambio de nick
 		{
-			sendMessage(fd, RPL_NICKCHANGE(searchUser(fd)->getNick(), cmd[1]));
+			sendMsgUsersList(_users, RPL_NICKCHANGE(getUserSource(searchUser(fd)), cmd[1]));
+			//sendMessage(fd, RPL_NICKCHANGE(getUserSource(searchUser(fd)), cmd[1]));
 			searchUser(fd)->setNickname(cmd[1]);
 		}
 		else if (userExists(getUsers() ,cmd[1]) == false)                              //registro de nick

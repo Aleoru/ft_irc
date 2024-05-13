@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 13:22:05 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/11 02:38:11 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/13 19:30:21 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 // user = nickname
 # define RPL_WELCOME(source, user) ": 001 " + user + " :Welcome to the Internet Relay Network " + source + "\r\n"
-# define RPL_NICKCHANGE(oldname, newname) ":" + oldname + " NICK " + newname + "\r\n"
 # define RPL_NOTOPIC(user, channel) ": 331 " + user + " " + channel + " :No topic is set\r\n"
 # define RPL_TOPIC(user, channel, topic) ": 332 " + user + " " + channel + " :" + topic + "\r\n"
 # define RPL_INVITING(user, channel) ": 341 " + user + " " + channel + "\r\n"
@@ -24,6 +23,7 @@
 # define RPL_INFO(info) ": 371 :" + info + "\r\n"
 
 // source = nickname!username@host
+# define RPL_NICKCHANGE(source, newname) ":" + source + " NICK " + newname + "\r\n"
 # define RPL_JOIN(source, channel)	":" + source + " JOIN :" + channel + "\r\n"
 # define RPL_PART(source, channel)	":" + source + " PART :" + channel + "\r\n"
 # define RPL_QUIT(source, message)  ":" + source + " QUIT :" + message + "\r\n"
