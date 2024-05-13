@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:27:17 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/11 03:10:10 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/13 18:16:17 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	Server::passCmd(std::vector<std::string> cmd, int fd)
 		{
 			User	*user = searchUser(fd);
 			user->setCheckPass(true);
+			std::cout << "valid pass";
 			//sendMessage(fd, ": 371  : valid pass \r\n"); //info debug en cliente
 		}
 		else
@@ -60,7 +61,7 @@ void	Server::nickCmd(std::vector<std::string> cmd, int fd)
 		else
 		{
 			std::cout << "error: nick on use" << std::endl;
-			// ERR_NICKNAMEINUSE 
+			// ERR_NICKNAMEINUSE
 			sendMessage(fd, ERR_NICKINUSE(cmd[1]));
 		}
 	}
@@ -77,7 +78,7 @@ void	Server::nickCmd(std::vector<std::string> cmd, int fd)
 
 void	Server::userCmd(std::vector<std::string> cmd, int fd)
 {
-	if (cmd.size() == 2)
+	if (cmd.size() >= 2)
 	{
 		User	*user = searchUser(fd);
 		user->setUsername(cmd[1]);
