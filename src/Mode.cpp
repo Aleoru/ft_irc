@@ -41,14 +41,17 @@ bool	checkFlag(std::string flag, int mode) //Esta función comprueba las flags
 	//usamos un trim para el principio y final del string, que elimine espacios y tabulaciones
 	//Después comprobamos los flags y a mamarla
 	flag = trim(flag);
-	if (mode == 1) //mode es 1 si estamos haciendo un cambio pa usuarios
+	if (mode == 0) //mode es 1 si estamos haciendo un cambio pa usuarios
 		if (flag != "-o" && flag != "+o")
 			return false; //lanzar un mensaje de flag erronea
-	else //mode es 0 si metemos flags para canales
+	else if (mode == 1) //mode es 2 si metemos flags menos la +-l
 	{
-		if (flag != "-i" && flag != "+i" && flag != "+t" && flag != "-t" && flag != "+l" && flag != "-l")
+		if (flag != "-i" && flag != "+i" && flag != "+t" && flag != "-t")
 			return false;
 	}
+	else 
+		if (flag != "+l" && flag != "-l")
+			return false;
 	return true;
 }
 
@@ -72,20 +75,63 @@ void	Server::userMode(std::vector<std::string> cmd, int fd) //LISTO
 		sendMessage(fd, ERR_NEEDMOREPARAMS(searchUser(fd)->getNick(), "MODE", "Invalid arguments"));
 	else
 	{
-		if (userExists(canal->getUsers(), searchUser(user)->getNick())) //prueba 2 hecha
+		if (checkFlag(cmd[3], 0))
 		{
-			if (!canal->operatorExists(searchUser(fd)->getNick()) && checkFlag(cmd[3], 1) && cmd[3] == "+o")
-				canal->addOperatorToList(*searchUser(fd)); //No reply is sent apparently
-			else if (canal->operatorExists(searchUser(fd)->getNick()) && checkFlag(cmd[3], 1) && cmd[3] == "+o")
-				return ; //Silently ignore the command
-			else if (!canal->operatorExists(searchUser(fd)->getNick()) && checkFlag(cmd[3], 1) && cmd[3] == "-o")
-				return ;
-			else
-				canal->removeOperatorFromList(usuarios, *searchUser(fd));
+			if (userExists(canal->getUsers(), searchUser(user)->getNick())) //prueba 2 hecha
+			{
+				if (!canal->operatorExists(searchUser(fd)->getNick()) && cmd[3] == "+o")
+					canal->addOperatorToList(*searchUser(fd)); //No reply is sent apparently
+				else if (canal->operatorExists(searchUser(fd)->getNick()) && cmd[3] == "+o")
+					return ; //Silently ignore the command
+				else if (!canal->operatorExists(searchUser(fd)->getNick())  && cmd[3] == "-o")
+					return ;
+				else
+					canal->removeOperatorFromList(usuarios, *searchUser(fd));
+			}
 		}
+		else
+			sendMessage(fd, ERR_UMODEUNKNOWNFLAG());
 	}
 }
-//void	Server::channelMode(std::vector<std::string> cmd, int fd);
+void	Server::channelMode(std::vector<std::string> cmd, int fd)
+{
+	/*
+		Aquí llega la función grande, primero las comprobaciones:
+		1-Ya hemos comprobado antes que el canal existe entonces no hace falta
+		2-Flags
+			2.1 (i)- Comprobamos el estado y actuamos
+			2.2 (t)- Comprobamos el estado y actuamos
+			2.3 (l)- Comprobamos el estado y si el siguiente parámetro es válido:
+				2.3.1 Activado y pasamos un (-l)- Desactivamos y ponemos el nº de usuarios a -1
+				2.3.2 Activado y pasamos un (+l)- Si el número es el mismo que tenemos guardado ignoramos, sino ponemos el nuevo número
+				2.3.3 Desactivado y pasamos un (+l)- activamos y guardamos número de usuarios (OJO tenemos que comprobar que el número mínimo sea el número de usuarios actualmente en el canal)
+	*/
+	std::string user = cmd[2];
+	std::string channel_in = cmd[1];
+	std::string flag = cmd[3];
+	Channel *canal = searchChannel(channel_in);
+	std::vector<User> usuarios = canal->getUsers();
+	std::vector<User>::iterator it;
+
+
+	if (cmd.size() > 4 && cmd.size() < 2)
+		sendMessage(fd, ERR_NEEDMOREPARAMS(searchUser(fd)->getNick(), "MODE", "Invalid arguments"));
+	else if (cmd.size() == 3) //son las flags i/t
+	{
+		if (checkFlag(cmd[3], 1))
+		{
+			if (canal->getHasTopic() == false && cmd[3] == "+t")
+				canal->setHasTopic(true); //No reply is sent apparently
+			else if (canal->getHasTopic() == true && cmd[3] == "-t")
+				canal->setHasTopic(false);
+			else if (canal->getInvite)
+				
+		}
+		else
+			sendMessage(fd, ERR_UMODEUNKNOWNFLAG());
+	}
+
+}
 
 void	Server::pickMode(std::vector<std::string> cmd, int fd) //ACORDARSE DE COMPROBAR QUE FD TIENE QUE SER ADMIN
 {
@@ -97,7 +143,6 @@ void	Server::pickMode(std::vector<std::string> cmd, int fd) //ACORDARSE DE COMPR
 	
 	if (!user->getNick().empty()) //Si es un usuario
 	{
-		
 		return ; //Es un usuario
 	}
 	else if (!channel->getName().empty()) //Si es un canal

@@ -6,7 +6,7 @@
 /*   By: akent-go <akent-go@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 13:22:05 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/11 13:02:46 by akent-go         ###   ########.fr       */
+/*   Updated: 2024/05/13 19:05:36 by akent-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,6 @@
 # define ERR_BADCHANNELKEY(user, channel, reason) ": 475 " + user + " " + channel + " :" + reason + "\r\n"
 # define ERR_BADCHANMASK(user, channel, reason) ": 476 " + user + " " + channel + " :" + reason + "\r\n"
 # define ERR_CHANOPRIVSNEEDED(user, channel) ": 482 " + user + " " + channel + " :No es operador de canal\r\n"
+# define ERR_UMODEUNKNOWNFLAG() ": 501 Unknown mode flag\r\n"
 
 #endif

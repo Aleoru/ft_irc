@@ -6,7 +6,7 @@
 /*   By: akent-go <akent-go@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 20:11:57 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/13 18:14:13 by akent-go         ###   ########.fr       */
+/*   Updated: 2024/05/13 19:08:24 by akent-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ public:
 	bool				operatorExists(std::string nick);
 	void				removeUser(std::string nickname);
 	void				removeUser(int fd);
-	bool				getInvite(); //esta función devuelve true si necesitas permisos y false si no necesitas permisos de admin
+	int					getInvite(); //esta función devuelve true si necesitas permisos y false si no necesitas permisos de admin
 
 };
 
