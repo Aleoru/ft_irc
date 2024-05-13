@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 13:22:05 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/13 19:30:21 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/13 20:25:06 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 # define REPLIES_HPP
 
 // user = nickname
-# define RPL_WELCOME(source, user) ": 001 " + user + " :Welcome to the Internet Relay Network " + source + "\r\n"
+# define RPL_WELCOME(user, source) ": 001 " + user + " :Welcome to the Internet Relay Network " + source + "\r\n"
 # define RPL_NOTOPIC(user, channel) ": 331 " + user + " " + channel + " :No topic is set\r\n"
 # define RPL_TOPIC(user, channel, topic) ": 332 " + user + " " + channel + " :" + topic + "\r\n"
 # define RPL_INVITING(user, channel) ": 341 " + user + " " + channel + "\r\n"
 # define RPL_NAMREPLY(user, channel, list) ": 353 " + user + " = " + channel + " :" + list + "\r\n"
 # define RPL_ENDOFNAMES(user, channel) ": 366 " + user + " " + channel + " :End of /NAMES list\r\n"
-# define RPL_INFO(info) ": 371 :" + info + "\r\n"
+# define RPL_INFO(user,info) ": 371 :"+ user + " " + info + "\r\n"
 
 // source = nickname!username@host
 # define RPL_NICKCHANGE(source, newname) ":" + source + " NICK " + newname + "\r\n"
@@ -38,6 +38,7 @@
 # define ERR_NOTONCHANNEL(channel) ": 442 " + channel + " :No estás en ese canal\r\n"
 # define ERR_USERONCHANNEL(user, channel) ": 443 " + user + " " channel + " " + " :ya está en el canal\r\n"
 # define ERR_NEEDMOREPARAMS(user, command, reason) ": 461 " + user + " " + command + " :" + reason + "\r\n"
+# define ERR_PASSWDMISMATCH(user) ": 464 " + user + " :Password incorrect\r\n"
 # define ERR_CHANNELISFULL(user, channel, reason) ": 471 " + user + " " + channel + " :" + reason + "\r\n"
 # define ERR_INVITEONLYCHAN(user, channel, reason) ": 473 " + user + " " + channel + " :" + reason + "\r\n"
 # define ERR_BADCHANNELKEY(user, channel, reason) ": 475 " + user + " " + channel + " :" + reason + "\r\n"

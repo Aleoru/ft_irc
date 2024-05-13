@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:27:17 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/13 19:34:17 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/13 20:43:35 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	Server::passCmd(std::vector<std::string> cmd, int fd)
 {
+	std::string msn;
+	std::string nick = searchUser(fd)->getNick();
 	if (cmd.size() == 2)
 	{
 		std::cout << "executing pass command " << fd << std::endl;
@@ -21,18 +23,23 @@ void	Server::passCmd(std::vector<std::string> cmd, int fd)
 		{
 			User	*user = searchUser(fd);
 			user->setCheckPass(true);
-			std::cout << "valid pass";
-			//sendMessage(fd, ": 371  : valid pass \r\n"); //info debug en cliente
+			msn = "valid pass";
+			std::cout << msn << std::endl;
+			//sendMessage(fd, RPL_INFO(nick, msn));
 		}
 		else
 		{
-			std::cout << "wrong pass";
-			//sendMessage(fd, ": 371  : wrong pass \r\n");
+			msn = "wrong pass";
+			std::cout << msn << std::endl;
+			//sendMessage(fd, RPL_INFO(nick, msn));
 		}
 	}
 	else
 	{
-		//ERR_NEEDMOREPARAMS
+		msn = " no pass";
+
+		sendMessage(fd, ERR_NEEDMOREPARAMS(nick, cmd[0], msn));
+		//sendMessage(fd, ERR_NEEDMOREPARAMS(serachUser(fd)->getNick(), cmd[0], msn));
 	}
 }
 
@@ -56,7 +63,7 @@ void	Server::nickCmd(std::vector<std::string> cmd, int fd)
 			if (user->getCheckNick() && user->getCheckUser() && user->getCheckPass() && user->getHasAccess() == false)
 			{
 				user->setHasAccess(true);
-				sendMessage(fd, RPL_WELCOME(getUserSource(searchUser(fd)), searchUser(fd)->getNick()));
+				sendMessage(fd, RPL_WELCOME(searchUser(fd)->getNick(), getUserSource(searchUser(fd))));
 			}
 		}
 		else
@@ -87,7 +94,7 @@ void	Server::userCmd(std::vector<std::string> cmd, int fd)
 		if (user->getCheckNick() && user->getCheckUser() && user->getCheckPass() && user->getHasAccess() == false)
 		{
 			user->setHasAccess(true);
-			sendMessage(fd, RPL_WELCOME(getUserSource(searchUser(fd)), searchUser(fd)->getNick()));
+			sendMessage(fd, RPL_WELCOME(searchUser(fd)->getNick(), getUserSource(searchUser(fd))));
 		}
 	}
 	else

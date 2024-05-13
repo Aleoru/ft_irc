@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Topic.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 19:55:18 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/09 19:39:18 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/13 20:41:13 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,7 @@ void Server::changeTopic(std::vector<std::string> cmd, int fd)
 	Channel *canal = searchChannel(channel_name);
 
 	if (!channelExists(cmd[1]))
-	{
 		return ;
-	}
 	for (size_t i = 2; i < cmd.size(); ++i)
 	{
 		//std::cout << cmd.size();
@@ -45,11 +43,12 @@ void Server::changeTopic(std::vector<std::string> cmd, int fd)
 	{
 		std::cout << "Topic guardado:" << canal->getTopic();
 		if (canal->getHasTopic()) //si no hay topic, imprimimos solo un salto de línea
-			sendMessage(fd, RPL_NOTOPIC(searchUser(fd)->getNick(), canal->getName()));
-		else
 			sendMessage(fd, RPL_TOPIC(searchUser(fd)->getNick(), canal->getName(), canal->getTopic()));
+		else
+			sendMessage(fd, RPL_NOTOPIC(searchUser(fd)->getNick(), canal->getName()));
+		return ;
 	}
-	else if (canal->getSetTopic() == true) //si la flag +t está activada, además ya hemos verificado que la string de topic no esté vacía
+	if (canal->getSetTopic() == true) //si la flag +t está activada, además ya hemos verificado que la string de topic no esté vacía
 	{
 		std::vector<User> users_ch = canal->getUsers();
 		std::vector<User> ops = canal->getOperators();
