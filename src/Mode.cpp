@@ -81,7 +81,7 @@ void	Server::userMode(std::vector<std::string> cmd, int fd) //LISTO
 			else if (!canal->operatorExists(searchUser(fd)->getNick()) && checkFlag(cmd[3], 1) && cmd[3] == "-o")
 				return ;
 			else
-				canal->removeOperatorFromList(*searchUser(fd));
+				canal->removeOperatorFromList(usuarios, *searchUser(fd));
 		}
 	}
 }

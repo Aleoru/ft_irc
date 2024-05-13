@@ -6,7 +6,7 @@
 /*   By: akent-go <akent-go@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 20:19:31 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/13 18:06:51 by akent-go         ###   ########.fr       */
+/*   Updated: 2024/05/13 18:16:14 by akent-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,12 @@ void    Channel::addOperatorToList(User user)
     _operators.push_back(user);
 }
 
-void    Channel::removeOperatorFromList(User user) //change removeOperatorFromList
+void    Channel::removeOperatorFromList(std::vector<User> users, User u) //change removeOperatorFromList
 {
-    _operators.erase(user);
+	std::vector<User>::iterator it = users.begin();
+	while (it->getNick() != u.getNick())
+		it++;
+    _operators.erase(it);
 }
 
 bool	Channel::operatorExists(std::string nick)
