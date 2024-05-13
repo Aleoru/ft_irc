@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:27 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/10 17:36:51 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/13 04:12:08 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,15 +67,14 @@ public:
 	void		sendMsgUsersList(std::vector<User> users, std::string str);
 
 	/*	PARSER			*/
-	void		parser(std::string str, int fd, bool debug);					// temporal
-	void		findCommand(std::vector<std::string> cmd, int fd, bool debug); 	// temporal
+	void		parser(std::string str, int fd, bool debug);					
+	void		findCommand(std::vector<std::string> cmd, int fd, bool debug);
 
 	/*	JOIN COMMAND	*/
 
 	void		createNewChannel(std::string name, User *user);
 	void		joinNewChannel(std::string name, User *user);
 	void		sendUserList(Channel channel, User user);
-	std::string	strUsersChannel(std::string channelName);
 
 	/*	PART	*/
 	void		partCmd(std::vector<std::string> cmd, int fd);
@@ -113,6 +112,7 @@ public:
 	void		rmUserFromChannel(std::string channel, std::string nickname);
 	void		promoteUser(std::string nickname, std::string channel); 			//promote user to operator
 	std::string	getUserSource(User *user);
+	bool		maskMacht(std::string mask, std::string name);						//filter names by mask
 	std::vector<std::string>	split(const std::string str, char delimiter);
 
 

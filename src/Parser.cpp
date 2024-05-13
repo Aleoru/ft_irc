@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Parser.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:31:58 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/07 20:35:45 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/13 04:12:13 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,4 +159,46 @@ void 	Server::privMsgCmd(std::vector<std::string> cmd, int fd)
 	{
 		//error number of arguments
 	}
+}
+
+bool Server::maskMacht(std::string mask, std::string name)
+{
+	size_t pos = 0;
+	pos = mask.find("*");
+	std::string	sub;  
+	if (pos <= mask.size() && (mask.size()-1) <= name.size())
+	{
+		if (pos == 0)
+		{
+			mask.erase(mask.begin());
+			sub = name.substr((name.size() - mask.size()), (mask.size()));
+			if (!sub.compare(mask))
+				return (true);
+		}
+		else if (pos == mask.size()-1)
+		{
+			mask.erase(mask.end()-1);
+			sub = name.substr(0, mask.size());
+			if (!sub.compare(mask))
+				return (true);
+		}
+		else
+		{
+			std::string maskIni = mask.substr(0, pos);
+			std::string maskEnd = mask.substr(pos + 1, mask.size() -1);
+			sub = name.substr(0, maskIni.size());
+			if (!sub.compare(maskIni))
+			{
+				sub = name.substr((name.size() - maskEnd.size()), (maskEnd.size()));
+				if (!sub.compare(maskEnd))
+					return (true);
+			}
+		}
+	}
+	else
+	{
+		if (!name.compare(mask))
+			return (true);
+	}
+	return (false);  
 }
