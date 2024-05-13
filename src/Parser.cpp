@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:31:58 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/13 04:12:13 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/13 04:17:09 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,10 +195,7 @@ bool Server::maskMacht(std::string mask, std::string name)
 			}
 		}
 	}
-	else
-	{
-		if (!name.compare(mask))
-			return (true);
-	}
+	else if (!name.compare(mask))
+		return (true);
 	return (false);  
 }

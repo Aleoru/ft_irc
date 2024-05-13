@@ -35,11 +35,8 @@ bool maskMacht(std::string mask, std::string name)
 			}
 		}
 	}
-	else
-	{
-		if (!name.compare(mask))
-			return (true);
-	}
+	else if (!name.compare(mask))
+		return (true);
 	return (false);  
 }
 
