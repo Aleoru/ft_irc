@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:31:58 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/13 04:17:09 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/13 21:03:50 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ std::vector<std::string> Server::split(const std::string str, char delimiter)
 void Server::findCommand(std::vector<std::string> cmd, int fd, bool debug)
 {
 	bool access = searchUser(fd)->getHasAccess();
+	std::cout<<YEL<<"access: "<<access<<WHI<<std::endl;
 	if (!cmd[0].compare("PASS") && searchUser(fd)->getCheckPass() == false)
 	{
 		passCmd(cmd, fd);
@@ -129,7 +130,7 @@ void 	Server::privMsgCmd(std::vector<std::string> cmd, int fd)
 		std::string			subStr;
 		std::string			msg;
 		size_t				len = 400;
-		
+
 		cmd[2].erase(cmd[2].begin());
 		for (size_t i = 2; i < cmd.size(); i++)
 		{
@@ -165,7 +166,7 @@ bool Server::maskMacht(std::string mask, std::string name)
 {
 	size_t pos = 0;
 	pos = mask.find("*");
-	std::string	sub;  
+	std::string	sub;
 	if (pos <= mask.size() && (mask.size()-1) <= name.size())
 	{
 		if (pos == 0)
@@ -197,5 +198,5 @@ bool Server::maskMacht(std::string mask, std::string name)
 	}
 	else if (!name.compare(mask))
 		return (true);
-	return (false);  
+	return (false);
 }
