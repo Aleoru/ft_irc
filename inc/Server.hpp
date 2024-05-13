@@ -6,7 +6,7 @@
 /*   By: akent-go <akent-go@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:27 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/11 12:46:40 by akent-go         ###   ########.fr       */
+/*   Updated: 2024/05/13 16:54:23 by akent-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,12 @@ public:
 
 	/*	TOPIC	*/
 	void 		changeTopic(std::vector<std::string> cmd, int fd);
+
+	/*	MODE	*/
+	void		pickMode(std::vector<std::string> cmd, int fd);
+	void		userMode(std::vector<std::string> cmd, int fd);
+	void		channelMode(std::vector<std::string> cmd, int fd);
+
 
 	//debug
 	void		printUsers(std::vector<User> userlist);
