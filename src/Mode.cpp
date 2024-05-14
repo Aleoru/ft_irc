@@ -40,7 +40,7 @@ bool	isNum(std::string str)
 {
 	int i = 0;
 
-	while (i <= str.length())
+	while (i <= (int)str.length())
 	{
 		if (str[i] <= '0' || str[i] >= '9')
 			return false;
