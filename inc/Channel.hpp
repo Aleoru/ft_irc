@@ -6,7 +6,7 @@
 /*   By: akent-go <akent-go@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 20:11:57 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/13 19:08:24 by akent-go         ###   ########.fr       */
+/*   Updated: 2024/05/14 17:28:03 by akent-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,14 @@ public:
 	std::vector<User>	getOperators(void) const;
 	bool				getHasTopic(void) const;
 	bool				getSetTopic(void) const;
+	bool				getInvite(); //esta función devuelve true si necesitas permisos y false si no necesitas permisos de admin
+	int					getLimit();
 
 	void				setTopic(std::string newTopic);
 	void				setSetTopic(bool setTopic);
 	void				setHasTopic(bool hasTopic);
+	void				setInvite(bool setInv);
+	void				setLimit(int nLimit);
 
 	std::vector<int>    channelListUsers();
     void                addUserToList(User user);
@@ -72,7 +76,6 @@ public:
 	bool				operatorExists(std::string nick);
 	void				removeUser(std::string nickname);
 	void				removeUser(int fd);
-	int					getInvite(); //esta función devuelve true si necesitas permisos y false si no necesitas permisos de admin
 
 };
 

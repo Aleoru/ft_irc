@@ -36,26 +36,49 @@ std::string trim(const std::string& str)
 	return std::string(begin, end);
 }
 
+bool	isNum(std::string str)
+{
+	int i = 0;
+
+	while (i <= str.length())
+	{
+		if (str[i] <= '0' || str[i] >= '9')
+			return false;
+		i++;
+	}
+	return true;
+}
+
+int		countUsers(Channel canal)
+{
+	std::vector<User> users = canal.getUsers();
+	return ((int)users.size());
+}
+
 bool	checkFlag(std::string flag, int mode) //Esta función comprueba las flags
 {
 	//usamos un trim para el principio y final del string, que elimine espacios y tabulaciones
 	//Después comprobamos los flags y a mamarla
-	flag = trim(flag);
+	flag = trim(flag); //es posible que los parametros ya vengan trimeados⚠️
 	if (mode == 0) //mode es 1 si estamos haciendo un cambio pa usuarios
+	{
 		if (flag != "-o" && flag != "+o")
 			return false; //lanzar un mensaje de flag erronea
+	}
 	else if (mode == 1) //mode es 2 si metemos flags menos la +-l
 	{
 		if (flag != "-i" && flag != "+i" && flag != "+t" && flag != "-t")
 			return false;
 	}
 	else 
+	{
 		if (flag != "+l" && flag != "-l")
 			return false;
+	}
 	return true;
 }
 
-void	Server::userMode(std::vector<std::string> cmd, int fd) //LISTO
+void	Server::userMode(std::vector<std::string> cmd, int fd) //LISTO Y EL MODE NO DA RESPUESTA EN LOS CASOS QUE SE CAMBIA EL MODO
 {
 	/*
 		El mode del usuario es super fácil, solo tiene una flag válida, -o que lo convierte en operador
@@ -93,7 +116,7 @@ void	Server::userMode(std::vector<std::string> cmd, int fd) //LISTO
 			sendMessage(fd, ERR_UMODEUNKNOWNFLAG());
 	}
 }
-void	Server::channelMode(std::vector<std::string> cmd, int fd)
+void	Server::channelMode(std::vector<std::string> cmd, int fd) //EL MODE NO DA RESPUESTA EN LOS CASOS QUE SE CAMBIA EL MODO
 {
 	/*
 		Aquí llega la función grande, primero las comprobaciones:
@@ -102,7 +125,7 @@ void	Server::channelMode(std::vector<std::string> cmd, int fd)
 			2.1 (i)- Comprobamos el estado y actuamos
 			2.2 (t)- Comprobamos el estado y actuamos
 			2.3 (l)- Comprobamos el estado y si el siguiente parámetro es válido:
-				2.3.1 Activado y pasamos un (-l)- Desactivamos y ponemos el nº de usuarios a -1
+				2.3.1 Activado y pasamos un (-l)- Desactivamos y ponemos el nº de usuarios a 0
 				2.3.2 Activado y pasamos un (+l)- Si el número es el mismo que tenemos guardado ignoramos, sino ponemos el nuevo número
 				2.3.3 Desactivado y pasamos un (+l)- activamos y guardamos número de usuarios (OJO tenemos que comprobar que el número mínimo sea el número de usuarios actualmente en el canal)
 	*/
@@ -118,19 +141,40 @@ void	Server::channelMode(std::vector<std::string> cmd, int fd)
 		sendMessage(fd, ERR_NEEDMOREPARAMS(searchUser(fd)->getNick(), "MODE", "Invalid arguments"));
 	else if (cmd.size() == 3) //son las flags i/t
 	{
-		if (checkFlag(cmd[3], 1))
+		if (checkFlag(cmd[3], 1)) //tienes que mandar las respuestas no te olvides, aquí hemos comprobado ya que si la flag es mala, enviar un error
 		{
 			if (canal->getHasTopic() == false && cmd[3] == "+t")
 				canal->setHasTopic(true); //No reply is sent apparently
 			else if (canal->getHasTopic() == true && cmd[3] == "-t")
 				canal->setHasTopic(false);
-			else if (canal->getInvite)
-				
+			else if (canal->getInvite() == false && cmd[3] == "+i") //Si es false no hace falta invitación, si es true si
+				canal->setInvite(true);
+			else if (canal->getInvite() == true && cmd[3] == "-i")
+				canal->setInvite(false);
+			else
+				return ;
 		}
 		else
 			sendMessage(fd, ERR_UMODEUNKNOWNFLAG());
 	}
-
+	else
+	{
+		if (checkFlag(cmd[3], 2) && isNum(cmd[4])) //Ahora toca el coñazo
+		{
+			int channel_limit = std::stoi(cmd[4].c_str());
+			if (channel_limit < 0)
+				return ;
+			if (canal->getLimit() > 0 && (cmd[3] == "-l" || (cmd[3] == "+l" && channel_limit == 0)))
+				canal->setLimit(0); //Quitamos el límite de usuarios y encima aprovechamos el return de debajo
+			else if (cmd[3] == "+l" && (channel_limit < countUsers(*canal))) //si intentamos reducir el tamaño del canal a menos de los usuarios que hay
+				return ; //ignora este comando porque el argumento del número es inválido
+			else if (cmd[3] == "+l" && canal->getLimit() >= 0 && (channel_limit > 0 && channel_limit < 32))
+				canal->setLimit(channel_limit); //cambiamos el límite del canal
+		}
+		else
+			sendMessage(fd, ERR_UMODEUNKNOWNFLAG());
+	}
+	return ;
 }
 
 void	Server::pickMode(std::vector<std::string> cmd, int fd) //ACORDARSE DE COMPROBAR QUE FD TIENE QUE SER ADMIN

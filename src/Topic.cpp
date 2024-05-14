@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Topic.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: akent-go <akent-go@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 19:55:18 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/09 19:39:18 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/14 16:55:25 by akent-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void Server::changeTopic(std::vector<std::string> cmd, int fd)
 	if (newTopic.length() < 1 || cmd.size() < 2) //Aquí completamos la primera comprobación y actuamos en base al resultado
 	{
 		std::cout << "Topic guardado:" << canal->getTopic();
-		if (canal->getHasTopic()) //si no hay topic, imprimimos solo un salto de línea
+		if (!canal->getHasTopic()) //si no hay topic, imprimimos solo un salto de línea
 			sendMessage(fd, RPL_NOTOPIC(searchUser(fd)->getNick(), canal->getName()));
 		else
 			sendMessage(fd, RPL_TOPIC(searchUser(fd)->getNick(), canal->getName(), canal->getTopic()));

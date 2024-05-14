@@ -6,7 +6,7 @@
 /*   By: akent-go <akent-go@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 20:19:31 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/13 18:16:14 by akent-go         ###   ########.fr       */
+/*   Updated: 2024/05/14 17:27:47 by akent-go         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,3 +131,6 @@ void	Channel::removeUser(int fd)
 }
 
 bool	Channel::getInvite() {	return _invite; }
+void	Channel::setInvite(bool setInv) { _invite = setInv; }
+int		Channel::getLimit() { return _limit; }
+void	Channel::setLimit(int nLimit) { _limit = nLimit; }
