@@ -6,11 +6,12 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:57:44 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/06 03:19:03 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/14 21:30:57 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/User.hpp"
+#include "../inc/Server.hpp"
 
 User::User()
 {
@@ -68,7 +69,7 @@ void	User::setFd(int fd) {this->_fd = fd;}
 void	User::setIpAdd(std::string ipadd) {this->_ipAdd = ipadd;}
 void	User::setNickname(std::string nickname) {this->_nickname = nickname;}
 void	User::setUsername(std::string username) {this->_username = username;}
-void	User::setHasAccess(bool access) {this->_hasAccess = access;}
+void	User::setHasAccess(bool access) {std::cout<< RED <<"access"<< WHI <<std::endl;this->_hasAccess = access;}
 void	User::setCheckPass(bool pass) {this->_checkPass = pass;}
 void	User::setCheckNick(bool nick) {this->_checkNick = nick;}
 void	User::setCheckUser(bool user) {this->_checkUser = user;}

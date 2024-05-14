@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:27:17 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/13 20:43:35 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/14 19:25:43 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ void	Server::nickCmd(std::vector<std::string> cmd, int fd)
 			{
 				user->setHasAccess(true);
 				sendMessage(fd, RPL_WELCOME(searchUser(fd)->getNick(), getUserSource(searchUser(fd))));
+				std::cout<<"----> despues de registrar(nick) usuario: "<<std::endl;
+				printUsers(_users);
 			}
 		}
 		else
@@ -95,6 +97,8 @@ void	Server::userCmd(std::vector<std::string> cmd, int fd)
 		{
 			user->setHasAccess(true);
 			sendMessage(fd, RPL_WELCOME(searchUser(fd)->getNick(), getUserSource(searchUser(fd))));
+			std::cout<<"----> despues de registrar(user) usuario: "<<std::endl;
+			printUsers(_users);
 		}
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:15 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/10 17:40:27 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/14 20:46:57 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ void Server::clearClients(int fd)
 			break ;
 		}
  	}
+	std::cout<<"----> despues de borrar usuario: "<<std::endl;
+	printUsers(_users);
 }
 
 void	Server::rmUserFromChannel(std::string channel, std::string nickname)
@@ -255,11 +257,13 @@ std::string	Server::getUserSource(User *user)
 // debug functions
 void	Server::printUsers(std::vector<User> userlist)
 {
-	std::cout << "Server fd: " << _fds[0].fd << std::endl;
+	std::cout << "----- ["<<userlist.size()<<"]users list -----"<< std::endl;
 	for(size_t i = 0; i < userlist.size(); i++)
 	{
-		std::cout << "User [" << i << "] fd: " << userlist[i].getFd() << std::endl;
+		int fd = userlist[i].getFd();
+		std::cout << "User [" << i << "] fd: " << fd << ", nick: " << searchUser(fd)->getNick() << std::endl;
  	}
+	std::cout << "------- list end -------"<< std::endl;
 }
 
 void	Server::printChannels()

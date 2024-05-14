@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:31:58 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/13 21:03:50 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/14 21:45:39 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ std::vector<std::string> Server::split(const std::string str, char delimiter)
 void Server::findCommand(std::vector<std::string> cmd, int fd, bool debug)
 {
 	bool access = searchUser(fd)->getHasAccess();
+	//access = true;
 	std::cout<<YEL<<"access: "<<access<<WHI<<std::endl;
 	if (!cmd[0].compare("PASS") && searchUser(fd)->getCheckPass() == false)
 	{
