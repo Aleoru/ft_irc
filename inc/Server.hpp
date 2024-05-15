@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:27 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/13 04:12:08 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/15 19:38:19 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ public:
 	void		sendMsgUsersList(std::vector<User> users, std::string str);
 
 	/*	PARSER			*/
-	void		parser(std::string str, int fd, bool debug);					
+	void		parser(std::string str, int fd, bool debug);
 	void		findCommand(std::vector<std::string> cmd, int fd, bool debug);
 
 	/*	JOIN COMMAND	*/
@@ -102,6 +102,7 @@ public:
 	//debug
 	void		printUsers(std::vector<User> userlist);
 	void		printChannels();
+	void		infoServer();
 
 	/*	UTILS	*/
 	User		*searchUser(int fd);

@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:15 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/14 20:46:57 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/15 20:00:06 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,7 +261,8 @@ void	Server::printUsers(std::vector<User> userlist)
 	for(size_t i = 0; i < userlist.size(); i++)
 	{
 		int fd = userlist[i].getFd();
-		std::cout << "User [" << i << "] fd: " << fd << ", nick: " << searchUser(fd)->getNick() << std::endl;
+		std::cout << "User [" << i << "] fd: " << fd << ", nick: " << searchUser(fd)->getNick()
+		<< ", access: " << searchUser(fd)->getHasAccess() << std::endl;
  	}
 	std::cout << "------- list end -------"<< std::endl;
 }
@@ -273,6 +274,20 @@ void	Server::printChannels()
 	{
 		std::cout << "Channel [" << i << "] name: " << _channels[i].getName() << std::endl;
  	}
+}
+
+void	Server::infoServer()
+{
+	std::cout<<YEL<<"--------- SERVER INFO ---------"<<WHI<<std::endl;
+	std::cout<<"All users: "<<std::endl;
+	printUsers(_users);
+	for (size_t i = 0; i < _channels.size(); i++)
+	{
+		std::cout<<"Channel: "<<_channels[i].getName()<<" has "
+		<<_channels[i].getUsers().size()<<" users"<<std::endl;
+		printUsers(_channels[i].getUsers());
+	}
+	std::cout<<YEL<<"-------------------------------"<<WHI<<std::endl;
 }
 
 void	Server::promoteUser(std::string nickname, std::string channel)

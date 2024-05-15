@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:31:58 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/14 21:45:39 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/15 19:52:00 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ void Server::findCommand(std::vector<std::string> cmd, int fd, bool debug)
 		quitCmd(cmd, fd);
 	else if (!cmd[0].compare("TOPIC") && access)
 		changeTopic(cmd, fd);
+	else if (!cmd[0].compare("info"))
+		infoServer();
 	//else if (!cmd[0].compare("COMMAND") && access) //need access to execute commands
 	std::cout << "-------" << std::endl;
 }

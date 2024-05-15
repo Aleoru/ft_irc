@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:06:50 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/10 18:34:21 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/15 21:19:38 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void Server::quitCmd(std::vector<std::string> cmd, int fd)
 				rmUserFromChannel(_channels[i].getName(), searchUser(fd)->getNick());
 			}
 		}
+		clearClients(fd);
 	}
 	else
 	{
