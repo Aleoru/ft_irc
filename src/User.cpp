@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:57:44 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/14 21:30:57 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/16 18:48:12 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,11 @@ User &User::operator=(User const &src)
 		this->_ipAdd = src._ipAdd;
 		this->_nickname = src._nickname;
 		this->_username = src._username;
+		this->_hasAccess = src._hasAccess;
+		this->_checkNick = src._checkNick;
+		this->_checkPass = src._checkPass;
+		this->_checkUser = src._checkUser;
+		this->_nbChannels = src._nbChannels;
 	}
 	return (*this);
 }
