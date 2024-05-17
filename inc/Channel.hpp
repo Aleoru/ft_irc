@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 20:11:57 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/10 17:37:45 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/17 19:45:57 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,9 @@ private:
 	std::string			_topic;
 	bool				_hasTopic;	// check to send the correct RPL_TOPIC or RPL_NOTOPIC
 	bool				_setTopic;	// t: topic settable by channel operator only flag
-	int					_limit;		// l: set/remove user limit - 0 = no limit
+	bool				_hasPass;	// check if channel has pass or not
 	bool				_invite;	// i: set/remove invite-only
+	int					_limit;		// l: set/remove user limit - 0 = no limit
 	std::vector<User>	_users;
 	std::vector<User>	_invitedUsers;
 	std::vector<User>	_operators;	// o: give/take channel operator privilege
@@ -56,14 +57,19 @@ public:
 
 	std::string			getName(void) const;
 	std::string			getTopic(void) const;
+	std::string			getPass(void) const;
 	std::vector<User>	getUsers(void) const;
 	std::vector<User>	getOperators(void) const;
 	bool				getHasTopic(void) const;
 	bool				getSetTopic(void) const;
+	bool				getHasPass(void) const;
+	bool				getInvite(void) const;
+	int					getLimit(void) const;
 
 	void				setTopic(std::string newTopic);
 	void				setSetTopic(bool setTopic);
 	void				setHasTopic(bool hasTopic);
+	void				setInvite(bool hasTopic);
 
 	std::vector<int>    channelListUsers();
     void                addUserToList(User user);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Parser.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:31:58 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/15 19:52:00 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/17 20:35:29 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void Server::findCommand(std::vector<std::string> cmd, int fd, bool debug)
 	}
 	else if (!cmd[0].compare("JOIN") && access)
 	{
-		joinNewChannel(cmd[1], searchUser(fd));	// crear joincmd
+		joinCmd(cmd, fd);
 	}
 	else if (!cmd[0].compare("PRIVMSG") && access)
 	{
@@ -81,13 +81,15 @@ void Server::findCommand(std::vector<std::string> cmd, int fd, bool debug)
 		quitCmd(cmd, fd);
 	else if (!cmd[0].compare("TOPIC") && access)
 		changeTopic(cmd, fd);
+	else if (!cmd[0].compare("KICK") && access)
+		Kick(cmd, fd);
 	else if (!cmd[0].compare("info"))
 		infoServer();
 	//else if (!cmd[0].compare("COMMAND") && access) //need access to execute commands
 	std::cout << "-------" << std::endl;
 }
 
-// Parser (de mierda xD) provisional
+// Parser (de mierda xD) provisional xd
 void Server::parser(std::string str, int fd, bool debug)
 {
 	if (debug)

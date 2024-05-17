@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:15 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/15 20:00:06 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/17 20:24:24 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,8 +243,8 @@ void Server::serverInit()
 			}
 		}
 		//printUsers();
-		std::cout << CYA << "Channel List:" << WHI << std::endl;
-		printChannels();
+		//std::cout << CYA << "Channel List:" << WHI << std::endl;
+		//printChannels();
 	}
 	closeFds(); // close the file descriptors when the server stops
 }
@@ -281,11 +281,18 @@ void	Server::infoServer()
 	std::cout<<YEL<<"--------- SERVER INFO ---------"<<WHI<<std::endl;
 	std::cout<<"All users: "<<std::endl;
 	printUsers(_users);
+	std::cout << std::endl;
 	for (size_t i = 0; i < _channels.size(); i++)
 	{
 		std::cout<<"Channel: "<<_channels[i].getName()<<" has "
 		<<_channels[i].getUsers().size()<<" users"<<std::endl;
+		std::cout << "HasTopic: " << _channels[i].getHasTopic() << std::endl;
+		std::cout << "Topic can be modified: " << _channels[i].getSetTopic() << std::endl;
+		std::cout << "HasPass: " << _channels[i].getHasPass() << std::endl;
+		std::cout << "Can invite: " << _channels[i].getInvite() << std::endl;
+		std::cout << "Channel user limit: " << _channels[i].getLimit() << std::endl;
 		printUsers(_channels[i].getUsers());
+		std::cout << std::endl;
 	}
 	std::cout<<YEL<<"-------------------------------"<<WHI<<std::endl;
 }

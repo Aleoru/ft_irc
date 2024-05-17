@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 20:19:31 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/10 17:41:50 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/17 19:48:13 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@ Channel::Channel(std::string name, User user): _name(name)
 {
 	this->_setTopic = false;
 	this->_hasTopic = false;
-	this->_limit = NOLIMIT;
+	this->_hasPass = false;
 	this->_invite = false;
+	this->_limit = NOLIMIT;
 	user.setNbChannels(1);
 	_users.push_back(user);
 	_operators.push_back(user);
@@ -27,8 +28,9 @@ Channel::Channel(std::string name, std::string pass, User user): _name(name), _p
 {
 	this->_setTopic = false;
 	this->_hasTopic = false;
-	this->_limit = NOLIMIT;
+	this->_hasPass = true;
 	this->_invite = false;
+	this->_limit = NOLIMIT;
 	user.setNbChannels(1);
 	_users.push_back(user);
 	_operators.push_back(user);
@@ -52,6 +54,8 @@ Channel & Channel::operator=(Channel const &src)
 		this->_topic = src._topic;
 		this->_hasTopic = src._hasTopic;
 		this->_setTopic = src._setTopic;
+		this->_hasPass = src._hasPass;
+		this->_invite = src._invite;
 		this->_limit = src._limit;
 		this->_users = src._users;
 		this->_invitedUsers = src._invitedUsers;
@@ -62,14 +66,19 @@ Channel & Channel::operator=(Channel const &src)
 
 std::string	Channel::getName() const { return (this->_name); }
 std::string	Channel::getTopic() const { return (this->_topic); }
+std::string	Channel::getPass() const { return (this->_pass); }
 std::vector<User>	Channel::getUsers() const { return (this->_users); }
 std::vector<User>	Channel::getOperators() const { return (this->_operators); }
 bool		Channel::getHasTopic() const { return (this->_hasTopic); }
 bool		Channel::getSetTopic() const { return (this->_setTopic); }
+bool		Channel::getInvite() const { return (this->_invite); }
+int			Channel::getLimit() const { return (this->_limit); }
+bool		Channel::getHasPass() const { return (this->_hasPass); }
 
 void		Channel::setTopic(std::string newTopic){ _topic = newTopic; }
 void		Channel::setSetTopic(bool setTopic) { this->_setTopic = setTopic; }
 void		Channel::setHasTopic(bool hasTopic) { this->_hasTopic = hasTopic; }
+void		Channel::setInvite(bool invite) { this->_invite = invite; }
 
 std::vector<int>	Channel::channelListUsers()
 {

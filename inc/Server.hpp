@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:27 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/15 19:38:19 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/17 20:40:37 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,10 @@ public:
 	/*	JOIN COMMAND	*/
 
 	void		createNewChannel(std::string name, User *user);
+	void		createNewChannel(std::string name, std::string pass, User *user);
 	void		joinNewChannel(std::string name, User *user);
+	void		joinNewChannel(std::string name, std::string pass, User *user);
+	void		joinCmd(std::vector<std::string> cmd, int fd);
 	void		sendUserList(Channel channel, User user);
 
 	/*	PART	*/
@@ -94,7 +97,7 @@ public:
 	void		invite(std::string inv_user, Channel canal, bool needOp);
 
 	/*	KICK	*/
-	void		Kick(User admin, User *user, Channel *canal, const std::string &message);
+	void		Kick(std::vector<std::string> cmd, int fd);
 
 	/*	TOPIC	*/
 	void 		changeTopic(std::vector<std::string> cmd, int fd);
