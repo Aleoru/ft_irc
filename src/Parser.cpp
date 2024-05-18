@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Parser.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:31:58 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/17 20:35:29 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/18 15:47:14 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,36 +45,19 @@ std::vector<std::string> Server::split(const std::string str, char delimiter)
 void Server::findCommand(std::vector<std::string> cmd, int fd, bool debug)
 {
 	bool access = searchUser(fd)->getHasAccess();
-	//access = true;
-	std::cout<<YEL<<"access: "<<access<<WHI<<std::endl;
-	if (!cmd[0].compare("PASS") && searchUser(fd)->getCheckPass() == false)
-	{
-		passCmd(cmd, fd);
-		if (debug)
-			std::cout << YEL << "Testing PASS client[" << fd << "]: " << searchUser(fd)->getCheckPass() << WHI << std::endl;
-	}
-	else if (!cmd[0].compare("NICK") && searchUser(fd)->getCheckPass())
-	{
-		nickCmd(cmd, fd);
-		if (debug)
-			std::cout << YEL << "Testing NICK client[" << fd << "]: " << searchUser(fd)->getNick() << WHI << std::endl;
-	}
-	else if (!cmd[0].compare("USER") && searchUser(fd)->getCheckPass())
-	{
-		userCmd(cmd, fd);
-		if (debug)
-			std::cout << YEL << "Testing USER client[" << fd << "]: "<< searchUser(fd)->getUsername() << WHI << std::endl;
-		//sendMessage(fd, RPL_WELCOME(getUserSource(searchUser(fd)), searchUser(fd)->getNick()));
+	if (debug && access)
+		std::cout<<"access to execute: "<<cmd[0]<<std::endl;
 
-	}
+	if (!cmd[0].compare("PASS") && !searchUser(fd)->getCheckPass())
+		passCmd(cmd, fd);
+	else if (!cmd[0].compare("NICK") && searchUser(fd)->getCheckPass())
+		nickCmd(cmd, fd);
+	else if (!cmd[0].compare("USER") && searchUser(fd)->getCheckPass())
+		userCmd(cmd, fd);
 	else if (!cmd[0].compare("JOIN") && access)
-	{
 		joinCmd(cmd, fd);
-	}
 	else if (!cmd[0].compare("PRIVMSG") && access)
-	{
 		privMsgCmd(cmd, fd);
-	}
 	else if (!cmd[0].compare("PART") && access)
 		partCmd(cmd, fd);
 	else if (!cmd[0].compare("QUIT") && access)
@@ -82,11 +65,13 @@ void Server::findCommand(std::vector<std::string> cmd, int fd, bool debug)
 	else if (!cmd[0].compare("TOPIC") && access)
 		changeTopic(cmd, fd);
 	else if (!cmd[0].compare("KICK") && access)
-		Kick(cmd, fd);
+		nickCmd(cmd, fd);
+	else if (!cmd[0].compare("INVITE") && access)
+		inviteCmd(cmd, fd);
 	else if (!cmd[0].compare("info"))
 		infoServer();
-	//else if (!cmd[0].compare("COMMAND") && access) //need access to execute commands
-	std::cout << "-------" << std::endl;
+	else
+		std::cout<<YEL<<"error: command not found"<<WHI<<std::endl;
 }
 
 // Parser (de mierda xD) provisional xd
@@ -116,14 +101,6 @@ void Server::parser(std::string str, int fd, bool debug)
 			}
 		}
 		findCommand(cmd, fd, debug);
-	}
-}
-
-void		Server::sendMsgUsersList(std::vector<User> users, std::string str)
-{
-	for (size_t i = 0; i < users.size(); i++)
-	{
-		sendMessage(users[i].getFd(), str);
 	}
 }
 
@@ -167,41 +144,3 @@ void 	Server::privMsgCmd(std::vector<std::string> cmd, int fd)
 	}
 }
 
-bool Server::maskMacht(std::string mask, std::string name)
-{
-	size_t pos = 0;
-	pos = mask.find("*");
-	std::string	sub;
-	if (pos <= mask.size() && (mask.size()-1) <= name.size())
-	{
-		if (pos == 0)
-		{
-			mask.erase(mask.begin());
-			sub = name.substr((name.size() - mask.size()), (mask.size()));
-			if (!sub.compare(mask))
-				return (true);
-		}
-		else if (pos == mask.size()-1)
-		{
-			mask.erase(mask.end()-1);
-			sub = name.substr(0, mask.size());
-			if (!sub.compare(mask))
-				return (true);
-		}
-		else
-		{
-			std::string maskIni = mask.substr(0, pos);
-			std::string maskEnd = mask.substr(pos + 1, mask.size() -1);
-			sub = name.substr(0, maskIni.size());
-			if (!sub.compare(maskIni))
-			{
-				sub = name.substr((name.size() - maskEnd.size()), (maskEnd.size()));
-				if (!sub.compare(maskEnd))
-					return (true);
-			}
-		}
-	}
-	else if (!name.compare(mask))
-		return (true);
-	return (false);
-}

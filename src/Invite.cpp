@@ -3,17 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   Invite.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 19:55:14 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/06 18:31:34 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/18 13:05:26 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/User.hpp"
 #include "../inc/Server.hpp"
-#include "../inc/Channel.hpp"
-#include "../inc/replies.hpp"
+
+// /Invite john #politics
+void	Server::inviteCmd(std::vector<std::string> cmd, int fd)
+{
+	if (cmd.size() == 3)
+	{
+		Channel	*channel = searchChannel(cmd[2]);
+		if (channel)
+		{
+			if (userExists(channel->getOperators(), searchUser(fd)->getNick()))
+			{
+				channel->addUserToInvited(*searchUser(cmd[1]));
+				std::cout<<YEL<<searchUser(fd)->getNick()<<" has invited "<<cmd[1]<<" to "<<cmd[2]<<WHI<<std::endl;
+			}
+			else
+			{
+				//error: is not an operator
+				std::cout<<YEL<<searchUser(fd)->getNick()<<" is not an operator"<<WHI<<std::endl;
+			}
+		}
+		else
+		{
+			//error: no channel
+			std::cout<<YEL<<cmd[2]<<" is not a channel"<<WHI<<std::endl;
+		}
+	}
+	else
+	{
+		sendMessage(fd, ERR_NEEDMOREPARAMS(searchUser(fd)->getNick(), cmd[0], "/INVITE [user] [#channel]"));
+		std::cout<<YEL<<"Incorret arguments"<<WHI<<std::endl;
+	}
+}
+
+
 
 /*Una vez incluidas las librerias ahora vamos a ponernos con el Invite
 Tiene como estructura: invite <nick> #<canal>

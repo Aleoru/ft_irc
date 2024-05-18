@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 20:19:31 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/17 19:48:13 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/18 11:52:53 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,11 @@ void    Channel::addUserToList(User user)
 void    Channel::addOperatorToList(User user)
 {
     _operators.push_back(user);
+}
+
+void	Channel::addUserToInvited(User user)
+{
+	_invitedUsers.push_back(user);
 }
 
 bool	Channel::operatorExists(std::string nick)

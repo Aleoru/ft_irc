@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:15 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/17 20:24:24 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/18 15:50:55 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,9 +242,6 @@ void Server::serverInit()
      				receiveNewData(_fds[i].fd);	// receive new data from a registered client
 			}
 		}
-		//printUsers();
-		//std::cout << CYA << "Channel List:" << WHI << std::endl;
-		//printChannels();
 	}
 	closeFds(); // close the file descriptors when the server stops
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 20:11:57 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/17 19:45:57 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/18 11:53:04 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,16 +69,15 @@ public:
 	void				setTopic(std::string newTopic);
 	void				setSetTopic(bool setTopic);
 	void				setHasTopic(bool hasTopic);
-	void				setInvite(bool hasTopic);
+	void				setInvite(bool setInvite);
 
 	std::vector<int>    channelListUsers();
     void                addUserToList(User user);
     void                addOperatorToList(User user);
-	void				addUserToOperators(User user);
+	void				addUserToInvited(User user);
 	bool				operatorExists(std::string nick);
 	void				removeUser(std::string nickname);
 	void				removeUser(int fd);
-
 
 };
 

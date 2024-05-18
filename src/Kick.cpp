@@ -30,7 +30,7 @@ TODO
 Esta función busca a un usuario en un vector de usuarios, devuelve verdadero si lo encuentra y falso si no
 */
 
-void	Server::Kick(std::vector<std::string> cmd, int fd)
+void	Server::kickCmd(std::vector<std::string> cmd, int fd)
 {
 	//Para el kick, tengo que verificar que el usuario que lo está haciendo sea admin del canal
 	//También que el usuario que vamos a expulsar exista
@@ -46,7 +46,7 @@ void	Server::Kick(std::vector<std::string> cmd, int fd)
 		sendMessage(fd, ERR_NEEDMOREPARAMS(searchUser(fd)->getNick(), cmd[0], "/kick [channel] [user] [<reason>]"));
 	if (canal->operatorExists(searchUser(fd)->getNick())) //Si el admin es admin 
 	{
-		for(it; it != users.end(); ++it)
+		for(; it != users.end(); ++it)
 		{
 			if (!it->getNick().compare(kickedUser)) //Si el usuario esta en el canal
 			{

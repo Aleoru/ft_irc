@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:27:17 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/14 19:25:43 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/18 15:41:16 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,19 @@ void	Server::passCmd(std::vector<std::string> cmd, int fd)
 			user->setCheckPass(true);
 			msn = "valid pass";
 			std::cout << msn << std::endl;
-			//sendMessage(fd, RPL_INFO(nick, msn));
+			sendMessage(fd, RPL_INFO(nick, msn));
 		}
 		else
 		{
 			msn = "wrong pass";
 			std::cout << msn << std::endl;
-			//sendMessage(fd, RPL_INFO(nick, msn));
+			sendMessage(fd, RPL_INFO(nick, msn));
 		}
 	}
 	else
 	{
 		msn = " no pass";
-
 		sendMessage(fd, ERR_NEEDMOREPARAMS(nick, cmd[0], msn));
-		//sendMessage(fd, ERR_NEEDMOREPARAMS(serachUser(fd)->getNick(), cmd[0], msn));
 	}
 }
 
@@ -64,25 +62,23 @@ void	Server::nickCmd(std::vector<std::string> cmd, int fd)
 			{
 				user->setHasAccess(true);
 				sendMessage(fd, RPL_WELCOME(searchUser(fd)->getNick(), getUserSource(searchUser(fd))));
-				std::cout<<"----> despues de registrar(nick) usuario: "<<std::endl;
-				printUsers(_users);
 			}
 		}
 		else
 		{
 			std::cout << "error: nick on use" << std::endl;
-			// ERR_NICKNAMEINUSE
 			sendMessage(fd, ERR_NICKINUSE(cmd[1]));
 		}
 	}
 	else if (cmd.size() == 1)
 	{
-		//no nick ERR_NONICKNAME(nickname)
+		std::cout << "error: no nick" << std::endl;
+		sendMessage(fd, ERR_NONICKNAME(searchUser(fd)->getNick()));
 	}
 	else
 	{
 		std::cout << "error: nick arguments" << std::endl;
-		//enviar mensaje al cliente
+		sendMessage(fd, ERR_NEEDMOREPARAMS(searchUser(fd)->getNick(), cmd[0], "/NICK [nick]"));
 	}
 }
 
@@ -97,12 +93,9 @@ void	Server::userCmd(std::vector<std::string> cmd, int fd)
 		{
 			user->setHasAccess(true);
 			sendMessage(fd, RPL_WELCOME(searchUser(fd)->getNick(), getUserSource(searchUser(fd))));
-			std::cout<<"----> despues de registrar(user) usuario: "<<std::endl;
-			printUsers(_users);
 		}
 	}
 	else
-	{
-		//ERR_NEEDMOREPARAMS
-	}
+		sendMessage(fd, ERR_NEEDMOREPARAMS(searchUser(fd)->getNick(), cmd[0], "/USER [user]"));
+
 }
