@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:15 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/18 15:50:55 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/18 22:09:20 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,6 @@ void Server::clearClients(int fd)
 			break ;
 		}
  	}
-	std::cout<<"----> despues de borrar usuario: "<<std::endl;
-	printUsers(_users);
 }
 
 void	Server::rmUserFromChannel(std::string channel, std::string nickname)
@@ -249,49 +247,6 @@ void Server::serverInit()
 std::string	Server::getUserSource(User *user)
 {
 	return (user->getNick() + "!" + user->getUsername() + "@" + user->getIpAdd());
-}
-
-// debug functions
-void	Server::printUsers(std::vector<User> userlist)
-{
-	std::cout << "----- ["<<userlist.size()<<"]users list -----"<< std::endl;
-	for(size_t i = 0; i < userlist.size(); i++)
-	{
-		int fd = userlist[i].getFd();
-		std::cout << "User [" << i << "] fd: " << fd << ", nick: " << searchUser(fd)->getNick()
-		<< ", access: " << searchUser(fd)->getHasAccess() << std::endl;
- 	}
-	std::cout << "------- list end -------"<< std::endl;
-}
-
-void	Server::printChannels()
-{
-	std::cout << "Server fd: " << _fds[0].fd << std::endl;
-	for(size_t i = 0; i < _channels.size(); i++)
-	{
-		std::cout << "Channel [" << i << "] name: " << _channels[i].getName() << std::endl;
- 	}
-}
-
-void	Server::infoServer()
-{
-	std::cout<<YEL<<"--------- SERVER INFO ---------"<<WHI<<std::endl;
-	std::cout<<"All users: "<<std::endl;
-	printUsers(_users);
-	std::cout << std::endl;
-	for (size_t i = 0; i < _channels.size(); i++)
-	{
-		std::cout<<"Channel: "<<_channels[i].getName()<<" has "
-		<<_channels[i].getUsers().size()<<" users"<<std::endl;
-		std::cout << "HasTopic: " << _channels[i].getHasTopic() << std::endl;
-		std::cout << "Topic can be modified: " << _channels[i].getSetTopic() << std::endl;
-		std::cout << "HasPass: " << _channels[i].getHasPass() << std::endl;
-		std::cout << "Can invite: " << _channels[i].getInvite() << std::endl;
-		std::cout << "Channel user limit: " << _channels[i].getLimit() << std::endl;
-		printUsers(_channels[i].getUsers());
-		std::cout << std::endl;
-	}
-	std::cout<<YEL<<"-------------------------------"<<WHI<<std::endl;
 }
 
 void	Server::promoteUser(std::string nickname, std::string channel)

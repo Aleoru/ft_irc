@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:27 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/18 12:19:22 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/18 21:59:51 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ public:
 	void 		changeTopic(std::vector<std::string> cmd, int fd);
 
 	/*	DEBUG	*/
-	void		printUsers(std::vector<User> userlist);
+	void		printUsers(std::vector<User> userlist, std::string channelName);
 	void		printChannels();
 	void		infoServer();
 
