@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:15 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/18 22:09:20 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/19 13:30:03 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,6 +220,9 @@ void Server::serverInit()
 {
 	// create and config the server socket
 	configServerSocket();
+	// create general channel
+	Channel general("#General", "General channel"); 
+	_channels.push_back(general);
 	std::cout << GRE << "Server [" << _serverFd << "] Connected" << WHI << std::endl;
 	std::cout << "Waiting to accept a connection...\n";
 	// run the server until the signal is received

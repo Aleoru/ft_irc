@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 20:11:57 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/18 11:53:04 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/19 12:58:38 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ private:
 
 public:
 	Channel(std::string name, User user);
+	Channel(std::string name, std::string topic);
 	Channel(std::string name, std::string pass, User user);
     Channel(const Channel &src);
 	~Channel();

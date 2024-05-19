@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:31:58 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/18 15:47:14 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/19 13:09:56 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void Server::findCommand(std::vector<std::string> cmd, int fd, bool debug)
 	else if (!cmd[0].compare("info"))
 		infoServer();
 	else
-		std::cout<<YEL<<"error: command not found"<<WHI<<std::endl;
+		std::cout<<YEL<<cmd[0]<<" error: command not found"<<WHI<<std::endl;
 }
 
 // Parser (de mierda xD) provisional xd

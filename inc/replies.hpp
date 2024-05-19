@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replies.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 13:22:05 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/17 20:15:27 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/19 13:55:16 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # define RPL_JOIN(source, channel) ":" + source + " JOIN :" + channel + "\r\n"
 # define RPL_PART(source, channel) ":" + source + " PART :" + channel + "\r\n"
 # define RPL_QUIT(source, message) ":" + source + " QUIT :" + message + "\r\n"
+# define RPL_INVITE(source, target, channel) ":" + source + " INVITE " + target + " :" + channel + "\r\n"
 # define RPL_KICK(source, channel, target, reason) ":" + source + " KICK " + channel + " " + target + " " + reason + "\r\n"
 # define RPL_PRIVMSG(source, target, message) ":" + source + " PRIVMSG " + target + " :" + message + "\r\n"
 
