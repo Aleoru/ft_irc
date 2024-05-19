@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:06:50 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/15 21:19:38 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/19 22:30:32 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void Server::partCmd(std::vector<std::string> cmd, int fd)
 	else
 	{
 		//error: number of arguments
+		sendMessage(fd, ERR_NEEDMOREPARAMS(searchUser(fd)->getNick(), cmd[0], "/PART [#channel,]"));
 	}
 }
 
@@ -70,5 +71,6 @@ void Server::quitCmd(std::vector<std::string> cmd, int fd)
 	else
 	{
 		//error: number of arguments
+		sendMessage(fd, ERR_NEEDMOREPARAMS(searchUser(fd)->getNick(), cmd[0], "/QUIT [:reason]"));
 	}
 }
