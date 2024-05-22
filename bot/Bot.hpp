@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 13:00:08 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/21 05:15:11 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/22 04:53:18 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 # define BOT_HPP
 
 # include <iostream>
+# include <vector>
+# include <iterator>
+# include <algorithm>
+# include <sstream>
 # include <errno.h>
 # include <netdb.h>
 # include <poll.h>
@@ -45,7 +49,13 @@ public:
 	
 	void    	connectBot();
 	void		workingBot();
+
 	int			sendMessage(int fd, const std::string str);
+
+	/*PARSER*/
+	void		parser(std::string reply);
+	std::string	findNickname(std::string str);
+	std::string	joinMessage(std::vector<std::string> str, int pos);
 };
 
 #endif

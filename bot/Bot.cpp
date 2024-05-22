@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 22:54:09 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/21 05:32:22 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/22 04:59:29 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ void    Bot::workingBot()
 			break ;
 		recived = buff;
         std::cout<<buff<<std::endl;
+		//recived = (":nick!user@host PRIVMSG target :message sdfasd adsfasdf sd asdf \r\n");
+		parser(recived);
     }
 }
 
@@ -75,4 +77,59 @@ int     Bot::sendMessage(int fd, const std::string str)
 		return (1);
 	}
 	return (0);
+}
+
+static std::vector<std::string> split(const std::string str, char delimiter)
+{
+	std::vector<std::string> split;
+	std::string token;
+	std::istringstream tokenStream(str);
+	while (std::getline(tokenStream, token, delimiter))
+	{
+		split.push_back(token);
+	}
+	return (split);
+}
+
+void		Bot::parser(std::string reply)
+{
+	std::vector<std::string> cmd = split(reply, ' ');
+	//for (size_t i = 0; i < cmd.size(); i++)
+	//	std::cout<<"str["<<i<<"]: "<<cmd[i]<<std::endl;
+	//std::cout<<"----------------------------"<<std::endl;
+	//cmd[1] nombre del comando que buscamos
+	if (!cmd[1].compare("PRIVMSG"))
+	{
+		std::cout<<"PRIVMSG"<<std::endl;
+		//tartar el mensaje de la sala
+		std::string nickname = findNickname(cmd[0]);
+		std::cout<<"nick: "<<nickname<<std::endl;
+		std::string message = joinMessage(cmd, 3);
+		std::cout<<"message: "<<message<<std::endl;
+	}
+}
+
+// RPL_PRIVMSG(source, target, message) ":" + source + " PRIVMSG " + target + " :" + message + "\r\n"
+// source = nickname!username@host
+std::string	Bot::findNickname(std::string str)
+{
+	std::string nickname;
+	str.erase(str.begin());
+	size_t pos = str.find("!");
+	if (pos <= str.size())
+		nickname = str.substr(0, pos);
+	return (nickname);
+}
+
+std::string Bot::joinMessage(std::vector<std::string> cmd, int pos)
+{
+	std::string message = cmd[pos];
+	message.erase(message.begin());
+	for (size_t i = pos +1; i < cmd.size(); i++)
+	{
+		message.append(cmd[i]);
+		if (i + 1 < cmd.size())
+			message.append(" ");
+	}
+	return (message);
 }
