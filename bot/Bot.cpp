@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 22:54:09 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/23 04:35:33 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/23 05:01:20 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void    Bot::connectBot()
     std::cout<<"connected bot "<<_nickname<<std::endl; 
 }
 
-void    Bot::workingBot()
+void    Bot::working()
 {
     std::string recived;
 	size_t recivedBytes;

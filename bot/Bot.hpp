@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 13:00:08 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/23 03:53:01 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/23 05:01:14 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ public:
 	~Bot();
 	
 	void    	connectBot();
-	void		workingBot();
+	void		working();
 
 	int			sendMessage(int fd, const std::string str);
 

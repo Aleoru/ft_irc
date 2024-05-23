@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 04:02:56 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/21 05:16:37 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/23 05:01:32 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,12 @@ int main(int argc, char **argv)
 {
 	if (argc == 5)
 	{
+		std::string ip = argv[1];
+		if (!ip.compare("localhost"))
+			ip = "127.0.0.1";
 		Bot bot(argv[1], std::stoi(argv[2]), argv[3], argv[4]);
 		bot.connectBot();
-		bot.workingBot();
+		bot.working();
 	}
 	else
 	{
