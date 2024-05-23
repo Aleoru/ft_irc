@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 22:54:09 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/22 04:59:29 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/23 04:35:33 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,16 @@ Bot::Bot(std::string ip, int port, std::string pass, std::string nick)
 : _ipAdd(ip), _port(port), _pass(pass), _nickname(nick)
 {
     _user = "bot";
+	_dialogues = {	"Claro que si ", 
+					"Me cuesta creerlo ",
+					"Puede ser ",
+					"Parece ser que no ",
+					"No estaba atento, lo siento mucho ",
+					"Es poco original sinceramente ",
+					"Muchos opinan lo mismo ",
+					"Hace un bonito día ",
+					"...siii ",
+					"Me esta doliendo la cabeza "};
 }
 
 Bot::~Bot()
@@ -64,7 +74,7 @@ void    Bot::workingBot()
 			break ;
 		recived = buff;
         std::cout<<buff<<std::endl;
-		//recived = (":nick!user@host PRIVMSG target :message sdfasd adsfasdf sd asdf \r\n");
+		//recived = (":nick!user@host PRIVMSG #General :message sdfasd adsfasdf sd asdf \r\n");
 		parser(recived);
     }
 }
@@ -104,8 +114,17 @@ void		Bot::parser(std::string reply)
 		//tartar el mensaje de la sala
 		std::string nickname = findNickname(cmd[0]);
 		std::cout<<"nick: "<<nickname<<std::endl;
+		std::string channel = cmd[2];
+		std::cout<<"channel: "<<cmd[2]<<std::endl;
 		std::string message = joinMessage(cmd, 3);
 		std::cout<<"message: "<<message<<std::endl;
+		srand(time(NULL));
+    	int random = rand() % 10;
+		std::string response = _dialogues[random] + nickname;
+		std::cout<<message<<std::endl;
+		std::string send ="PRIVMSG " + cmd[2] + " :" + response+ "\r\n";
+		std::cout<<send<<std::endl;
+		sendMessage(_ircSock, "PRIVMSG " + cmd[2] + " :" + response+ "\r\n");
 	}
 }
 

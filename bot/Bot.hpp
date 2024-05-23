@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 13:00:08 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/22 04:53:18 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/23 03:53:01 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@
 # include <arpa/inet.h>
 # include <unistd.h>
 # include <signal.h>
+# include <ctime>
+# include <cmath>
 
 class   Bot 
 {
@@ -41,6 +43,7 @@ private:
 	std::string _user;
 	int         _ircSock;
 	int			_port;
+	std::vector<std::string> _dialogues;
 	Bot();
 
 public:
