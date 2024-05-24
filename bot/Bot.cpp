@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 22:54:09 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/23 05:01:20 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/24 04:01:28 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,19 @@
 Bot::Bot(){}
 
 Bot::Bot(std::string ip, int port, std::string pass, std::string nick)
-: _ipAdd(ip), _port(port), _pass(pass), _nickname(nick)
+: _ipAdd(ip), _pass(pass), _nickname(nick), _port(port)
 {
     _user = "bot";
-	_dialogues = {	"Claro que si ", 
-					"Me cuesta creerlo ",
-					"Puede ser ",
-					"Parece ser que no ",
-					"No estaba atento, lo siento mucho ",
-					"Es poco original sinceramente ",
-					"Muchos opinan lo mismo ",
-					"Hace un bonito día ",
-					"...siii ",
-					"Me esta doliendo la cabeza "};
+	_dialogues[0] = "Claro que si ";
+	_dialogues[1] =	"Me cuesta creerlo ";
+	_dialogues[2] =	"Puede ser ";
+	_dialogues[3] =	"Parece ser que no ";
+	_dialogues[4] =	"No estaba atento, lo siento mucho ";
+	_dialogues[5] =	"Es poco original sinceramente ";
+	_dialogues[6] =	"Muchos opinan lo mismo ";
+	_dialogues[7] =	"Hace un bonito día ";
+	_dialogues[8] =	"...siii ";
+	_dialogues[9] =	"Me esta doliendo la cabeza ";
 }
 
 Bot::~Bot()

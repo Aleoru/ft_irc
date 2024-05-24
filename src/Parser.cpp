@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:31:58 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/19 22:36:25 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/24 03:11:45 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void Server::findCommand(std::vector<std::string> cmd, int fd, bool debug)
 	else if (!cmd[0].compare("TOPIC") && access)
 		changeTopic(cmd, fd);
 	else if (!cmd[0].compare("KICK") && access)
-		nickCmd(cmd, fd);
+		kickCmd(cmd, fd);
 	else if (!cmd[0].compare("INVITE") && access)
 		inviteCmd(cmd, fd);
 	else if (!cmd[0].compare("info"))

@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 12:32:29 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/18 14:31:27 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/24 03:11:04 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	Server::createNewChannel(std::string name, User *user)
 {
 	std::cout << CYA << "Creating channel [" << name << "] without pass" << WHI << std::endl;
-	if ((name.front() != '&' && name.front() != '#') || name.size() > 200) {
+	if ((name[0] != '&' && name[0] != '#') || name.size() > 200) {
 		std::cout << RED << "Invalid channel name" << WHI << std::endl;
 		sendMessage(user->getFd(), ERR_BADCHANMASK(user->getNick(), name, "Invalid channel name"));
 		return;
@@ -31,7 +31,7 @@ void	Server::createNewChannel(std::string name, User *user)
 void	Server::createNewChannel(std::string name, std::string pass, User *user)
 {
 	std::cout << CYA << "Creating channel [" << name << "] with pass" << WHI << std::endl;
-	if ((name.front() != '&' && name.front() != '#') || name.size() > 200) {
+	if ((name[0] != '&' && name[0] != '#') || name.size() > 200) {
 		std::cout << RED << "Invalid channel name" << WHI << std::endl;
 		sendMessage(user->getFd(), ERR_BADCHANMASK(user->getNick(), name, "Invalid channel name"));
 		return;

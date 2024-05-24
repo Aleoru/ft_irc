@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:27:17 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/19 13:46:47 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/24 03:28:43 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,7 @@ void	Server::nickCmd(std::vector<std::string> cmd, int fd)
 			{
 				user->setHasAccess(true);
 				sendMessage(fd, RPL_WELCOME(searchUser(fd)->getNick(), getUserSource(searchUser(fd))));
-				//parser("JOIN General", fd, false);
-				std::vector<std::string> vec{"JOIN", "General"};
+				std::vector<std::string> vec; vec[0] ="JOIN"; vec[1] ="#General";
 				findCommand(vec, fd, false);
 			}
 		}
@@ -96,7 +95,7 @@ void	Server::userCmd(std::vector<std::string> cmd, int fd)
 		{
 			user->setHasAccess(true);
 			sendMessage(fd, RPL_WELCOME(searchUser(fd)->getNick(), getUserSource(searchUser(fd))));
-			std::vector<std::string> vec{"JOIN", "#General"};
+			std::vector<std::string> vec; vec[0] ="JOIN"; vec[1] ="#General";
 			findCommand(vec, fd, false);
 		}
 	}

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+         #
+#    By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/08 11:06:32 by aoropeza          #+#    #+#              #
-#    Updated: 2024/04/08 11:20:29 by aoropeza         ###   ########.fr        #
+#    Updated: 2024/05/24 03:07:24 by fgalan-r         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,10 +27,10 @@ RM		= rm -rf
 
 UNAME	= $(shell uname -s)
 
-ifeq ($(UNAME), Linux)
-CPPFLAGS = -Wall -Wextra
-$(warning Linux detected! Disabling -Werror and -std=c++98...)
-endif
+#ifeq ($(UNAME), Linux)
+#CPPFLAGS = -Wall -Wextra
+#$(warning Linux detected! Disabling -Werror and -std=c++98...)
+#endif
 
 BOLD	= \033[1m
 RED		= \033[31;1m
