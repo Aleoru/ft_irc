@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:27:17 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/24 03:28:43 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/24 04:37:16 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,10 @@ void	Server::passCmd(std::vector<std::string> cmd, int fd)
 
 // nick max size?
 // nick invalid characteres?
+// reply???
 void	Server::nickCmd(std::vector<std::string> cmd, int fd)
 {
+	//std::string invalidChars = "@#,:";
 	if (cmd.size() == 2)
 	{
 		if (userExists(getUsers() ,cmd[1]) == false && searchUser(fd)->getHasAccess()) //cambio de nick

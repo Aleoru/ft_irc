@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 11:13:53 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/24 03:20:31 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/24 04:24:54 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,5 +129,17 @@ bool Server::maskMacht(std::string mask, std::string name)
 	}
 	else if (!name.compare(mask))
 		return (true);
+	return (false);
+}
+
+bool		Server::invalidChars(std::string str, std::string chars)
+{
+	size_t pos;
+	for (size_t i = 0; i < chars.size(); i++)
+	{
+		pos = str.find(chars[i]);
+		if (pos < str.size())
+			return (true);
+	}	
 	return (false);
 }

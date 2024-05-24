@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:27 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/24 03:20:37 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/24 04:17:36 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,8 @@ public:
 	Channel		*searchChannel(std::string name);
 	bool		channelExists(std::string name);
 	bool		userExists(std::vector<User> userlist, std::string nickname);
-	bool		maskMacht(std::string mask, std::string name);						//filter names by mask
+	bool		maskMacht(std::string mask, std::string name);					//filter names by mask
+	bool		invalidChars(std::string str, std::string chars);
 	void		rmUserFromChannel(std::string channel, std::string nickname);
 	void		promoteUser(std::string nickname, std::string channel); 			//promote user to operator
 	void		sendUserList(Channel channel, User user);
