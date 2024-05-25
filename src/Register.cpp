@@ -43,12 +43,17 @@ void	Server::passCmd(std::vector<std::string> cmd, int fd)
 
 // nick max size?
 // nick invalid characteres?
-// reply???
+// reply??? 
 void	Server::nickCmd(std::vector<std::string> cmd, int fd)
 {
-	//std::string invalidChars = "@#,:";
 	if (cmd.size() == 2)
 	{
+		std::string invalids = "@#,:"; //ERR_ERRONEUSNICKNAME
+		if (invalidChars(cmd[1], invalids))
+		{
+			sendMessage(fd, ERR_NICKINUSE(cmd[1]));
+			return ;
+		}
 		if (userExists(getUsers() ,cmd[1]) == false && searchUser(fd)->getHasAccess()) //cambio de nick
 		{
 			sendMsgUsersList(_users, RPL_NICKCHANGE(getUserSource(searchUser(fd)), cmd[1]));

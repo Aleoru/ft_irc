@@ -36,6 +36,7 @@
 # define ERR_NOSUCHCHANNEL(user, channel, reason) ": 403 " + user + " " + channel + " :" + reason + "\r\n"
 # define ERR_TOOMANYCHANNELS(user, channel, reason) ": 405 " + user + " " + channel + " :" + reason + "\r\n"
 # define ERR_NONICKNAME(nickname) ": 431 " + nickname + " :No nickname given" + "\r\n"
+# define ERR_ERRONEUSNICKNAME(nickname) ": 432 " + nickname + " Invalid chars given" + "\r\n" 
 # define ERR_NICKINUSE(nickname) ": 433 " + nickname + " :Nickname in use" + "\r\n"
 # define ERR_NOTONCHANNEL(user, channel) ": 442 " + user + " " + channel + " :User not on channel\r\n"
 # define ERR_USERONCHANNEL(user, channel) ": 443 " + user + " " channel + " " + " :User already on channel\r\n"
