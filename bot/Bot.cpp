@@ -18,6 +18,8 @@ Bot::Bot(std::string ip, int port, std::string pass, std::string nick)
 : _ipAdd(ip), _pass(pass), _nickname(nick), _port(port)
 {
     _user = "bot";
+	_dialogues.reserve(10);
+	_dialogues.resize(10);
 	_dialogues[0] = "Claro que si ";
 	_dialogues[1] =	"Me cuesta creerlo ";
 	_dialogues[2] =	"Puede ser ";

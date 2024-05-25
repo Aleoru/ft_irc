@@ -64,7 +64,11 @@ void	Server::nickCmd(std::vector<std::string> cmd, int fd)
 			{
 				user->setHasAccess(true);
 				sendMessage(fd, RPL_WELCOME(searchUser(fd)->getNick(), getUserSource(searchUser(fd))));
-				std::vector<std::string> vec; vec[0] ="JOIN"; vec[1] ="#General";
+				std::vector<std::string> vec;
+				vec.reserve(2); 
+				vec.resize(2);
+				vec[0] ="JOIN";
+				vec[1] ="#General";
 				findCommand(vec, fd, false);
 			}
 		}
@@ -97,7 +101,11 @@ void	Server::userCmd(std::vector<std::string> cmd, int fd)
 		{
 			user->setHasAccess(true);
 			sendMessage(fd, RPL_WELCOME(searchUser(fd)->getNick(), getUserSource(searchUser(fd))));
-			std::vector<std::string> vec; vec[0] ="JOIN"; vec[1] ="#General";
+			std::vector<std::string> vec;
+			vec.reserve(2); 
+			vec.resize(2);
+			vec[0] ="JOIN";
+			vec[1] ="#General";
 			findCommand(vec, fd, false);
 		}
 	}
