@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Join.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 12:32:29 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/18 14:31:27 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/20 15:53:38 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,11 @@ void	Server::joinNewChannel(std::string name, User *user)
 		Channel *channel = searchChannel(name);
 		if (userExists(channel->getUsers(), user->getNick()))
 			return ;
+		if (channel->getInvite() && !userExists(channel->getInvitedUsers(), user->getNick()))
+		{
+			sendMessage(user->getFd(), ERR_INVITEONLYCHAN(user->getNick(), channel->getName(), "Need get invited before join to the channel"));
+			return ;
+		}
 		if (!channel->getPass().empty())
 		{
 			sendMessage(user->getFd(), ERR_BADCHANNELKEY(user->getNick(), channel->getName(), "You need a password to access here!!"));
@@ -85,6 +90,11 @@ void	Server::joinNewChannel(std::string name, std::string pass, User *user)
 		Channel *channel = searchChannel(name);
 		if (userExists(channel->getUsers(), user->getNick()))
 			return;
+		if (channel->getInvite() && !userExists(channel->getInvitedUsers(), user->getNick()))
+		{
+			sendMessage(user->getFd(), ERR_INVITEONLYCHAN(user->getNick(), channel->getName(), "Need get invited before join to the channel"));
+			return ;
+		}
 		if (pass.compare(channel->getPass()))
 		{
 			sendMessage(user->getFd(), ERR_BADCHANNELKEY(user->getNick(), channel->getName(), "Wrong password, try again, make sure is the correct one."));

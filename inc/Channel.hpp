@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 20:11:57 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/19 12:58:38 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/20 15:13:45 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ public:
 	std::string			getPass(void) const;
 	std::vector<User>	getUsers(void) const;
 	std::vector<User>	getOperators(void) const;
+	std::vector<User>	getInvitedUsers(void) const;
 	bool				getHasTopic(void) const;
 	bool				getSetTopic(void) const;
 	bool				getHasPass(void) const;

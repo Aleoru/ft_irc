@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 20:19:31 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/19 13:44:06 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/20 15:14:34 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ std::string			Channel::getTopic() const { return (this->_topic); }
 std::string			Channel::getPass() const { return (this->_pass); }
 std::vector<User>	Channel::getUsers() const { return (this->_users); }
 std::vector<User>	Channel::getOperators() const { return (this->_operators); }
+std::vector<User>	Channel::getOperators() const { return (this->_invitedUsers); }
 bool				Channel::getHasTopic() const { return (this->_hasTopic); }
 bool				Channel::getSetTopic() const { return (this->_setTopic); }
 bool				Channel::getInvite() const { return (this->_invite); }
