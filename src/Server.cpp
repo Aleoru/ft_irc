@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:15 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/24 03:39:10 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/25 19:25:09 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	ft_stoi(char const *str)
 	return (n * sign);
 }
 
-int	Server::validPort(const std::string port)
+int	Server::validPort(std::string port)
 {
 	for (size_t i = 0; i < port.length(); i++)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Register.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:27:17 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/24 04:37:16 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/25 19:34:38 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,17 @@ void	Server::passCmd(std::vector<std::string> cmd, int fd)
 
 // nick max size?
 // nick invalid characteres?
-// reply???
+// reply??? 
 void	Server::nickCmd(std::vector<std::string> cmd, int fd)
 {
-	//std::string invalidChars = "@#,:";
 	if (cmd.size() == 2)
 	{
+		std::string invalids = "@#,:"; //ERR_ERRONEUSNICKNAME
+		if (invalidChars(cmd[1], invalids))
+		{
+			sendMessage(fd, ERR_NICKINUSE(cmd[1]));
+			return ;
+		}
 		if (userExists(getUsers() ,cmd[1]) == false && searchUser(fd)->getHasAccess()) //cambio de nick
 		{
 			sendMsgUsersList(_users, RPL_NICKCHANGE(getUserSource(searchUser(fd)), cmd[1]));
@@ -64,7 +69,11 @@ void	Server::nickCmd(std::vector<std::string> cmd, int fd)
 			{
 				user->setHasAccess(true);
 				sendMessage(fd, RPL_WELCOME(searchUser(fd)->getNick(), getUserSource(searchUser(fd))));
-				std::vector<std::string> vec; vec[0] ="JOIN"; vec[1] ="#General";
+				std::vector<std::string> vec;
+				vec.reserve(2); 
+				vec.resize(2);
+				vec[0] ="JOIN";
+				vec[1] ="#General";
 				findCommand(vec, fd, false);
 			}
 		}
@@ -97,7 +106,11 @@ void	Server::userCmd(std::vector<std::string> cmd, int fd)
 		{
 			user->setHasAccess(true);
 			sendMessage(fd, RPL_WELCOME(searchUser(fd)->getNick(), getUserSource(searchUser(fd))));
-			std::vector<std::string> vec; vec[0] ="JOIN"; vec[1] ="#General";
+			std::vector<std::string> vec;
+			vec.reserve(2); 
+			vec.resize(2);
+			vec[0] ="JOIN";
+			vec[1] ="#General";
 			findCommand(vec, fd, false);
 		}
 	}

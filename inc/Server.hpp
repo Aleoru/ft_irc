@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:27 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/24 04:17:36 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/25 20:45:12 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,9 @@ public:
 	/*	TOPIC	*/
 	void 		changeTopic(std::vector<std::string> cmd, int fd);
 
+	/*	MODE	*/
+	void		Mode(std::vector<std::string> cmd, int fd);
+
 	/*	DEBUG	*/
 	void		printUsers(std::vector<User> userlist, std::string channelName);
 	void		printChannels();
@@ -111,13 +114,14 @@ public:
 	Channel		*searchChannel(std::string name);
 	bool		channelExists(std::string name);
 	bool		userExists(std::vector<User> userlist, std::string nickname);
-	bool		maskMacht(std::string mask, std::string name);					//filter names by mask
+	bool		maskMatch(std::string mask, std::string name);					//filter names by mask
 	bool		invalidChars(std::string str, std::string chars);
 	void		rmUserFromChannel(std::string channel, std::string nickname);
 	void		promoteUser(std::string nickname, std::string channel); 			//promote user to operator
 	void		sendUserList(Channel channel, User user);
 	std::string	getUserSource(User *user);
 	std::vector<std::string>	split(const std::string str, char delimiter);
+	static int	ft_stoi(const char *str);
 
 	//GETTERS && SETTERS
 	int	getPort() const;

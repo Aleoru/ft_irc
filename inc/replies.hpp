@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replies.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 13:22:05 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/19 13:55:16 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/25 20:55:23 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 // user = nickname
 # define RPL_WELCOME(user, source) ": 001 " + user + " :Welcome to the Internet Relay Network " + source + "\r\n"
+# define RPL_CHANNELMODEIS(user, channel, modes) ": 324 " + user + " " + channel + " :Channel modes are: " + modes + "\r\n"
 # define RPL_NOTOPIC(user, channel) ": 331 " + user + " " + channel + " :No topic is set\r\n"
 # define RPL_TOPIC(user, channel, topic) ": 332 " + user + " " + channel + " :" + topic + "\r\n"
 # define RPL_INVITING(user, channel) ": 341 " + user + " " + channel + "\r\n"
@@ -36,15 +37,18 @@
 # define ERR_NOSUCHCHANNEL(user, channel, reason) ": 403 " + user + " " + channel + " :" + reason + "\r\n"
 # define ERR_TOOMANYCHANNELS(user, channel, reason) ": 405 " + user + " " + channel + " :" + reason + "\r\n"
 # define ERR_NONICKNAME(nickname) ": 431 " + nickname + " :No nickname given" + "\r\n"
+# define ERR_ERRONEUSNICKNAME(nickname) ": 432 " + nickname + " Invalid chars given" + "\r\n" 
 # define ERR_NICKINUSE(nickname) ": 433 " + nickname + " :Nickname in use" + "\r\n"
 # define ERR_NOTONCHANNEL(user, channel) ": 442 " + user + " " + channel + " :User not on channel\r\n"
 # define ERR_USERONCHANNEL(user, channel) ": 443 " + user + " " channel + " " + " :User already on channel\r\n"
 # define ERR_NEEDMOREPARAMS(user, command, reason) ": 461 " + user + " " + command + " :" + reason + "\r\n"
 # define ERR_PASSWDMISMATCH(user) ": 464 " + user + " :Password incorrect\r\n"
 # define ERR_CHANNELISFULL(user, channel, reason) ": 471 " + user + " " + channel + " :" + reason + "\r\n"
+# define ERR_UNKNOWNMODE(user, char, reason) ": 472 " + user + " " + char + " :" + reason + "\r\n"
 # define ERR_INVITEONLYCHAN(user, channel, reason) ": 473 " + user + " " + channel + " :" + reason + "\r\n"
 # define ERR_BADCHANNELKEY(user, channel, reason) ": 475 " + user + " " + channel + " :" + reason + "\r\n"
 # define ERR_BADCHANMASK(user, channel, reason) ": 476 " + user + " " + channel + " :" + reason + "\r\n"
-# define ERR_CHANOPRIVSNEEDED(user, channel) " : 482 " + user + " " + channel + " :You don't have operator priviledges\r\n"
+# define ERR_CHANOPRIVSNEEDED(user, channel) ": 482 " + user + " " + channel + " :You don't have operator priviledges\r\n"
+# define ERR_UMODEUNKNOWNFLAG(user, reason) ": 501 " + user + " :" + reason + "\r\n"
 
 #endif

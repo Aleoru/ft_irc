@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Utils.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 11:13:53 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/24 04:24:54 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/25 18:54:47 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	Server::sendUserList(Channel channel, User user)
 	sendMsgUsersList(userList, RPL_ENDOFNAMES(user.getNick(), channel.getName()));
 }
 
-bool Server::maskMacht(std::string mask, std::string name)
+bool Server::maskMatch(std::string mask, std::string name)
 {
 	size_t pos = 0;
 	pos = mask.find("*");
@@ -142,4 +142,30 @@ bool		Server::invalidChars(std::string str, std::string chars)
 			return (true);
 	}	
 	return (false);
+}
+
+int	Server::ft_stoi(const char *str)
+{
+	int i;
+	int sign;
+	int n;
+
+	i = 0;
+	sign = 1;
+	n = 0;
+	while (((str[i] >= 9 && str[i] <= 13) || str[i] == 32) && str[i])
+		i++;
+	if (str[i] == '-')
+	{
+		sign = -1;
+		i++;
+	}
+	else if (str[i] == '+')
+		i++;
+	while ((str[i] >= '0' && str[i] <= '9') && str[i])
+	{
+		n = n * 10 + (str[i] - '0');
+		i++;
+	}
+	return (n * sign);
 }

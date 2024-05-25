@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 20:19:31 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/19 13:44:06 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/25 18:39:49 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ std::string			Channel::getTopic() const { return (this->_topic); }
 std::string			Channel::getPass() const { return (this->_pass); }
 std::vector<User>	Channel::getUsers() const { return (this->_users); }
 std::vector<User>	Channel::getOperators() const { return (this->_operators); }
+std::vector<User>	Channel::getInvitedUsers() const { return (this->_invitedUsers); }
 bool				Channel::getHasTopic() const { return (this->_hasTopic); }
 bool				Channel::getSetTopic() const { return (this->_setTopic); }
 bool				Channel::getInvite() const { return (this->_invite); }
@@ -88,6 +89,8 @@ void				Channel::setTopic(std::string newTopic){ _topic = newTopic; }
 void				Channel::setSetTopic(bool setTopic) { this->_setTopic = setTopic; }
 void				Channel::setHasTopic(bool hasTopic) { this->_hasTopic = hasTopic; }
 void				Channel::setInvite(bool invite) { this->_invite = invite; }
+void				Channel::setLimit(int limit) { this->_limit = limit; }
+
 
 std::vector<int>	Channel::channelListUsers()
 {
@@ -154,6 +157,18 @@ void	Channel::removeUser(int fd)
 	for (size_t i = 0; i < _operators.size(); i++)
 	{
 		if (_operators[i].getFd() == fd)
+		{
+			_operators.erase(_operators.begin() + i);
+			break ;
+		}
+	}
+}
+
+void	Channel::removeOperator(std::string nickname)
+{
+	for (size_t i = 0; i < _operators.size(); i++)
+	{
+		if (!_operators[i].getNick().compare(nickname))
 		{
 			_operators.erase(_operators.begin() + i);
 			break ;

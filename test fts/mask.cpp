@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 
-bool maskMacht(std::string mask, std::string name)
+bool maskMatch(std::string mask, std::string name)
 {
 	size_t pos = 0;
 	pos = mask.find("*");
@@ -56,7 +56,7 @@ int main(int argc, char **argv)
 
 		for (size_t i = 0; i < names.size(); i++)
 		{
-			if (maskMacht(argv[1], names[i]))
+			if (maskMatch(argv[1], names[i]))
 				std::cout<<names[i]<<std::endl;
 		}
 	}

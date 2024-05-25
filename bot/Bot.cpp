@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Bot.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 22:54:09 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/24 04:01:28 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/25 19:39:38 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ Bot::Bot(std::string ip, int port, std::string pass, std::string nick)
 : _ipAdd(ip), _pass(pass), _nickname(nick), _port(port)
 {
     _user = "bot";
+	_dialogues.reserve(NUMPHRASES);
+	_dialogues.resize(NUMPHRASES);
 	_dialogues[0] = "Claro que si ";
 	_dialogues[1] =	"Me cuesta creerlo ";
 	_dialogues[2] =	"Puede ser ";
@@ -28,6 +30,7 @@ Bot::Bot(std::string ip, int port, std::string pass, std::string nick)
 	_dialogues[7] =	"Hace un bonito día ";
 	_dialogues[8] =	"...siii ";
 	_dialogues[9] =	"Me esta doliendo la cabeza ";
+	_dialogues[10] = "Me da pereza... ";
 }
 
 Bot::~Bot()
@@ -119,7 +122,7 @@ void		Bot::parser(std::string reply)
 		std::string message = joinMessage(cmd, 3);
 		std::cout<<"message: "<<message<<std::endl;
 		srand(time(NULL));
-    	int random = rand() % 10;
+    	int random = rand() % _dialogues.size();
 		std::string response = _dialogues[random] + nickname;
 		std::cout<<message<<std::endl;
 		std::string send ="PRIVMSG " + cmd[2] + " :" + response+ "\r\n";

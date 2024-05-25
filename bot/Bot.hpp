@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Bot.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 13:00:08 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/23 05:01:14 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/25 19:39:48 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@
 # include <signal.h>
 # include <ctime>
 # include <cmath>
+
+# define NUMPHRASES 11
 
 class   Bot 
 {

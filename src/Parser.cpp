@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Parser.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:31:58 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/24 03:11:45 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/25 19:47:59 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ void Server::findCommand(std::vector<std::string> cmd, int fd, bool debug)
 		kickCmd(cmd, fd);
 	else if (!cmd[0].compare("INVITE") && access)
 		inviteCmd(cmd, fd);
+	else if (!cmd[0].compare("MODE") && access)
+		Mode(cmd, fd);
 	else if (!cmd[0].compare("info"))
 		infoServer();
 	else
