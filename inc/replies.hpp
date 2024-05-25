@@ -6,7 +6,7 @@
 /*   By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 13:22:05 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/25 20:55:23 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/25 21:22:17 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # define RPL_INVITE(source, target, channel) ":" + source + " INVITE " + target + " :" + channel + "\r\n"
 # define RPL_KICK(source, channel, target, reason) ":" + source + " KICK " + channel + " " + target + " " + reason + "\r\n"
 # define RPL_PRIVMSG(source, target, message) ":" + source + " PRIVMSG " + target + " :" + message + "\r\n"
+# define RPL_MODE(source, target, message) ":" + source + " MODE " + " :" + message + "\r\n"
 
 // ERROR REPLIES
 # define ERR_NOSUCHNICK(user) ": 401 " + user + " :No such nick\r\n"
