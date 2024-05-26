@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Invite.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 19:55:14 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/19 14:05:55 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/26 20:54:50 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,23 +26,24 @@ void	Server::inviteCmd(std::vector<std::string> cmd, int fd)
 				{
 					channel->addUserToInvited(*searchUser(cmd[1]));
 					sendMessage(fd, RPL_INVITE(getUserSource(searchUser(fd)), cmd[1], cmd[2]));
+					sendMessage(searchUser(cmd[1])->getFd(), RPL_INVITE(getUserSource(searchUser(fd)), cmd[1], cmd[2]));
 					std::cout<<YEL<<searchUser(fd)->getNick()<<" has invited "<<cmd[1]<<" to "<<cmd[2]<<WHI<<std::endl;
 				}
 				else
 				{
-					//error: target not exits
+					sendMessage(fd, ERR_NOSUCHNICK(searchUser(fd)->getNick(), cmd[1]));
 					std::cout<<YEL<<cmd[1]<<" not exits"<<WHI<<std::endl;
 				}
 			}
 			else
 			{
-				//error: is not an operator
+				sendMessage(fd, ERR_CHANOPRIVSNEEDED(searchUser(fd)->getNick(), channel->getName()));
 				std::cout<<YEL<<searchUser(fd)->getNick()<<" is not an operator"<<WHI<<std::endl;
 			}
 		}
 		else
 		{
-			//error: no channel
+			sendMessage(fd, ERR_NOSUCHCHANNEL(searchUser(fd)->getNick(), cmd[2], "No such channel"));
 			std::cout<<YEL<<cmd[2]<<" is not a channel"<<WHI<<std::endl;
 		}
 	}

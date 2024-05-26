@@ -6,7 +6,7 @@
 /*   By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 13:22:05 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/26 17:28:40 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/26 20:54:09 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 # define RPL_MODE_ARG(source, target, char, arg) ":" + source + " MODE " + target + " " + char + " " + arg + "\r\n"
 
 // ERROR REPLIES
-# define ERR_NOSUCHNICK(user) ": 401 " + user + " :No such nick\r\n"
+# define ERR_NOSUCHNICK(user, wrongnick) ": 401 " + user + " " + wrongnick + " :No such nick\r\n"
 # define ERR_NOSUCHCHANNEL(user, channel, reason) ": 403 " + user + " " + channel + " :" + reason + "\r\n"
 # define ERR_TOOMANYCHANNELS(user, channel, reason) ": 405 " + user + " " + channel + " :" + reason + "\r\n"
 # define ERR_NONICKNAME(nickname) ": 431 " + nickname + " :No nickname given\r\n"

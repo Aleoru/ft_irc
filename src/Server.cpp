@@ -6,7 +6,7 @@
 /*   By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:15 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/26 17:01:23 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/26 22:15:21 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,13 @@ Server::Server(int port, std::string pass) : _port(port), _pass(pass)
 	std::cout << "port: " << _port << std::endl;
 	std::cout << "pass: " << _pass << std::endl;
 	_signal = false;
+	this->file = new std::ofstream("./server.log");
 }
 
 Server::~Server()
 {
 	std::cout << "Server deleted" << std::endl;
+	delete (this->file);
 }
 
 // clear the clients
@@ -104,10 +106,13 @@ int	ft_stoi(char const *str)
 	return (n * sign);
 }
 
-int	Server::validPort(std::string port)
+int	Server::validPort(const std::string port)
 {
-	if (!is_number(port))
-		return (0);
+	for (size_t i = 0; i < port.length(); i++)
+	{
+		if (!std::isdigit(port[i]))
+			return (0);
+	}
 	int num = ft_stoi(port.c_str());
 	// Ports 0 to 1023 are reserved for specific services and protocols
 	if (num < 1024 || num > 65535)
@@ -148,6 +153,7 @@ void Server::receiveNewData(int fd)
 	if(bytes <= 0)
 	{
 		std::cout << RED << "Client [" << fd << "] Disconnected" << WHI << std::endl;
+		*this->file << "x" << fd << ":" << "\n";
 		clearClients(fd);	// clear the client
 		close(fd);			// close the client socket
 	}
@@ -158,19 +164,39 @@ void Server::receiveNewData(int fd)
 		std::cout << YEL << "Client [" << fd << "] Data: " << std::endl << WHI << buff;
 		// code to process the received data
 		//sendMessage(fd, "371 : receive message"); //371 info?
+		*this->file << ">" << fd << ":" << buff << "\n";
  		parser(buff, fd, true);
 
 	}
 }
 
-int Server::sendMessage(int fd, const std::string str)
+void Server::sendMessage(int fd, const std::string str)
 {
-	if (send(fd, str.c_str(), str.length(), MSG_NOSIGNAL) == -1)
+	// almacenar en map <fd, queue>
+	int key = fd;
+	std::string value = str;
+	std::map<int, std::queue<std::string> >::iterator it = _msgs.begin();
+
+	for (; it != _msgs.end(); it++)
+	{
+		if (it->first == key)
+		{
+			it->second.push(value);
+			return ;
+		}
+	}
+	//new key
+	std::queue<std::string> q;
+	q.push(value);
+	_msgs.insert(std::pair<int,std::queue<std::string> >(fd,q));
+
+
+/* 	if (send(fd, str.c_str(), str.length(), 0) == -1)
 	{
 		std::cout << "error sending message" << std::endl;
 		return (1);
 	}
-	return (0);
+	return (0); */
 }
 
 // create and set a new User
@@ -195,7 +221,7 @@ void Server::acceptNewUser()
 
 	// config newPoll fd
 	newPoll.fd = newUserFd;							// add the client socket to the pollfd
-	newPoll.events = POLLIN;						// set the event to POLLIN for reading data
+	newPoll.events = POLLIN | POLLOUT;				// set the event to POLLIN/POLLOUT for reading data
 	newPoll.revents = 0;							// set the revents to 0
 	_fds.push_back(newPoll);						// add the client socket to the pollfd
 
@@ -233,10 +259,10 @@ void Server::configServerSocket()
 	if (listen(_serverFd, SOMAXCONN) == -1)
 		throw(std::runtime_error("listen() failed"));
 
-	newPoll.fd = _serverFd;  	// add the server socket to the pollfd
-	newPoll.events = POLLIN;	// set the event to POLLIN for reading data
-	newPoll.revents = 0;		// set the revents to 0
-	_fds.push_back(newPoll);    // add the server socket to the pollfd
+	newPoll.fd = _serverFd;  			// add the server socket to the pollfd
+	newPoll.events = POLLIN | POLLOUT;	// set the event to POLLIN | POLLOUT for reading data
+	newPoll.revents = 0;				// set the revents to 0
+	_fds.push_back(newPoll);    		// add the server socket to the pollfd
 }
 
 void Server::serverInit()
@@ -249,6 +275,9 @@ void Server::serverInit()
 	std::cout << GRE << "Server [" << _serverFd << "] Connected" << WHI << std::endl;
 	std::cout << "Waiting to accept a connection...\n";
 	// run the server until the signal is received
+	int fdout;
+	std::string strout;
+	std::map<int, std::queue<std::string> >::iterator it;
 	while (Server::_signal == false)
 	{
 		// wait for an event
@@ -257,6 +286,14 @@ void Server::serverInit()
 		// check all file descriptors
 		for (size_t i = 0; i < _fds.size(); i++)
 		{
+			if (_fds[i].revents & (POLLERR | POLLNVAL | POLLHUP))
+			{
+				// Cerrar la conexion y borrar el usuario como con QUIT
+				std::vector<std::string> args;
+				args.push_back("QUIT");
+				args.push_back("error");
+				this->quitCmd(args, _fds[i].fd);
+			}
 			// check if there is data to read
 			if (_fds[i].revents & POLLIN)
 			{
@@ -264,6 +301,20 @@ void Server::serverInit()
      				acceptNewUser(); 			// accept new client
     			else
      				receiveNewData(_fds[i].fd);	// receive new data from a registered client
+			}
+			//pollout
+			if (_fds[i].revents & POLLOUT)
+			{
+				// send
+				fdout = _fds[i].fd;
+				it = _msgs.find(fdout);
+				if (it != _msgs.end() && it->second.size() > 0)
+				{
+					strout = it->second.front();
+					*this->file << "<" << fdout << ":" << strout << "\n";
+					send(fdout, strout.c_str(), strout.length(), MSG_NOSIGNAL);
+					it->second.pop();
+				}
 			}
 		}
 	}

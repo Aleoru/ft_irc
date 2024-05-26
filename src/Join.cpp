@@ -6,7 +6,7 @@
 /*   By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 12:32:29 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/26 18:00:48 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/26 20:22:49 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ void	Server::joinCmd(std::vector<std::string> cmd, int fd)
 	User	*user = searchUser(fd);
 	bool	pass;
 
-	if (cmd[1].empty())
+	if (cmd.size() < 2)
 	{
 		sendMessage(fd, ERR_NEEDMOREPARAMS(user->getNick(), cmd[0], "You must specify at least one channel name."));
 		return ;
@@ -139,10 +139,13 @@ void	Server::joinCmd(std::vector<std::string> cmd, int fd)
 	else
 		pass = false;
 	for (size_t i = 0; i < names.size(); i++) {
-		if (pass == false || passwords[i].empty())
-			joinNewChannel(names[i], user);
+		std::string channel_pass = "";
+		if (passwords.size() > i)
+			channel_pass = passwords[i];
+		if (pass == true || passwords.size() >= i)
+			joinNewChannel(names[i], channel_pass, user);
 		else
-			joinNewChannel(names[i], passwords[i], user);
+			joinNewChannel(names[i], user);
 
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Part.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:06:50 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/19 22:30:32 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/26 22:15:20 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void Server::quitCmd(std::vector<std::string> cmd, int fd)
 				rmUserFromChannel(_channels[i].getName(), searchUser(fd)->getNick());
 			}
 		}
+		*this->file << "x" << fd << ":" << "\n";
 		clearClients(fd);
 	}
 	else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Parser.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:31:58 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/26 13:18:06 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/26 21:23:38 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ void Server::parser(std::string str, int fd, bool debug)
 		std::cout << "str recived: <<" << str << ">>" << std::endl;
 		std::cout << "-------------------" << std::endl;
 	}
+	std::string trimstr = str.substr(0, 510);
 	std::vector<std::string> vec = splitcmd(str);
 	if (vec[0].empty())
 		return ;

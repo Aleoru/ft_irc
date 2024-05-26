@@ -34,24 +34,34 @@ void	Server::kickCmd(std::vector<std::string> cmd, int fd)
 {
 	//Para el kick, tengo que verificar que el usuario que lo está haciendo sea admin del canal
 	//También que el usuario que vamos a expulsar exista
+	if (cmd.size() < 3) //aqui comprobamos si el comando esta vacío
+	{
+		sendMessage(fd, ERR_NEEDMOREPARAMS(searchUser(fd)->getNick(), cmd[0], "/kick [channel] [user] [<reason>]"));
+		return ;
+	}
 
 	std::string channel_name = cmd[1];
 	std::string kickedUser = cmd[2];
-	std::string comment = cmd[3];
+	std::string comment = "No reason given";
+
+	if (!searchChannel(channel_name))
+	{
+		sendMessage(fd, ERR_NOSUCHCHANNEL(searchUser(fd)->getNick(), channel_name, "No such channel"));
+		return ;
+	}
+
 	Channel *canal = searchChannel(channel_name);
 	std::vector<User> users = canal->getUsers();
 	std::vector<User>::iterator it = users.begin();
 
-	if (cmd.size() < 2) //aqui comprobamos si el comando esta vacío
-		sendMessage(fd, ERR_NEEDMOREPARAMS(searchUser(fd)->getNick(), cmd[0], "/kick [channel] [user] [<reason>]"));
 	if (canal->operatorExists(searchUser(fd)->getNick())) //Si el admin es admin 
 	{
 		for(; it != users.end(); ++it)
 		{
 			if (!it->getNick().compare(kickedUser)) //Si el usuario esta en el canal
 			{
-				if (comment.empty())
-					comment = "No reason given";
+				if (cmd.size() > 3)
+					comment = cmd[3];
 				sendMsgUsersList(canal->getUsers(), RPL_KICK(getUserSource(searchUser(fd)), canal->getName(), kickedUser, comment)); //enviar respuesta
 				canal->removeUser(searchUser(kickedUser)->getFd()); //eliminar al usuario del canal
 				return ;

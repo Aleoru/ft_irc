@@ -6,7 +6,7 @@
 /*   By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 22:54:09 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/26 17:00:42 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/26 20:10:12 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,11 @@ void		Bot::parser(std::string reply)
 		std::string send ="PRIVMSG " + cmd[2] + " :" + response+ "\r\n";
 		std::cout<<send<<std::endl;
 		sendMessage(_ircSock, "PRIVMSG " + cmd[2] + " :" + response+ "\r\n");
+	}
+	else if (!cmd[1].compare("INVITE") && !cmd[2].compare(_nickname))
+	{
+		cmd[3].erase(0, 1);
+		sendMessage(_ircSock, "JOIN " + cmd[3]);
 	}
 }
 

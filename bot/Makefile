@@ -2,7 +2,7 @@ NAME	= Botito
 SRC		= main.cpp Bot.cpp 
 OBJS	= $(SRC:.cpp=.o)
 INC		= -I Bot.hpp 
-CC		= c++
+CC		= clang++
 CFLAGS	= -Wall -Werror -Wextra -std=c++98
 RM		= rm -rf
 UNAME	= $(shell uname -s)

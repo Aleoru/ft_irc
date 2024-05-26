@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:27 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/26 14:44:41 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/26 22:04:42 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 # include <cstring>			// Comprobar
 # include <algorithm>
 # include <iterator>
+# include <queue>
+# include <map>
+# include <fstream>
 # include "User.hpp"
 # include "Channel.hpp"
 # include "sockets.h"
@@ -44,6 +47,8 @@ private:
 	std::vector<struct pollfd>		_fds;				// vector of pollfd
 	std::vector<Channel> 			_channels;			// verctor of channels
 	static bool						_signal;			// static boolean for signal
+	std::map<int, std::queue<std::string> > _msgs;		// queue msgs
+	std::ofstream *file;								// Command log output
 
 public:
 	Server(int port, std::string pass);
@@ -63,7 +68,7 @@ public:
 	void		clearClients(int fd);							// clear clients
 
 	/*	MESSAGES		*/
-	int			sendMessage(int fd, const std::string str);		// send message to a user
+	void		sendMessage(int fd, const std::string str);		// send message to a user
 	void		sendMsgUsersList(std::vector<User> users, std::string str);
 
 	/*	PARSER			*/

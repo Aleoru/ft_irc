@@ -6,7 +6,7 @@
 #    By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/08 11:06:32 by aoropeza          #+#    #+#              #
-#    Updated: 2024/05/25 17:54:02 by aoropeza         ###   ########.fr        #
+#    Updated: 2024/05/26 20:26:02 by aoropeza         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,8 +21,8 @@ INC		= -I
 INCFILES := $(wildcard $(INC)/*.h*)
 #INC		= -I Server.hpp -I User.hpp -I Channel.hpp -I sockets.h
 
-CC		= g++
-CPPFLAGS = -Wall -Werror -Wextra -std=c++98
+CC		= clang++
+CPPFLAGS = -g -Wall -Werror -Wextra -std=c++98
 RM		= rm -rf
 
 BOLD	= \033[1m
@@ -37,6 +37,9 @@ all : $(NAME)
 
 $(NAME): $(OBJS)
 	@$(CC) $(CPPFLAGS) $(OBJS) -o $(NAME) && printf "$(GREEN)$(BOLD)Your $(NAME) is ready!\n$(RESET)"
+
+bonus:
+	$(MAKE) -
 
 obj/%.o : src/%.cpp $(INCFILES)
 	@mkdir -p $(OBJDIR)

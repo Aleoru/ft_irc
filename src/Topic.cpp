@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Topic.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 19:55:18 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/18 15:48:42 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/26 20:27:34 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@ El topic es simple, tenemos que verificar varias cositas:
 //poner sendMsgUsersList(std::vector<User> users, std::string str); para todos los usuarios
 void Server::changeTopic(std::vector<std::string> cmd, int fd)
 {
+	if (cmd.size() < 2)
+	{
+		sendMessage(fd, ERR_NEEDMOREPARAMS(searchUser(fd)->getNick(), cmd[0], "You must specify the channel name."));
+		return ;
+	}
+	
 	std::string channel_name = cmd[1];
 	std::string newTopic;
 
