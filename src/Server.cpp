@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:15 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/25 19:25:09 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/26 14:43:53 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,11 +106,8 @@ int	ft_stoi(char const *str)
 
 int	Server::validPort(std::string port)
 {
-	for (size_t i = 0; i < port.length(); i++)
-	{
-		if (!std::isdigit(port[i]))
-			return (0);
-	}
+	if (!is_number(port))
+		return (0);
 	int num = ft_stoi(port.c_str());
 	// Ports 0 to 1023 are reserved for specific services and protocols
 	if (num < 1024 || num > 65535)

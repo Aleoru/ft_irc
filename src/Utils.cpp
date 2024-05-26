@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Utils.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 11:13:53 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/25 18:54:47 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/26 14:44:49 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,4 +168,14 @@ int	Server::ft_stoi(const char *str)
 		i++;
 	}
 	return (n * sign);
+}
+
+bool	Server::is_number(const std::string& s)
+{
+    for (size_t i = 0; i < s.length(); i++)
+	{
+		if (!std::isdigit(s[i]))
+			return (false);
+	}
+	return (true);
 }

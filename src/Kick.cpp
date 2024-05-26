@@ -57,7 +57,7 @@ void	Server::kickCmd(std::vector<std::string> cmd, int fd)
 				return ;
 			}
 		}
-			sendMessage(fd, ERR_NOTONCHANNEL(searchUser(fd)->getNick(), canal->getName()));
+			sendMessage(fd, ERR_NOTONCHANNEL(searchUser(fd)->getNick(), canal->getName(), "User not on channel"));
 			return ;
 	}
 	else

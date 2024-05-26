@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 20:11:57 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/25 18:49:01 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/26 15:41:35 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,11 @@ public:
 	int					getLimit(void) const;
 
 	void				setTopic(std::string newTopic);
+	void				setPass(std::string newPass);
 	void				setSetTopic(bool setTopic);
 	void				setHasTopic(bool hasTopic);
 	void				setInvite(bool setInvite);
+	void				setHasPass(bool hasPass);
 	void				setLimit(int limit);
 
 	std::vector<int>    channelListUsers();
