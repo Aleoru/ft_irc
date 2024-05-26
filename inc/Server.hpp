@@ -19,6 +19,8 @@
 # include <cstring>			// Comprobar
 # include <algorithm>
 # include <iterator>
+# include <queue>
+# include <map>
 # include "User.hpp"
 # include "Channel.hpp"
 # include "sockets.h"
@@ -37,13 +39,14 @@ class Channel;
 class Server
 {
 private:
-	int 							_port;				// server port
-	int								_serverFd;			// server socket file descriptor
-	std::string						_pass;				// server password
-	std::vector<User>				_users;				// vector of user/clients
-	std::vector<struct pollfd>		_fds;				// vector of pollfd
-	std::vector<Channel> 			_channels;			// verctor of channels
-	static bool						_signal;			// static boolean for signal
+	int 									_port;			// server port
+	int										_serverFd;		// server socket file descriptor
+	std::string								_pass;			// server password
+	std::vector<User>						_users;			// vector of user/clients
+	std::vector<struct pollfd>				_fds;			// vector of pollfd
+	std::vector<Channel> 					_channels;		// verctor of channels
+	static bool								_signal;		// static boolean for signal
+	std::map<int, std::queue<std::string> > _msgs;			// queue msgs	
 
 public:
 	Server(int port, std::string pass);
@@ -63,7 +66,7 @@ public:
 	void		clearClients(int fd);							// clear clients
 
 	/*	MESSAGES		*/
-	int			sendMessage(int fd, const std::string str);		// send message to a user
+	void			sendMessage(int fd, const std::string str);		// send message to a user
 	void		sendMsgUsersList(std::vector<User> users, std::string str);
 
 	/*	PARSER			*/

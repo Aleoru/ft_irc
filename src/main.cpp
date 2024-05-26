@@ -47,7 +47,7 @@ int main(int argc, char **argv)
 		Server server(ft_stoi(argv[1]), argv[2]);
 		signal(SIGINT, Server::signalHandler);			// catch the signal (ctrl + c)
 		signal(SIGQUIT, Server::signalHandler); 		// catch the signal (ctrl + \)
-		try
+/* 		try
 		{
 			server.serverInit();						// initialize the server
 		}
@@ -56,7 +56,8 @@ int main(int argc, char **argv)
 			server.closeFds();							// close the file descriptors
 			std::cerr << e.what() << std::endl;
 		}
-		std::cout << "Server Closed" << std::endl;
+		std::cout << "Server Closed" << std::endl; */
+		server.serverInit();
 	}
 	else
 	{

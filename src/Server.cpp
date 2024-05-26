@@ -166,14 +166,33 @@ void Server::receiveNewData(int fd)
 	}
 }
 
-int Server::sendMessage(int fd, const std::string str)
+void Server::sendMessage(int fd, const std::string str)
 {
-	if (send(fd, str.c_str(), str.length(), 0) == -1)
+	// almacenar en map <fd, queue>
+	int key = fd;
+	std::string value = str;
+	std::map<int, std::queue<std::string> >::iterator it = _msgs.begin();
+
+	for (; it != _msgs.end(); it++)
+	{
+		if (it->first == key)
+		{
+			it->second.push(value);
+			return ;
+		}
+	}
+	//new key
+	std::queue<std::string> q;
+	q.push(value);
+	_msgs.insert(std::pair<int,std::queue<std::string> >(fd,q));
+
+
+/* 	if (send(fd, str.c_str(), str.length(), 0) == -1)
 	{
 		std::cout << "error sending message" << std::endl;
 		return (1);
 	}
-	return (0);
+	return (0); */
 }
 
 // create and set a new User
@@ -198,7 +217,7 @@ void Server::acceptNewUser()
 
 	// config newPoll fd
 	newPoll.fd = newUserFd;							// add the client socket to the pollfd
-	newPoll.events = POLLIN;						// set the event to POLLIN for reading data
+	newPoll.events = POLLIN | POLLOUT;				// set the event to POLLIN/POLLOUT for reading data
 	newPoll.revents = 0;							// set the revents to 0
 	_fds.push_back(newPoll);						// add the client socket to the pollfd
 
@@ -236,10 +255,10 @@ void Server::configServerSocket()
 	if (listen(_serverFd, SOMAXCONN) == -1)
 		throw(std::runtime_error("listen() failed"));
 
-	newPoll.fd = _serverFd;  	// add the server socket to the pollfd
-	newPoll.events = POLLIN;	// set the event to POLLIN for reading data
-	newPoll.revents = 0;		// set the revents to 0
-	_fds.push_back(newPoll);    // add the server socket to the pollfd
+	newPoll.fd = _serverFd;  			// add the server socket to the pollfd
+	newPoll.events = POLLIN | POLLOUT;	// set the event to POLLIN | POLLOUT for reading data
+	newPoll.revents = 0;				// set the revents to 0
+	_fds.push_back(newPoll);    		// add the server socket to the pollfd
 }
 
 void Server::serverInit()
@@ -252,6 +271,9 @@ void Server::serverInit()
 	std::cout << GRE << "Server [" << _serverFd << "] Connected" << WHI << std::endl;
 	std::cout << "Waiting to accept a connection...\n";
 	// run the server until the signal is received
+	int fdout;
+	std::string strout;
+	std::map<int, std::queue<std::string> >::iterator it;
 	while (Server::_signal == false)
 	{
 		// wait for an event
@@ -267,6 +289,19 @@ void Server::serverInit()
      				acceptNewUser(); 			// accept new client
     			else
      				receiveNewData(_fds[i].fd);	// receive new data from a registered client
+			}
+			//pollout
+			if (_fds[i].revents & POLLOUT)
+			{
+				// send
+				fdout = _fds[i].fd;
+				it = _msgs.find(fdout);
+				if (it != _msgs.end() && it->second.size() > 0)
+				{
+					strout = it->second.front();
+					send(fdout, strout.c_str(), strout.length(), MSG_NOSIGNAL);
+					it->second.pop();
+				}
 			}
 		}
 	}
