@@ -1,52 +1,16 @@
->5:CAP LS 302
-
->5:PASS 1111
-NICK aleoru
-USER aoropeza 0 * :realname
+>5:PASS hola
+NICK bot
+USER bot
 
 <5:: 371 :* valid pass
 
-<5:: 001 aleoru :Welcome to the Internet Relay Network aleoru!aoropeza@127.0.0.1
+<5:: 001 bot :Welcome to the Internet Relay Network bot!bot@127.0.0.1
 
-<5::aleoru!aoropeza@127.0.0.1 JOIN :#General
+<5::bot!bot@127.0.0.1 JOIN :#General
 
-<5:: 332 aleoru #General :General channel
+<5:: 332 bot #General :General channel
 
-<5:: 353 aleoru = #General :aleoru 
+<5:: 353 bot = #General :bot 
 
-<5:: 366 aleoru #General :End of /NAMES list
-
->5:MODE #General
-
-<5:: 324 aleoru #General :+t
-
->5:WHO #General
-
->6:PASS 111
-
-<6:: 371 :* wrong pass
-
->6:PASS 1111
-
-<6:: 371 :* valid pass
-
->6:NICK aaaa
-
->6:USER a a a a
-
-<6:: 001 aaaa :Welcome to the Internet Relay Network aaaa!a@127.0.0.1
-
-<5::aaaa!a@127.0.0.1 JOIN :#General
-
-<6::aaaa!a@127.0.0.1 JOIN :#General
-
-<5:: 353 aaaa = #General :aaaa aleoru 
-
-<6:: 332 aaaa #General :General channel
-
-<5:: 366 aaaa #General :End of /NAMES list
-
-<6:: 353 aaaa = #General :aaaa aleoru 
-
-<6:: 366 aaaa #General :End of /NAMES list
+<5:: 366 bot #General :End of /NAMES list
 

@@ -3,16 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+         #
+#    By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/08 11:06:32 by aoropeza          #+#    #+#              #
-#    Updated: 2024/05/26 20:26:02 by aoropeza         ###   ########.fr        #
+#    Updated: 2024/05/26 23:30:57 by aoropeza         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= irc_server
 SRCDIR	= src
 OBJDIR	= obj
+BOTDIR	= bot
 INCDIR	= inc
 
 SRC		:= $(wildcard $(SRCDIR)/*.cpp)
@@ -21,7 +22,7 @@ INC		= -I
 INCFILES := $(wildcard $(INC)/*.h*)
 #INC		= -I Server.hpp -I User.hpp -I Channel.hpp -I sockets.h
 
-CC		= clang++
+CC		= g++
 CPPFLAGS = -g -Wall -Werror -Wextra -std=c++98
 RM		= rm -rf
 
@@ -39,7 +40,8 @@ $(NAME): $(OBJS)
 	@$(CC) $(CPPFLAGS) $(OBJS) -o $(NAME) && printf "$(GREEN)$(BOLD)Your $(NAME) is ready!\n$(RESET)"
 
 bonus:
-	$(MAKE) -
+	$(MAKE) -C $(BOTDIR)
+	@./$(BOTDIR)/Botito 127.0.0.1 5555 hola bot
 
 obj/%.o : src/%.cpp $(INCFILES)
 	@mkdir -p $(OBJDIR)
@@ -49,9 +51,11 @@ obj/%.o : src/%.cpp $(INCFILES)
 
 clean :
 	@$(RM) $(OBJDIR) && printf "$(GREEN)$(BOLD)All objects cleaned! :)\n$(RESET)"
+	$(MAKE) -C $(BOTDIR) clean
 
 fclean : clean
 	@$(RM) $(NAME) && printf "$(YELLOW)$(NAME) $(GREEN)has been clean \n$(RESET)"
+	$(MAKE) -C $(BOTDIR) fclean
 
 re : fclean all
 

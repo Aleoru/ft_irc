@@ -2,7 +2,7 @@ NAME	= Botito
 SRC		= main.cpp Bot.cpp 
 OBJS	= $(SRC:.cpp=.o)
 INC		= -I Bot.hpp 
-CC		= clang++
+CC		= g++
 CFLAGS	= -Wall -Werror -Wextra -std=c++98
 RM		= rm -rf
 UNAME	= $(shell uname -s)
@@ -30,7 +30,7 @@ $(NAME): $(OBJS)
 clean :
 	@$(RM) $(OBJS) && printf "$(YELLOW)All objects have been clean \n$(RESET)"
 
-fclean : clean
+fclean :
 	@$(RM) $(NAME) && printf "$(YELLOW)$(NAME) $(GREEN)has been clean \n$(RESET)"
 
 re : fclean all
