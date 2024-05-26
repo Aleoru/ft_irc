@@ -6,7 +6,7 @@
 /*   By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 12:32:29 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/25 17:49:54 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/26 18:00:48 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,12 @@ void	Server::joinNewChannel(std::string name, User *user)
 			sendMessage(user->getFd(), ERR_INVITEONLYCHAN(user->getNick(), channel->getName(), "Need get invited before join to the channel"));
 			return ;
 		}
-		if (!channel->getPass().empty())
+		if (channel->getHasPass())
 		{
 			sendMessage(user->getFd(), ERR_BADCHANNELKEY(user->getNick(), channel->getName(), "You need a password to access here!!"));
 			return ;
 		}
-		if (channel->getLimit() != NOLIMIT && channel->getUsers().size() + channel->getOperators().size())
+		if (channel->getLimit() != NOLIMIT && channel->getUsers().size() == channel->getLimit())
 		{
 			sendMessage(user->getFd(), ERR_CHANNELISFULL(user->getNick(), channel->getName(), "Channel is full"));
 			return ;
@@ -100,7 +100,7 @@ void	Server::joinNewChannel(std::string name, std::string pass, User *user)
 			sendMessage(user->getFd(), ERR_BADCHANNELKEY(user->getNick(), channel->getName(), "Wrong password, try again, make sure is the correct one."));
 			return ;
 		}
-		if (channel->getLimit() != NOLIMIT && channel->getUsers().size() + channel->getOperators().size())
+		if (channel->getLimit() != NOLIMIT && channel->getUsers().size() == channel->getLimit())
 		{
 			sendMessage(user->getFd(), ERR_CHANNELISFULL(user->getNick(), channel->getName(), "Channel is full"));
 			return ;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 20:19:31 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/26 13:38:54 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/26 17:33:40 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ bool				Channel::getHasTopic() const { return (this->_hasTopic); }
 bool				Channel::getSetTopic() const { return (this->_setTopic); }
 bool				Channel::getInvite() const { return (this->_invite); }
 bool				Channel::getHasPass() const { return (this->_hasPass); }
-int					Channel::getLimit() const { return (this->_limit); }
+size_t				Channel::getLimit() const { return (this->_limit); }
 
 void				Channel::setTopic(std::string newTopic){ this->_topic = newTopic; }
 void				Channel::setPass(std::string newPass) { this->_pass = newPass; }
@@ -91,7 +91,7 @@ void				Channel::setSetTopic(bool setTopic) { this->_setTopic = setTopic; }
 void				Channel::setHasTopic(bool hasTopic) { this->_hasTopic = hasTopic; }
 void				Channel::setInvite(bool invite) { this->_invite = invite; }
 void				Channel::setHasPass(bool hasPass)  { this->_hasPass = hasPass; }
-void				Channel::setLimit(int limit) { this->_limit = limit; }
+void				Channel::setLimit(size_t limit) { this->_limit = limit; }
 
 
 std::vector<int>	Channel::channelListUsers()

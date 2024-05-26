@@ -6,7 +6,7 @@
 /*   By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 22:54:09 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/25 19:39:38 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/26 17:00:42 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void    Bot::working()
 
 int     Bot::sendMessage(int fd, const std::string str)
 {
-	if (send(fd, str.c_str(), str.length(), 0) == -1)
+	if (send(fd, str.c_str(), str.length(), MSG_NOSIGNAL) == -1)	// MSG_NOSIGNAL
 	{
 		std::cout << "error sending message" << std::endl;
 		return (1);

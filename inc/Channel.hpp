@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 20:11:57 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/26 15:41:35 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/26 17:33:46 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ private:
 	bool				_setTopic;	// t: topic settable by channel operator only flag
 	bool				_hasPass;	// check if channel has pass or not
 	bool				_invite;	// i: set/remove invite-only
-	int					_limit;		// l: set/remove user limit - 0 = no limit
+	size_t					_limit;		// l: set/remove user limit - 0 = no limit
 	std::vector<User>	_users;
 	std::vector<User>	_invitedUsers;
 	std::vector<User>	_operators;	// o: give/take channel operator privilege
@@ -66,7 +66,7 @@ public:
 	bool				getSetTopic(void) const;
 	bool				getHasPass(void) const;
 	bool				getInvite(void) const;
-	int					getLimit(void) const;
+	size_t				getLimit(void) const;
 
 	void				setTopic(std::string newTopic);
 	void				setPass(std::string newPass);
@@ -74,7 +74,7 @@ public:
 	void				setHasTopic(bool hasTopic);
 	void				setInvite(bool setInvite);
 	void				setHasPass(bool hasPass);
-	void				setLimit(int limit);
+	void				setLimit(size_t limit);
 
 	std::vector<int>    channelListUsers();
     void                addUserToList(User user);

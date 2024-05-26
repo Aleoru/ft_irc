@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:15 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/26 14:43:53 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/26 17:01:23 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ void Server::receiveNewData(int fd)
 
 int Server::sendMessage(int fd, const std::string str)
 {
-	if (send(fd, str.c_str(), str.length(), 0) == -1)
+	if (send(fd, str.c_str(), str.length(), MSG_NOSIGNAL) == -1)
 	{
 		std::cout << "error sending message" << std::endl;
 		return (1);

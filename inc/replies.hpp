@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replies.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 13:22:05 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/26 15:29:36 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/26 17:28:40 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@
 # define RPL_INVITE(source, target, channel) ":" + source + " INVITE " + target + " :" + channel + "\r\n"
 # define RPL_KICK(source, channel, target, reason) ":" + source + " KICK " + channel + " " + target + " " + reason + "\r\n"
 # define RPL_PRIVMSG(source, target, message) ":" + source + " PRIVMSG " + target + " :" + message + "\r\n"
-# define RPL_MODE(source, target, message) ":" + source + " MODE " + target + " :" + message + "\r\n"
+# define RPL_MODE(source, target, char) ":" + source + " MODE " + target + " :" + char + "\r\n"
+# define RPL_MODE_ARG(source, target, char, arg) ":" + source + " MODE " + target + " " + char + " " + arg + "\r\n"
 
 // ERROR REPLIES
 # define ERR_NOSUCHNICK(user) ": 401 " + user + " :No such nick\r\n"
@@ -52,6 +53,5 @@
 # define ERR_BADCHANMASK(user, channel, reason) ": 476 " + user + " " + channel + " :" + reason + "\r\n"
 # define ERR_CHANOPRIVSNEEDED(user, channel) ": 482 " + user + " " + channel + " :You don't have operator priviledges\r\n"
 # define ERR_UMODEUNKNOWNFLAG(user, reason) ": 501 " + user + " :" + reason + "\r\n"
-
 
 #endif
