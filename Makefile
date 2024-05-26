@@ -21,7 +21,7 @@ INC		= -I
 INCFILES := $(wildcard $(INC)/*.h*)
 #INC		= -I Server.hpp -I User.hpp -I Channel.hpp -I sockets.h
 
-CC		= c++
+CC		= clang++
 CPPFLAGS = -Wall -Werror -Wextra -std=c++98
 RM		= rm -rf
 
