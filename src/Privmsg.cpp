@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Privmsg.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 22:35:42 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/26 21:51:49 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/27 03:19:47 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void 	Server::privMsgCmd(std::vector<std::string> cmd, int fd)
 				msg.append(" ");
 		}
 		std::vector<User>	users;
-		//std::cout << YEL << getUserSource(searchUser(fd)) << WHI << std::endl;
 		for (size_t k = 0; k < receiver.size(); k++)
 		{
 			if (receiver[k][0] != '&' && receiver[k][0] != '#')
@@ -78,7 +77,6 @@ void 	Server::privMsgCmd(std::vector<std::string> cmd, int fd)
 	}
 	else
 	{
-		//error number of arguments
 		sendMessage(fd, ERR_NEEDMOREPARAMS(searchUser(fd)->getNick(), cmd[0], "/PRIVMSG [channel] [message]"));
 	}
 }

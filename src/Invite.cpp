@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   Invite.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 19:55:14 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/26 20:54:50 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/27 04:43:42 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/Server.hpp"
 
-// /Invite john #politics
+//Invite format sent by the client: Invite john #politics // CMD, NICK, CHANNEL
 void	Server::inviteCmd(std::vector<std::string> cmd, int fd)
 {
 	if (cmd.size() == 3)

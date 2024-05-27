@@ -1,16 +1,23 @@
->5:PASS hola
-NICK bot
-USER bot
+>5:PASS HOLA
 
 <5:: 371 :* valid pass
 
-<5:: 001 bot :Welcome to the Internet Relay Network bot!bot@127.0.0.1
+>5:NICK 234"
 
-<5::bot!bot@127.0.0.1 JOIN :#General
+<5:: 432 * Invalid nick
 
-<5:: 332 bot #General :General channel
+>5:NICK ASDF
 
-<5:: 353 bot = #General :bot 
+>5:USER USADO
 
-<5:: 366 bot #General :End of /NAMES list
+<5:: 001 ASDF :Welcome to the Internet Relay Network ASDF!USADO@127.0.0.1
 
+<5::ASDF!USADO@127.0.0.1 JOIN :#General
+
+<5:: 332 ASDF #General :General channel
+
+<5:: 353 ASDF = #General :ASDF 
+
+<5:: 366 ASDF #General :End of /NAMES list
+
+x5:

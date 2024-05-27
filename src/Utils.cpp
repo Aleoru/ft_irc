@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Utils.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 11:13:53 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/26 14:44:49 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/27 02:57:49 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	Server::sendUserList(Channel channel, User user)
 	sendMsgUsersList(userList, RPL_ENDOFNAMES(user.getNick(), channel.getName()));
 }
 
-bool Server::maskMatch(std::string mask, std::string name)
+bool 	Server::maskMatch(std::string mask, std::string name)
 {
 	size_t pos = 0;
 	pos = mask.find("*");
@@ -132,7 +132,7 @@ bool Server::maskMatch(std::string mask, std::string name)
 	return (false);
 }
 
-bool		Server::invalidChars(std::string str, std::string chars)
+bool	Server::invalidChars(std::string str, std::string chars)
 {
 	size_t pos;
 	for (size_t i = 0; i < chars.size(); i++)
@@ -144,7 +144,7 @@ bool		Server::invalidChars(std::string str, std::string chars)
 	return (false);
 }
 
-int	Server::ft_stoi(const char *str)
+int		Server::ft_stoi(const char *str)
 {
 	int i;
 	int sign;
@@ -178,4 +178,19 @@ bool	Server::is_number(const std::string& s)
 			return (false);
 	}
 	return (true);
+}
+
+std::string	Server::getUserSource(User *user)
+{
+	return (user->getNick() + "!" + user->getUsername() + "@" + user->getIpAdd());
+}
+
+void	Server::promoteUser(std::string nickname, std::string channel)
+{
+	if (userExists(searchChannel(channel)->getUsers(), nickname)
+		&& !userExists(searchChannel(channel)->getOperators(), nickname))
+	{
+		searchChannel(channel)->addOperatorToList(*searchUser(nickname));
+		std::cout<<GRE<<nickname<<" has been promoted to operator on channel "<<channel<<WHI<<std::endl;
+	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 20:11:57 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/26 17:33:46 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/27 04:56:08 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,6 @@
 
 # define NOLIMIT 0
 
-
-/*	Hay 2 tipos de canales, el que nos interesa es el '&' ya que es conocido
-	solo por los clintes del servidor	*/
-
 class User;
 
 class Channel
@@ -37,7 +33,7 @@ private:
 	bool				_setTopic;	// t: topic settable by channel operator only flag
 	bool				_hasPass;	// check if channel has pass or not
 	bool				_invite;	// i: set/remove invite-only
-	size_t					_limit;		// l: set/remove user limit - 0 = no limit
+	size_t				_limit;		// l: set/remove user limit - 0 = no limit
 	std::vector<User>	_users;
 	std::vector<User>	_invitedUsers;
 	std::vector<User>	_operators;	// o: give/take channel operator privilege

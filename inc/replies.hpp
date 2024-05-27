@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replies.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 13:22:05 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/26 20:54:09 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/27 03:31:20 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 # define ERR_NOSUCHCHANNEL(user, channel, reason) ": 403 " + user + " " + channel + " :" + reason + "\r\n"
 # define ERR_TOOMANYCHANNELS(user, channel, reason) ": 405 " + user + " " + channel + " :" + reason + "\r\n"
 # define ERR_NONICKNAME(nickname) ": 431 " + nickname + " :No nickname given\r\n"
-# define ERR_ERRONEUSNICKNAME(nickname) ": 432 " + nickname + " Invalid chars given\r\n" 
+# define ERR_ERRONEUSNICKNAME(nickname) ": 432 " + nickname + " Invalid nick\r\n" 
 # define ERR_NICKINUSE(nickname) ": 433 " + nickname + " :Nickname in use\r\n"
 # define ERR_NOTONCHANNEL(user, channel, reason) ": 442 " + user + " " + channel + " :" + reason + "\r\n"
 # define ERR_USERONCHANNEL(user, channel) ": 443 " + user + " " channel + " " + " :User already on channel\r\n"

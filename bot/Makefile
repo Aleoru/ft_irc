@@ -5,11 +5,6 @@ INC		= -I Bot.hpp
 CC		= g++
 CFLAGS	= -Wall -Werror -Wextra -std=c++98
 RM		= rm -rf
-UNAME	= $(shell uname -s)
-
-#ifeq ($(UNAME), Linux)
-#CFLAGS	= -Wall -Wextra
-#endif
 
 BOLD	= \033[1m
 RED		= \033[31;1m

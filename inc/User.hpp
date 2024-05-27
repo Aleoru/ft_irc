@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:57:55 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/20 13:22:35 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/27 04:56:52 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 # include <iostream>
 # include "sockets.h"
 # include "replies.hpp"
-
-/* Revisar punto 4.1 del IRC Protocol */
 
 class User
 {

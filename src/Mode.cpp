@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Mode.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 15:07:41 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/26 17:57:27 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/27 02:20:32 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,7 +201,7 @@ void	modeChange(Server *s, std::vector<std::string> cmd, int fd)
 	
 }
 
-void	Server::modecmd(std::vector<std::string> cmd, int fd)
+void	Server::modeCmd(std::vector<std::string> cmd, int fd)
 {
 	User *user = searchUser(fd);
 

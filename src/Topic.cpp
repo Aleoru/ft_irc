@@ -3,26 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   Topic.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 19:55:18 by aoropeza          #+#    #+#             */
-/*   Updated: 2024/05/26 20:27:34 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/27 04:40:57 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-#include "../inc/Channel.hpp"
-#include "../inc/replies.hpp"
 #include "../inc/Server.hpp"
-#include <algorithm>
 
-/*
-El topic es simple, tenemos que verificar varias cositas:
-1-Que el string que viene por parametro no está vacío, sino, devolvemos el topic actual del canal
-2-Que esté la flag o no activada
-*/
-
-//poner sendMsgUsersList(std::vector<User> users, std::string str); para todos los usuarios
 void Server::changeTopic(std::vector<std::string> cmd, int fd)
 {
 	if (cmd.size() < 2)
@@ -40,25 +29,24 @@ void Server::changeTopic(std::vector<std::string> cmd, int fd)
 		return ;
 	for (size_t i = 2; i < cmd.size(); ++i)
 	{
-		//std::cout << cmd.size();
 		newTopic.append(cmd[i]);
 		if (i < cmd.size())
 			newTopic.append(" ");
 	}
-	if (newTopic.length() < 1 || cmd.size() < 2) //Aquí completamos la primera comprobación y actuamos en base al resultado
+	if (newTopic.length() < 1 || cmd.size() < 2) 
 	{
 		std::cout << "Topic guardado:" << canal->getTopic();
-		if (canal->getHasTopic()) //si no hay topic, imprimimos solo un salto de línea
+		if (canal->getHasTopic())
 			sendMessage(fd, RPL_TOPIC(searchUser(fd)->getNick(), canal->getName(), canal->getTopic()));
 		else
 			sendMessage(fd, RPL_NOTOPIC(searchUser(fd)->getNick(), canal->getName()));
 		return ;
 	}
-	if (canal->getSetTopic() == true) //si la flag +t está activada, además ya hemos verificado que la string de topic no esté vacía
+	if (canal->getSetTopic() == true) 
 	{
 		std::vector<User> users_ch = canal->getUsers();
 		std::vector<User> ops = canal->getOperators();
-		if (canal->operatorExists(searchUser(fd)->getNick()) == true) //cambiar el topic
+		if (canal->operatorExists(searchUser(fd)->getNick()) == true) 
 		{
 			canal->setTopic(newTopic);
 			canal->setHasTopic(true);
@@ -67,7 +55,7 @@ void Server::changeTopic(std::vector<std::string> cmd, int fd)
 		else
 			sendMessage(fd, ERR_CHANOPRIVSNEEDED(searchUser(fd)->getNick(), canal->getName()));
 	}
-	else //Si hay topic y la flag está desactivada cambiar el topic y listo
+	else
 	{
 		canal->setTopic(newTopic);
 		canal->setHasTopic(true);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:15 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/26 22:15:21 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/27 05:01:26 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,8 +145,8 @@ void Server::closeFds()
 
 void Server::receiveNewData(int fd)
 {
-	char buff[1024]; 				// buffer for the received data
-	memset(buff, 0, sizeof(buff));	// clear the buffer
+	char buff[1024];
+	memset(buff, 0, sizeof(buff));
 
 	ssize_t bytes = recv(fd, buff, sizeof(buff) - 1 , 0); // receive the data
 	// check if the client disconnected
@@ -163,40 +163,27 @@ void Server::receiveNewData(int fd)
 		buff[bytes] = '\0';
 		std::cout << YEL << "Client [" << fd << "] Data: " << std::endl << WHI << buff;
 		// code to process the received data
-		//sendMessage(fd, "371 : receive message"); //371 info?
 		*this->file << ">" << fd << ":" << buff << "\n";
- 		parser(buff, fd, true);
-
+ 		parser(buff, fd, false);
 	}
 }
 
 void Server::sendMessage(int fd, const std::string str)
 {
-	// almacenar en map <fd, queue>
-	int key = fd;
-	std::string value = str;
+	// add to fd queue msgs
 	std::map<int, std::queue<std::string> >::iterator it = _msgs.begin();
-
 	for (; it != _msgs.end(); it++)
 	{
-		if (it->first == key)
+		if (it->first == fd)
 		{
-			it->second.push(value);
+			it->second.push(str);
 			return ;
 		}
 	}
-	//new key
+	// new key
 	std::queue<std::string> q;
-	q.push(value);
+	q.push(str);
 	_msgs.insert(std::pair<int,std::queue<std::string> >(fd,q));
-
-
-/* 	if (send(fd, str.c_str(), str.length(), 0) == -1)
-	{
-		std::cout << "error sending message" << std::endl;
-		return (1);
-	}
-	return (0); */
 }
 
 // create and set a new User
@@ -275,8 +262,6 @@ void Server::serverInit()
 	std::cout << GRE << "Server [" << _serverFd << "] Connected" << WHI << std::endl;
 	std::cout << "Waiting to accept a connection...\n";
 	// run the server until the signal is received
-	int fdout;
-	std::string strout;
 	std::map<int, std::queue<std::string> >::iterator it;
 	while (Server::_signal == false)
 	{
@@ -302,41 +287,21 @@ void Server::serverInit()
     			else
      				receiveNewData(_fds[i].fd);	// receive new data from a registered client
 			}
-			//pollout
+			// check if fds is raady to write
 			if (_fds[i].revents & POLLOUT)
 			{
-				// send
-				fdout = _fds[i].fd;
-				it = _msgs.find(fdout);
+				it = _msgs.find(_fds[i].fd);
 				if (it != _msgs.end() && it->second.size() > 0)
 				{
-					strout = it->second.front();
-					*this->file << "<" << fdout << ":" << strout << "\n";
-					send(fdout, strout.c_str(), strout.length(), MSG_NOSIGNAL);
+					std::string strOut = it->second.front();
+					*this->file << "<" << _fds[i].fd << ":" << strOut << "\n";
+					send(_fds[i].fd, strOut.c_str(), strOut.length(), MSG_NOSIGNAL);
 					it->second.pop();
 				}
 			}
 		}
 	}
 	closeFds(); // close the file descriptors when the server stops
-}
-
-std::string	Server::getUserSource(User *user)
-{
-	return (user->getNick() + "!" + user->getUsername() + "@" + user->getIpAdd());
-}
-
-void	Server::promoteUser(std::string nickname, std::string channel)
-{
-	if (userExists(searchChannel(channel)->getUsers(), nickname)
-		&& !userExists(searchChannel(channel)->getOperators(), nickname))
-	{
-		//User	*user = searchUser(nickname);
-		//Channel *channelPtr = searchChannel(channel);
-		//channelPtr->addOperatorToList(*user);
-		searchChannel(channel)->addOperatorToList(*searchUser(nickname));
-		std::cout<<GRE<<nickname<<" has been promoted to operator on channel "<<channel<<WHI<<std::endl;
-	}
 }
 
 // getters

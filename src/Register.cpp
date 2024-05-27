@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   Register.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:27:17 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/25 19:34:38 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/27 04:36:39 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/Server.hpp"
+
+bool 	Server::validateChars(std::string str)
+{
+	for(size_t i = 0; i < str.size(); i++)
+	{
+		if(!std::isalnum(str[i]) && str[i] != '_')
+			return (false);
+	}
+	return (true);
+}
 
 void	Server::passCmd(std::vector<std::string> cmd, int fd)
 {
@@ -41,26 +51,21 @@ void	Server::passCmd(std::vector<std::string> cmd, int fd)
 	}
 }
 
-// nick max size?
-// nick invalid characteres?
-// reply??? 
 void	Server::nickCmd(std::vector<std::string> cmd, int fd)
 {
 	if (cmd.size() == 2)
 	{
-		std::string invalids = "@#,:"; //ERR_ERRONEUSNICKNAME
-		if (invalidChars(cmd[1], invalids))
+		if (!validateChars(cmd[1]) || cmd[1].size() > 9)
 		{
-			sendMessage(fd, ERR_NICKINUSE(cmd[1]));
+			sendMessage(fd, ERR_ERRONEUSNICKNAME(searchUser(fd)->getNick()));
 			return ;
 		}
-		if (userExists(getUsers() ,cmd[1]) == false && searchUser(fd)->getHasAccess()) //cambio de nick
+		if (userExists(getUsers() ,cmd[1]) == false && searchUser(fd)->getHasAccess()) // nick change
 		{
 			sendMsgUsersList(_users, RPL_NICKCHANGE(getUserSource(searchUser(fd)), cmd[1]));
-			//sendMessage(fd, RPL_NICKCHANGE(getUserSource(searchUser(fd)), cmd[1]));
 			searchUser(fd)->setNickname(cmd[1]);
 		}
-		else if (userExists(getUsers() ,cmd[1]) == false)                              //registro de nick
+		else if (userExists(getUsers() ,cmd[1]) == false)                              // nick register
 		{
 			User	*user = searchUser(fd);
 			user->setNickname(cmd[1]);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:27 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/26 22:04:42 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/27 04:43:40 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <iostream>
 # include <vector>
 # include <sstream>
-# include <cstring>			// Comprobar
+# include <cstring>			
 # include <algorithm>
 # include <iterator>
 # include <queue>
@@ -75,43 +75,23 @@ public:
 	void		parser(std::string str, int fd, bool debug);
 	void		findCommand(std::vector<std::string> cmd, int fd, bool debug);
 
-	/*	JOIN COMMAND	*/
+	/*	COMMANDS	*/
 	void		createNewChannel(std::string name, User *user);
 	void		createNewChannel(std::string name, std::string pass, User *user);
 	void		joinNewChannel(std::string name, User *user);
 	void		joinNewChannel(std::string name, std::string pass, User *user);
 	void		joinCmd(std::vector<std::string> cmd, int fd);
-	
-	/*	PART	*/
 	void		partCmd(std::vector<std::string> cmd, int fd);
-
-	/*	QUIT	*/
 	void		quitCmd(std::vector<std::string> cmd, int fd);
-
-	/*	PASS, NICK, USER COMMAND	*/
 	void		passCmd(std::vector<std::string> cmd, int fd);	//prueba
 	void		nickCmd(std::vector<std::string> cmd, int fd);	//prueba
 	void		userCmd(std::vector<std::string> cmd, int fd);	//prueba
-
-	/*	PRIVMSG		*/
 	void 		privMsgCmd(std::vector<std::string> cmd, int fd);
-
-	/*	INVITE	*/
 	void		inviteCmd(std::vector<std::string> cmd, int fd);
-
-	/*	KICK	*/
 	void		kickCmd(std::vector<std::string> cmd, int fd);
-
-	/*	TOPIC	*/
 	void 		changeTopic(std::vector<std::string> cmd, int fd);
+	void		modeCmd(std::vector<std::string> cmd, int fd);
 
-	/*	MODE	*/
-	void		modecmd(std::vector<std::string> cmd, int fd);
-
-	/*	DEBUG	*/
-	void		printUsers(std::vector<User> userlist, std::string channelName);
-	void		printChannels();
-	void		infoServer();
 
 	/*	UTILS	*/
 	User		*searchUser(int fd);
@@ -119,16 +99,21 @@ public:
 	Channel		*searchChannel(std::string name);
 	bool		channelExists(std::string name);
 	bool		userExists(std::vector<User> userlist, std::string nickname);
-	bool		maskMatch(std::string mask, std::string name);					//filter names by mask
+	bool		maskMatch(std::string mask, std::string name);					
 	bool		invalidChars(std::string str, std::string chars);
+	bool		validateChars(std::string str);
 	static bool	is_number(const std::string& s);
 	void		rmUserFromChannel(std::string channel, std::string nickname);
-	void		promoteUser(std::string nickname, std::string channel); 			//promote user to operator
+	void		promoteUser(std::string nickname, std::string channel);
 	void		sendUserList(Channel channel, User user);
 	std::string	getUserSource(User *user);
-	std::vector<std::string>	split(const std::string str, char delimiter);
 	static int	ft_stoi(const char *str);
+	std::vector<std::string>	split(const std::string str, char delimiter);
 
+	/*	DEBUG	*/
+	void		printUsers(std::vector<User> userlist, std::string channelName);
+	void		printChannels();
+	void		infoServer();
 
 	//GETTERS && SETTERS
 	int	getPort() const;

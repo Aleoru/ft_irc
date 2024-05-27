@@ -3,20 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   Part.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:06:50 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/26 22:15:20 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/27 03:19:23 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/Server.hpp"
 
-//Substring [0] -> PART #canal22222 :Leaving
-//Comand -> PART
-//argument [1] -> #canal22222
-//argument [2] -> :Leaving
-
+//Part format sent by the client: PART #channel :Leaving // CMD, CHANNEL, REASON
 void Server::partCmd(std::vector<std::string> cmd, int fd)
 {
 	if (cmd.size() >= 2)
@@ -35,21 +31,17 @@ void Server::partCmd(std::vector<std::string> cmd, int fd)
 			}
 			else
 			{
-				//error: channel name
+				sendMessage(fd, ERR_NOSUCHCHANNEL(searchUser(fd)->getNick(), cmd[2], "No such channel"));
 			}
 		}
 	}
 	else
 	{
-		//error: number of arguments
 		sendMessage(fd, ERR_NEEDMOREPARAMS(searchUser(fd)->getNick(), cmd[0], "/PART [#channel,]"));
 	}
 }
 
-//Substring [0] -> QUIT :Leaving
-//Comand -> QUIT
-//argument [1] -> :Leaving
-
+//QUIT format sent by the client: QUIT :Leaving // CMD, REASON
 void Server::quitCmd(std::vector<std::string> cmd, int fd)
 {
 	std::cout<<"quitCmd"<<std::endl;
@@ -57,7 +49,6 @@ void Server::quitCmd(std::vector<std::string> cmd, int fd)
 	{
 		std::cout<<cmd[1]<<fd<<std::endl;
 		sendMsgUsersList(_users, RPL_QUIT(getUserSource(searchUser(fd)), cmd[1]));
-		// part ???
 		for (size_t  i = 0; i < _channels.size(); i++)
 		{
 			if (userExists(_channels[i].getUsers(), searchUser(fd)->getNick()))
@@ -71,7 +62,6 @@ void Server::quitCmd(std::vector<std::string> cmd, int fd)
 	}
 	else
 	{
-		//error: number of arguments
 		sendMessage(fd, ERR_NEEDMOREPARAMS(searchUser(fd)->getNick(), cmd[0], "/QUIT [:reason]"));
 	}
 }

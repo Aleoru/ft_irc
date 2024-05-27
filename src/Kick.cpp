@@ -10,31 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/User.hpp"
 #include "../inc/Server.hpp"
-#include "../inc/Channel.hpp"
 
-/*
-El kick es un comando que va a eliminar a un usuario de un canal.
-1-Solo los operadores pueden usar este comando
-
-TODO
-
-1. Verificar que el usuario haciendo el request está en el canal, y es admin
-2. Verificar que el usuario al que va a expulsar existe
-3. Expulsar al usuario eliminando su FD de la lista de ese canal
-
-*/
-
-/*
-Esta función busca a un usuario en un vector de usuarios, devuelve verdadero si lo encuentra y falso si no
-*/
 
 void	Server::kickCmd(std::vector<std::string> cmd, int fd)
 {
-	//Para el kick, tengo que verificar que el usuario que lo está haciendo sea admin del canal
-	//También que el usuario que vamos a expulsar exista
-	if (cmd.size() < 3) //aqui comprobamos si el comando esta vacío
+
+	if (cmd.size() < 3)
 	{
 		sendMessage(fd, ERR_NEEDMOREPARAMS(searchUser(fd)->getNick(), cmd[0], "/kick [channel] [user] [<reason>]"));
 		return ;
@@ -54,16 +36,16 @@ void	Server::kickCmd(std::vector<std::string> cmd, int fd)
 	std::vector<User> users = canal->getUsers();
 	std::vector<User>::iterator it = users.begin();
 
-	if (canal->operatorExists(searchUser(fd)->getNick())) //Si el admin es admin 
+	if (canal->operatorExists(searchUser(fd)->getNick())) 	// Is operator
 	{
 		for(; it != users.end(); ++it)
 		{
-			if (!it->getNick().compare(kickedUser)) //Si el usuario esta en el canal
+			if (!it->getNick().compare(kickedUser)) 	// user to kick exists on the channel?
 			{
 				if (cmd.size() > 3)
 					comment = cmd[3];
 				sendMsgUsersList(canal->getUsers(), RPL_KICK(getUserSource(searchUser(fd)), canal->getName(), kickedUser, comment)); //enviar respuesta
-				canal->removeUser(searchUser(kickedUser)->getFd()); //eliminar al usuario del canal
+				canal->removeUser(searchUser(kickedUser)->getFd());	// remove user from channel
 				return ;
 			}
 		}

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+         #
+#    By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/08 11:06:32 by aoropeza          #+#    #+#              #
-#    Updated: 2024/05/26 23:30:57 by aoropeza         ###   ########.fr        #
+#    Updated: 2024/05/27 04:54:14 by fgalan-r         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,6 @@ SRC		:= $(wildcard $(SRCDIR)/*.cpp)
 OBJS	:= $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(SRC))
 INC		= -I
 INCFILES := $(wildcard $(INC)/*.h*)
-#INC		= -I Server.hpp -I User.hpp -I Channel.hpp -I sockets.h
 
 CC		= g++
 CPPFLAGS = -g -Wall -Werror -Wextra -std=c++98
