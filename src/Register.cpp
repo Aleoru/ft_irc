@@ -6,7 +6,7 @@
 /*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:27:17 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/27 04:36:39 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/27 16:07:33 by fgalan-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,23 @@ void	Server::nickCmd(std::vector<std::string> cmd, int fd)
 		{
 			sendMsgUsersList(_users, RPL_NICKCHANGE(getUserSource(searchUser(fd)), cmd[1]));
 			searchUser(fd)->setNickname(cmd[1]);
+			for (size_t i = 0; i < _channels.size(); i++)
+			{
+				if (userExists(_channels[i].getUsers() ,cmd[1]))
+				{
+					sendMsgUsersList(_channels[i].getUsers(), RPL_NICKCHANGE(getUserSource(searchUser(fd)), cmd[1]));
+					std::vector<User>::iterator it;
+					for (; it != _channels[i].getUsers().end(); it++)
+					{
+						if (it->getNick() == cmd[1])
+						{
+							it->setNickname(cmd[1]);
+							break ;
+						}
+					}
+					sendUserList(_channels[i], *it);
+				}
+			}
 		}
 		else if (userExists(getUsers() ,cmd[1]) == false)                              // nick register
 		{
