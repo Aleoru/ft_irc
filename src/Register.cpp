@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Register.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 18:27:17 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/27 16:09:28 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/27 17:53:19 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ bool 	Server::validateChars(std::string str)
 {
 	for(size_t i = 0; i < str.size(); i++)
 	{
-		if(!std::isalnum(str[i]) && str[i] != '_')
+		if(i == 0 && str[i] != '_' && !std::isalnum(str[i]))
+			return (false);
+		else if(!std::isalnum(str[i]) && str[i] != '_' && str[i] != '-')
 			return (false);
 	}
 	return (true);
@@ -69,16 +71,16 @@ void	Server::nickCmd(std::vector<std::string> cmd, int fd)
 				if (userExists(_channels[i].getUsers() ,cmd[1]))
 				{
 					sendMsgUsersList(_channels[i].getUsers(), RPL_NICKCHANGE(getUserSource(searchUser(fd)), cmd[1]));
-					std::vector<User>::iterator it;
+					std::vector<User>::iterator it = _channels[i].getUsers().begin();
 					for (; it != _channels[i].getUsers().end(); it++)
 					{
 						if (it->getNick() == cmd[1])
 						{
 							it->setNickname(cmd[1]);
+							sendUserList(_channels[i], *it);
 							break ;
 						}
 					}
-					sendUserList(_channels[i], *it);
 				}
 			}
 		}

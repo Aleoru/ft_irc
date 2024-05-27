@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:15 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/27 05:01:26 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/27 17:47:15 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,13 @@ void Server::clearClients(int fd)
 {
 	// remove the client from all channels
 	User *user = searchUser(fd);
-	for(size_t i = 0; i < _channels.size(); i++)
+	if (user)
 	{
-		rmUserFromChannel(_channels[i].getName(), user->getNick());
+		for(size_t i = 0; i < _channels.size(); i++)
+		{
+			//if (userExists(_channels[i].getUsers(), user->getNick()))
+				rmUserFromChannel(_channels[i].getName(), user->getNick());
+		}
 	}
 	// remove the client from the pollfd
 	for(size_t i = 0; i < _fds.size(); i++)
@@ -277,7 +281,7 @@ void Server::serverInit()
 				std::vector<std::string> args;
 				args.push_back("QUIT");
 				args.push_back("error");
-				this->quitCmd(args, _fds[i].fd);
+				this->clearClients(_fds[i].fd);
 			}
 			// check if there is data to read
 			if (_fds[i].revents & POLLIN)
