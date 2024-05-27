@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Part.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgalan-r <fgalan-r@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:06:50 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/05/27 03:19:23 by fgalan-r         ###   ########.fr       */
+/*   Updated: 2024/05/27 14:49:13 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void Server::partCmd(std::vector<std::string> cmd, int fd)
 		{
 			if (channelExists(channels[i]))
 			{
-				sendMsgUsersList(_users, RPL_PART(getUserSource(searchUser(fd)),channels[i]));
+				sendMsgUsersList(_users, RPL_PART(getUserSource(searchUser(fd)), channels[i]));
 				if (userExists(searchChannel(channels[i])->getUsers(), searchUser(fd)->getNick()))
 				{
 					rmUserFromChannel(searchChannel(channels[i])->getName(), searchUser(fd)->getNick());
@@ -31,7 +31,7 @@ void Server::partCmd(std::vector<std::string> cmd, int fd)
 			}
 			else
 			{
-				sendMessage(fd, ERR_NOSUCHCHANNEL(searchUser(fd)->getNick(), cmd[2], "No such channel"));
+				sendMessage(fd, ERR_NOSUCHCHANNEL(searchUser(fd)->getNick(), channels[i], "No such channel"));
 			}
 		}
 	}

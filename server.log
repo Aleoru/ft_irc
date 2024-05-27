@@ -1,23 +1,449 @@
->5:PASS HOLA
+>5:PASS
+
+<5:: 461 * PASS : no pass
+
+>5:PASS 1234
+
+<5:: 371 :* wrong pass
+
+>5:NICK anonymous
+USER a a a a
+
+x5:
+>5:PASS 1234
+NICK anonymous
+PASS 1111
+USER a a a a
+
+<5:: 371 :* wrong pass
 
 <5:: 371 :* valid pass
 
->5:NICK 234"
-
-<5:: 432 * Invalid nick
-
->5:NICK ASDF
-
->5:USER USADO
-
-<5:: 001 ASDF :Welcome to the Internet Relay Network ASDF!USADO@127.0.0.1
-
-<5::ASDF!USADO@127.0.0.1 JOIN :#General
-
-<5:: 332 ASDF #General :General channel
-
-<5:: 353 ASDF = #General :ASDF 
-
-<5:: 366 ASDF #General :End of /NAMES list
+>5:QUIT
 
 x5:
+>6:CAP LS 302
+
+>6:PASS 1111
+NICK Pablo
+USER Pablo 0 * :realname
+
+<6:: 371 :* valid pass
+
+<6:: 001 Pablo :Welcome to the Internet Relay Network Pablo!Pablo@127.0.0.1
+
+<6::Pablo!Pablo@127.0.0.1 JOIN :#General
+
+<6:: 332 Pablo #General :General channel
+
+<6:: 353 Pablo = #General :Pablo 
+
+>6:JOIN #nicktest1
+
+<6:: 366 Pablo #General :End of /NAMES list
+
+<6::Pablo!Pablo@127.0.0.1 JOIN :#nicktest1
+
+<6:: 331 Pablo #nicktest1 :No topic is set
+
+<6:: 353 Pablo = #nicktest1 :@Pablo 
+
+<6:: 366 Pablo #nicktest1 :End of /NAMES list
+
+>6:MODE #nicktest1
+
+<6:: 324 Pablo #nicktest1 :+k
+
+>6:WHO #nicktest1
+
+>5:NICK
+
+>5:NICK 1asdf
+
+>5:NICK Pablo
+
+>5:NICK Pablo!
+
+>5:NICK anonymous
+
+>5:USER a a a a
+
+x5:
+>5:PASS 1111
+NICK anonymous
+USER a a a a
+
+<5:: 371 :* valid pass
+
+<6::anonymous!a@127.0.0.1 JOIN :#General
+
+<5:: 001 anonymous :Welcome to the Internet Relay Network anonymous!a@127.0.0.1
+
+<6:: 353 anonymous = #General :Pablo anonymous 
+
+<5::anonymous!a@127.0.0.1 JOIN :#General
+
+<6:: 366 anonymous #General :End of /NAMES list
+
+<5:: 332 anonymous #General :General channel
+
+<5:: 353 anonymous = #General :Pablo anonymous 
+
+<5:: 366 anonymous #General :End of /NAMES list
+
+>5:JOIN #nicktest1
+
+<5::anonymous!a@127.0.0.1 JOIN :#nicktest1
+
+<6::anonymous!a@127.0.0.1 JOIN :#nicktest1
+
+<5:: 331 anonymous #nicktest1 :No topic is set
+
+<6:: 353 anonymous = #nicktest1 :@Pablo anonymous 
+
+<5:: 353 anonymous = #nicktest1 :@Pablo anonymous 
+
+<6:: 366 anonymous #nicktest1 :End of /NAMES list
+
+<5:: 366 anonymous #nicktest1 :End of /NAMES list
+
+>5:NICK anonYmous
+
+<5::anonymous!a@127.0.0.1 NICK anonYmous
+
+<6::anonymous!a@127.0.0.1 NICK anonYmous
+
+>5:NICK pablo
+
+<5::anonYmous!a@127.0.0.1 NICK pablo
+
+<6::anonYmous!a@127.0.0.1 NICK pablo
+
+>5:NICK asdf
+
+<5::pablo!a@127.0.0.1 NICK asdf
+
+<6::pablo!a@127.0.0.1 NICK asdf
+
+>6:QUIT :Leaving
+
+x6:
+<5::Pablo!Pablo@127.0.0.1 QUIT ::Leaving
+
+<5::Pablo!Pablo@127.0.0.1 PART :#General
+
+<5::Pablo!Pablo@127.0.0.1 PART :#nicktest1
+
+>5:NICK Pablo
+
+<5::asdf!a@127.0.0.1 NICK Pablo
+
+>5:QUIT
+
+<5:: 461 Pablo QUIT :/QUIT [:reason]
+
+x5:
+>5:PASS 1111
+NICK anonymous
+USER
+
+<5:: 371 :* valid pass
+
+<5:: 461 anonymous USER :/USER [user]
+
+>5:USER a
+
+<5:: 001 anonymous :Welcome to the Internet Relay Network anonymous!a@127.0.0.1
+
+>5:USER a a 
+
+>5:USER a a a
+
+>5:USER a :a :a
+
+>5:USER a :a a a
+
+>5:USER a :a :a a
+
+>5:USER a a a :a
+
+>5:QUIT
+
+<5:: 461 anonymous QUIT :/QUIT [:reason]
+
+x5:
+>5:CAP LS 302
+
+>5:PASS 1111
+
+<5:: 371 :* valid pass
+
+>5:NICK Pablo
+USER Pablo 0 * :realname
+
+<5:: 001 Pablo :Welcome to the Internet Relay Network Pablo!Pablo@127.0.0.1
+
+<5::Pablo!Pablo@127.0.0.1 JOIN :#General
+
+<5:: 332 Pablo #General :General channel
+
+<5:: 353 Pablo = #General :Pablo 
+
+<5:: 366 Pablo #General :End of /NAMES list
+
+>5:JOIN #jointest2
+
+<5::Pablo!Pablo@127.0.0.1 JOIN :#jointest2
+
+<5:: 331 Pablo #jointest2 :No topic is set
+
+<5:: 353 Pablo = #jointest2 :@Pablo 
+
+<5:: 366 Pablo #jointest2 :End of /NAMES list
+
+>5:MODE #jointest2
+
+<5:: 324 Pablo #jointest2 :+k
+
+>5:WHO #jointest2
+
+>5:JOIN #jointest1
+
+<5::Pablo!Pablo@127.0.0.1 JOIN :#jointest1
+
+<5:: 331 Pablo #jointest1 :No topic is set
+
+<5:: 353 Pablo = #jointest1 :@Pablo 
+
+<5:: 366 Pablo #jointest1 :End of /NAMES list
+
+>5:MODE #jointest1
+
+<5:: 324 Pablo #jointest1 :+k
+
+>5:WHO #jointest1
+
+>5:MODE #jointest1 +k pass
+
+<5:: 467 Pablo #jointest1 :Set key mode true but not key was provided
+
+>7:PASS 1111
+NICK anonymous
+USER a a a a
+
+<7:: 371 :* valid pass
+
+<5::anonymous!a@127.0.0.1 JOIN :#General
+
+<7:: 001 anonymous :Welcome to the Internet Relay Network anonymous!a@127.0.0.1
+
+<5:: 353 anonymous = #General :Pablo anonymous 
+
+<7::anonymous!a@127.0.0.1 JOIN :#General
+
+<5:: 366 anonymous #General :End of /NAMES list
+
+<7:: 332 anonymous #General :General channel
+
+<7:: 353 anonymous = #General :Pablo anonymous 
+
+<7:: 366 anonymous #General :End of /NAMES list
+
+>5:JOIN #jointest5
+
+<5::Pablo!Pablo@127.0.0.1 JOIN :#jointest5
+
+<5:: 331 Pablo #jointest5 :No topic is set
+
+<5:: 353 Pablo = #jointest5 :@Pablo 
+
+<5:: 366 Pablo #jointest5 :End of /NAMES list
+
+>5:MODE #jointest5
+
+<5:: 324 Pablo #jointest5 :+k
+
+>5:WHO #jointest5
+
+>5:MODE #jointest5 +i
+
+<5::Pablo!Pablo@127.0.0.1 MODE #jointest5 :+i
+
+>5:TOPIC #jointest2 :topic for jointest2
+
+<5:: 332 Pablo #jointest2 ::topic for jointest2 
+
+>5:MODE #jointest2 +k pass
+
+<5:: 467 Pablo #jointest2 :Set key mode true but not key was provided
+
+>7:JOIN #jointest1,#jointest2,#jointest3,#jointest4,#jointest5 pass,wrong
+
+<7:: 475 anonymous #jointest1 :Wrong password, try again, make sure is the correct one.
+
+<7:: 475 anonymous #jointest2 :Wrong password, try again, make sure is the correct one.
+
+<7::anonymous!a@127.0.0.1 JOIN :#jointest3
+
+<7:: 331 anonymous #jointest3 :No topic is set
+
+<7:: 353 anonymous = #jointest3 :@anonymous 
+
+<7:: 366 anonymous #jointest3 :End of /NAMES list
+
+<7::anonymous!a@127.0.0.1 JOIN :#jointest4
+
+<7:: 331 anonymous #jointest4 :No topic is set
+
+<7:: 353 anonymous = #jointest4 :@anonymous 
+
+<7:: 366 anonymous #jointest4 :End of /NAMES list
+
+<7:: 473 anonymous #jointest5 :Need get invited before join to the channel
+
+>5:INVITE anonymous #jointest5
+
+<5::Pablo!Pablo@127.0.0.1 INVITE anonymous :#jointest5
+
+<7::Pablo!Pablo@127.0.0.1 INVITE anonymous :#jointest5
+
+>7:JOIN #jointest5
+
+<7::anonymous!a@127.0.0.1 JOIN :#jointest5
+
+<5::anonymous!a@127.0.0.1 JOIN :#jointest5
+
+<7:: 331 anonymous #jointest5 :No topic is set
+
+<5:: 353 anonymous = #jointest5 :@Pablo anonymous 
+
+<7:: 353 anonymous = #jointest5 :@Pablo anonymous 
+
+<5:: 366 anonymous #jointest5 :End of /NAMES list
+
+<7:: 366 anonymous #jointest5 :End of /NAMES list
+
+>7:QUIT
+
+<7:: 461 anonymous QUIT :/QUIT [:reason]
+
+x7:
+>5:QUIT :Leaving
+
+x5:
+<5::Pablo!Pablo@127.0.0.1 QUIT ::Leaving
+
+>7:CAP LS 302
+
+>7:PASS 1111
+
+<7:: 371 :* valid pass
+
+>7:NICK Pablo
+USER Pablo 0 * :realname
+
+<7:: 001 Pablo :Welcome to the Internet Relay Network Pablo!Pablo@127.0.0.1
+
+<7::Pablo!Pablo@127.0.0.1 JOIN :#General
+
+<7:: 332 Pablo #General :General channel
+
+<7:: 353 Pablo = #General :Pablo 
+
+<7:: 366 Pablo #General :End of /NAMES list
+
+>7:JOIN #topictest1
+
+<7::Pablo!Pablo@127.0.0.1 JOIN :#topictest1
+
+<7:: 331 Pablo #topictest1 :No topic is set
+
+<7:: 353 Pablo = #topictest1 :@Pablo 
+
+<7:: 366 Pablo #topictest1 :End of /NAMES list
+
+>7:MODE #topictest1
+
+<7:: 324 Pablo #topictest1 :+k
+
+>7:WHO #topictest1
+
+>8:PASS 1111
+
+<8:: 371 :* valid pass
+
+>8:NICK plopez
+
+>8:USER a a a a
+
+<8:: 001 plopez :Welcome to the Internet Relay Network plopez!a@127.0.0.1
+
+<7::plopez!a@127.0.0.1 JOIN :#General
+
+<8::plopez!a@127.0.0.1 JOIN :#General
+
+<7:: 353 plopez = #General :Pablo plopez 
+
+<8:: 332 plopez #General :General channel
+
+<7:: 366 plopez #General :End of /NAMES list
+
+<8:: 353 plopez = #General :Pablo plopez 
+
+<8:: 366 plopez #General :End of /NAMES list
+
+>8:JOIN #topictest1
+
+<8::plopez!a@127.0.0.1 JOIN :#topictest1
+
+<7::plopez!a@127.0.0.1 JOIN :#topictest1
+
+<8:: 331 plopez #topictest1 :No topic is set
+
+<7:: 353 plopez = #topictest1 :@Pablo plopez 
+
+<8:: 353 plopez = #topictest1 :@Pablo plopez 
+
+<7:: 366 plopez #topictest1 :End of /NAMES list
+
+<8:: 366 plopez #topictest1 :End of /NAMES list
+
+>7:TOPIC #topictest1 :I can change the topic
+
+<7:: 332 Pablo #topictest1 ::I can change the topic 
+
+<8:: 332 Pablo #topictest1 ::I can change the topic 
+
+>8:TOPIC #topictest1
+
+<8:: 332 plopez #topictest1 ::I can change the topic 
+
+>8:TOPIC
+
+<8:: 461 plopez TOPIC :You must specify the channel name.
+
+>7:JOIN #topictest2
+
+<7::Pablo!Pablo@127.0.0.1 JOIN :#topictest2
+
+<7:: 331 Pablo #topictest2 :No topic is set
+
+<7:: 353 Pablo = #topictest2 :@Pablo 
+
+<7:: 366 Pablo #topictest2 :End of /NAMES list
+
+>7:MODE #topictest2
+
+<7:: 324 Pablo #topictest2 :+k
+
+>7:WHO #topictest2
+
+>8:TOPIC #topictest2
+
+<8:: 331 plopez #topictest2 :No topic is set
+
+>8:TOPIC #topictest3
+
+>8:TOPIC #topictest1 :This is the new topic
+
+<8:: 332 plopez #topictest1 ::This is the new topic 
