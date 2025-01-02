@@ -1,0 +1,103 @@
+>5:CAP LS 302
+
+>5:PASS 1111
+NICK -aoropeza
+USER aoropeza 0 * :realname
+
+<5:: 371 :* valid pass
+
+<5:: 432 * Invalid nick
+
+>5:NICK aoropeza_
+
+<5:: 001 aoropeza_ :Welcome to the Internet Relay Network aoropeza_!aoropeza@127.0.0.1
+
+<5::aoropeza_!aoropeza@127.0.0.1 JOIN :#General
+
+<5:: 332 aoropeza_ #General :General channel
+
+<5:: 353 aoropeza_ = #General :aoropeza_ 
+
+<5:: 366 aoropeza_ #General :End of /NAMES list
+
+>5:MODE #General
+
+<5:: 324 aoropeza_ #General :+t
+
+>5:WHO #General
+
+>5:QUIT :Leaving
+
+x5:
+<5::aoropeza_!aoropeza@127.0.0.1 QUIT ::Leaving
+
+>6:CAP LS 302
+
+>6:PASS 1111
+NICK -aoropeza
+USER -aoropeza 0 * :realname
+
+<6:: 371 :* valid pass
+
+<6:: 432 * Invalid nick
+
+>6:NICK -aoropeza_
+
+<6:: 432 * Invalid nick
+
+>6:NICK -aoropeza__
+
+<6:: 432 * Invalid nick
+
+>6:NICK aoropeza
+
+<6:: 001 aoropeza :Welcome to the Internet Relay Network aoropeza!-aoropeza@127.0.0.1
+
+<6::aoropeza!-aoropeza@127.0.0.1 JOIN :#General
+
+<6:: 332 aoropeza #General :General channel
+
+<6:: 353 aoropeza = #General :aoropeza 
+
+<6:: 366 aoropeza #General :End of /NAMES list
+
+>6:MODE #General
+
+<6:: 324 aoropeza #General :+t
+
+>6:WHO #General
+
+>6:QUIT :Leaving
+
+x6:
+<6::aoropeza!-aoropeza@127.0.0.1 QUIT ::Leaving
+
+>7:CAP LS 302
+
+>7:PASS 1111
+NICK _aoropeza
+USER _aoropeza 0 * :realname
+
+<7:: 371 :* valid pass
+
+<7:: 001 _aoropeza :Welcome to the Internet Relay Network _aoropeza!_aoropeza@127.0.0.1
+
+<7::_aoropeza!_aoropeza@127.0.0.1 JOIN :#General
+
+<7:: 332 _aoropeza #General :General channel
+
+<7:: 353 _aoropeza = #General :_aoropeza 
+
+<7:: 366 _aoropeza #General :End of /NAMES list
+
+>7:MODE #General
+
+<7:: 324 _aoropeza #General :+t
+
+>7:WHO #General
+
+>7:QUIT :Leaving
+
+x7:
+<7::_aoropeza!_aoropeza@127.0.0.1 QUIT ::Leaving
+

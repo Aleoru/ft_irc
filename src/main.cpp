@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aoropeza <aoropeza@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: aoropeza <aoropeza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:58:04 by fgalan-r          #+#    #+#             */
-/*   Updated: 2024/04/08 11:05:52 by aoropeza         ###   ########.fr       */
+/*   Updated: 2024/05/25 19:25:08 by aoropeza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 int main(int argc, char **argv)
 {
-	// validate number or arguments and value of argv1 and argv2
+	// validate number of arguments and value of argv1 and argv2
 	if (argc == 3 && Server::validPort(argv[1]) && Server::validPass(argv[2]))
 	{
 		std::cout << "Init Server" << std::endl;
-		Server server(std::stoi(argv[1]), argv[2]);
+		Server server(Server::ft_stoi(argv[1]), argv[2]);
 		signal(SIGINT, Server::signalHandler);			// catch the signal (ctrl + c)
 		signal(SIGQUIT, Server::signalHandler); 		// catch the signal (ctrl + \)
 		try
@@ -34,7 +34,7 @@ int main(int argc, char **argv)
 	}
 	else
 	{
-		std::cerr << "error: arguments" << std::endl;
+		std::cerr << "[usage]: ./irc_server [port] [password]" << std::endl;
 		return (1);
 	}
 	return (0);
